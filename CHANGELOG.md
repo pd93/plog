@@ -2,7 +2,9 @@
 
 ## v0.1.0
 
+- Added color logging support
 - Added types:
+  - [`Log`](https://godoc.org/gopkg.in/pd93/plog.v0#Log)
   - [`LogLevel`](https://godoc.org/gopkg.in/pd93/plog.v0#LogLevel)
   - [`LogFormat`](https://godoc.org/gopkg.in/pd93/plog.v0#LogFormat)
   - [`Config`](https://godoc.org/gopkg.in/pd93/plog.v0#Config)
