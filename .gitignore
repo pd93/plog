@@ -1,0 +1,7 @@
+# Ignore generated log files
+*.txt
+*.json
+*.log
+
+# Ignore any binaries that are built
+bin/*
