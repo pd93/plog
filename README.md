@@ -12,16 +12,16 @@ A lightweight and feature rich logger for Golang.
 
 ## Features
 
-- **Speed** - Your logger shouldn't slow you slow. PLog is fast, lightweight and has *no dependencies*
-- **Multi-Writer** - You shouldn't have to choose between logging to a file or stdout. PLog lets you do both while specifying different formats and log levels.
-- **Multiple Formats**
-  - `Text` - A pretty printed plaintext string with color support
-  - `JSON` - Record your logs in a parsable format
+- **Speed** - Your logger shouldn't slow your software down. PLog is fast, lightweight and has *no dependencies*.
+- **Multiple Outputs** - No more multi-writers. PLog lets you write to as many outputs as you like. Each output can specify its own format and log level.
+- **Multiple Formats** - Output your logs in a format that suits your needs.
+  - `Text` - A pretty printed plaintext string with color support.
+  - `JSON` - Each log gets stored as a JSON object to allow parsing and filtering.
   - More to come...
-- **Log Reader** - No more nano or vim to read you logs. PLog include a binary to parse your logs, filter them and display them in a readable format.
 
 ## Roadmap
 
+- **Log Reader** - No more nano or vim to read you logs. PLog include a binary to parse your logs, filter them and display them in a readable format.
 - **Log File Rotation** - Plog can automatically generate and rotate log files. You can specify custom conditions for when these files should be rotated and how to name them.
 
 ## Installation
