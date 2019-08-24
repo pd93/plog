@@ -5,6 +5,7 @@
 - Added color logging support
 - Added types:
   - [`Log`](https://godoc.org/gopkg.in/pd93/plog.v0#Log)
+  - [`Logger`](https://godoc.org/gopkg.in/pd93/plog.v0#Logger)
   - [`LogLevel`](https://godoc.org/gopkg.in/pd93/plog.v0#LogLevel)
   - [`LogFormat`](https://godoc.org/gopkg.in/pd93/plog.v0#LogFormat)
   - [`Config`](https://godoc.org/gopkg.in/pd93/plog.v0#Config)

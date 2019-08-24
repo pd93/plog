@@ -74,3 +74,25 @@ func (log *Log) String(config *Config) (message string, err error) {
 
 	return
 }
+
+// WriteToLogger will write the log message to a specific logger
+func (log *Log) WriteToLogger(logger *Logger) {
+
+	var err error
+
+	// Test if this logger has a high enough log level
+	if logger.config.LogLevel >= log.LogLevel {
+		if err = logger.Write(log); err != nil {
+			panic(err)
+		}
+	}
+}
+
+// WriteToAll will write the log message to all loggers
+func (log *Log) WriteToAll() {
+
+	// Loop through each logger
+	for _, logger := range loggers {
+		log.WriteToLogger(logger)
+	}
+}
