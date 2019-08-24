@@ -43,3 +43,7 @@ WIP
 ## Examples
 
 WIP
+
+## Credits
+
+- [@fatih](https://github.com/fatih) for the https://github.com/fatih/color package from which we borrowed some code to produce our colored logs (see [`./color.go`](./color.go)).
