@@ -3,6 +3,15 @@
 ## v0.1.0
 
 - Added color logging support
+- Added top-level functions:
+  - `AddLogger`
+  - `AddStdLogger`
+  - `Fatal`
+  - `Error`
+  - `Warn` & `Warnf`
+  - `Info` & `Infof`
+  - `Debug` & `Debugf`
+  - `Trace` & `Tracef`
 - Added types:
   - [`Log`](https://godoc.org/gopkg.in/pd93/plog.v0#Log)
   - [`Logger`](https://godoc.org/gopkg.in/pd93/plog.v0#Logger)
