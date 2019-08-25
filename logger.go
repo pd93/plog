@@ -19,18 +19,6 @@ type Logger struct {
 	ColorLogging    bool
 }
 
-// NewStdLogger creates and returns an instance of Logger with the default settings
-// This logger will output to stdout in text format with colors enabled and the RFC3339 timestamp format
-func NewStdLogger() (logger *Logger) {
-	return &Logger{
-		Output:          os.Stdout,
-		LogLevel:        InfoLevel,
-		LogFormat:       TextFormat,
-		TimestampFormat: time.RFC3339,
-		ColorLogging:    true,
-	}
-}
-
 // Validate will set default values for uninitialised values
 // It also check whether or not the logger is configured correctly and return any errors it finds
 func (logger *Logger) Validate() (err error) {
