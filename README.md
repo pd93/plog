@@ -42,9 +42,15 @@ If you haven't migrated from `$GOPATH` to Go Modules yet, you will need to run t
 
 WIP
 
-## Examples
+## Logger Config
 
-WIP
+| Name              | Type             | Possible Values<br>(default in bold)
+|-------------------|------------------|---
+| `Output`          | `io.Writer`      | **`os.Stdout`**<br>`os.File`<br>Any type that implements the `io.Writer` interface
+| `Loglevel`        | `plog.LogLevel`  | `plog.None`<br>`plog.FatalLevel`<br>`plog.ErrorLevel`<br>`plog.WarnLevel`<br>**`plog.InfoLevel`**<br>`plog.DebugLevel`<br>`plog.TraceLevel`
+| `LogFormat`       | `plog.LogFormat` | **`plog.TextFormat`**<br>`plog.JSONFormat`<br>`plog.CSVFormat`
+| `TimestampFormat` | `string`         | **`time.RFC3339`**<br>`"Mon Jan 2 15:04:05 -0700 MST 2006"`<br>See [`time.Format()` docs](https://golang.org/pkg/time/#Time.Format) for more information
+| `ColorLogging`    | `bool`           | **`false`**<br>**`true`** when  `LogLevel` set to `plog.TextFormat` |
 
 ## Credits
 
