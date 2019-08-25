@@ -28,20 +28,3 @@ func NewLog(logLevel LogLevel, params ...interface{}) (log *Log) {
 func NewLogf(level LogLevel, message string, params ...interface{}) (log *Log) {
 	return NewLog(level, fmt.Sprintf(message, params...))
 }
-
-// WriteToLogger will write the log message to a specific logger
-func (log *Log) Write() {
-
-	// Loop through each logger
-	for _, logger := range loggers {
-
-		// Test if the logger has a high enough log level
-		if logger.LogLevel >= log.LogLevel {
-
-			// Write to the logger
-			if err := logger.Write(log); err != nil {
-				panic(err)
-			}
-		}
-	}
-}

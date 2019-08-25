@@ -1,6 +1,6 @@
 package plog
 
-var loggers = make(map[string]*Logger)
+var loggers Loggers = make(map[string]*Logger)
 
 //
 // Loggers
@@ -34,7 +34,7 @@ func GetLogger(name string) *Logger {
 
 // Fatal will print an error message
 func Fatal(err error) {
-	NewLogf(FatalLevel, "%v", err).Write()
+	loggers.Write(NewLogf(FatalLevel, "%v", err))
 }
 
 //
@@ -43,7 +43,7 @@ func Fatal(err error) {
 
 // Error will print an error message
 func Error(err error) {
-	NewLogf(ErrorLevel, "%v", err).Write()
+	loggers.Write(NewLogf(ErrorLevel, "%v", err))
 }
 
 //
@@ -52,12 +52,12 @@ func Error(err error) {
 
 // Warn will print an object at warn level
 func Warn(params ...interface{}) {
-	NewLog(WarnLevel, params...).Write()
+	loggers.Write(NewLog(WarnLevel, params...))
 }
 
 // Warnf will format and print a message at warn level
 func Warnf(message string, params ...interface{}) {
-	NewLogf(WarnLevel, message, params...).Write()
+	loggers.Write(NewLogf(WarnLevel, message, params...))
 }
 
 //
@@ -66,12 +66,12 @@ func Warnf(message string, params ...interface{}) {
 
 // Info will print an object at info level
 func Info(params ...interface{}) {
-	NewLog(InfoLevel, params...).Write()
+	loggers.Write(NewLog(InfoLevel, params...))
 }
 
 // Infof will format and print a message at info level
 func Infof(message string, params ...interface{}) {
-	NewLogf(InfoLevel, message, params...).Write()
+	loggers.Write(NewLogf(InfoLevel, message, params...))
 }
 
 //
@@ -80,12 +80,12 @@ func Infof(message string, params ...interface{}) {
 
 // Debug will print an object at debug level
 func Debug(params ...interface{}) {
-	NewLog(DebugLevel, params...).Write()
+	loggers.Write(NewLog(DebugLevel, params...))
 }
 
 // Debugf will format and print a message at debug level
 func Debugf(message string, params ...interface{}) {
-	NewLogf(DebugLevel, message, params...).Write()
+	loggers.Write(NewLogf(DebugLevel, message, params...))
 }
 
 //
@@ -94,10 +94,10 @@ func Debugf(message string, params ...interface{}) {
 
 // Trace will print an object at debug level
 func Trace(params ...interface{}) {
-	NewLog(TraceLevel, params...).Write()
+	loggers.Write(NewLog(TraceLevel, params...))
 }
 
 // Tracef will format and print a message at debug level
 func Tracef(message string, params ...interface{}) {
-	NewLogf(TraceLevel, message, params...).Write()
+	loggers.Write(NewLogf(TraceLevel, message, params...))
 }

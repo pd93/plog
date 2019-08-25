@@ -94,48 +94,62 @@ func (logger *Logger) SetColorLogging(colorLogging bool) {
 // Write will add a log message to the logger
 func (logger *Logger) Write(log *Log) (err error) {
 
-	var message string
+	var message, body string
 
-	switch logger.LogFormat {
+	// Check if we need to log this message or not
+	if logger.LogLevel >= log.LogLevel {
 
-	// Text logger
-	case TextFormat:
+		switch logger.LogFormat {
 
-		timestamp := log.Timestamp.Format(logger.TimestampFormat)
-		level := strings.ToUpper(log.LogLevel.String())
+		//
+		// Text logger
+		//
 
-		// Print the message
-		if logger.ColorLogging {
+		case TextFormat:
 
-			switch log.LogLevel {
-			case ErrorLevel, FatalLevel:
-				level = color(level, FgRed)
-			case WarnLevel:
-				level = color(level, FgYellow)
-			case InfoLevel:
-				level = color(level, FgGreen)
-			case DebugLevel:
-				level = color(level, FgCyan)
-			case TraceLevel:
-				level = color(level, FgBlue)
+			// Render the timestamp and log level strings
+			timestamp := log.Timestamp.Format(logger.TimestampFormat)
+			logLevel := strings.ToUpper(log.LogLevel.String())
+
+			// Check if colored logging is enabled
+			if logger.ColorLogging {
+
+				// Set the color of the text
+				switch log.LogLevel {
+				case ErrorLevel, FatalLevel:
+					logLevel = color(logLevel, FgRed)
+				case WarnLevel:
+					logLevel = color(logLevel, FgYellow)
+				case InfoLevel:
+					logLevel = color(logLevel, FgGreen)
+				case DebugLevel:
+					logLevel = color(logLevel, FgCyan)
+				case TraceLevel:
+					logLevel = color(logLevel, FgBlue)
+				}
 			}
+
+			// Stringify the body
+			for _, item := range log.Body {
+				body += fmt.Sprintf(" %v", item)
+			}
+
+			// Format the message
+			message = fmt.Sprintf("%s [%s] %s", timestamp, logLevel, body)
+
+		//
+		// JSON logger
+		//
+
+		case JSONFormat:
+			var b []byte
+			b, err = json.Marshal(log)
+			message = string(b)
 		}
 
-		message = fmt.Sprintf("%s [%s]", timestamp, level)
-
-		for _, item := range log.Body {
-			message += fmt.Sprintf(" %v", item)
-		}
-
-	// JSON logger
-	case JSONFormat:
-		var b []byte
-		b, err = json.Marshal(log)
-		message = string(b)
+		// Print the message to the output writer
+		fmt.Fprintln(logger.Output, message)
 	}
-
-	// Print the message to the output writer
-	fmt.Fprintln(logger.Output, message)
 
 	return
 }
