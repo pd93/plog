@@ -6,22 +6,20 @@ var loggers = make(map[string]*Logger)
 // Loggers
 //
 
-// AddStdLogger creates and adds a new instance of logger with the default config
-// See `func NewStdConfig` for more details
-func AddStdLogger(name string) {
-	loggers[name] = &Logger{
-		name:   name,
-		config: NewStdConfig(),
-	}
+// AddLogger adds the provided logger to PLog
+// See `type Logger` for more details
+func AddLogger(name string, logger *Logger) {
+	loggers[name] = logger
 }
 
-// AddLogger creates and adds a new instance of Logger with the provided config
-// See `type Config` for more details
-func AddLogger(name string, config *Config) {
-	loggers[name] = &Logger{
-		name:   name,
-		config: config,
-	}
+// DeleteLogger removes the specified logger from PLog
+func DeleteLogger(name string) {
+	delete(loggers, name)
+}
+
+// GetLogger returns the specified logger
+func GetLogger(name string) *Logger {
+	return loggers[name]
 }
 
 //
@@ -30,7 +28,7 @@ func AddLogger(name string, config *Config) {
 
 // Fatal will print an error message
 func Fatal(err error) {
-	NewLogf(FatalLevel, "%v", err).WriteToAll()
+	NewLogf(FatalLevel, "%v", err).Write()
 }
 
 //
@@ -39,7 +37,7 @@ func Fatal(err error) {
 
 // Error will print an error message
 func Error(err error) {
-	NewLogf(ErrorLevel, "%v", err).WriteToAll()
+	NewLogf(ErrorLevel, "%v", err).Write()
 }
 
 //
@@ -48,12 +46,12 @@ func Error(err error) {
 
 // Warn will print an object at warn level
 func Warn(params ...interface{}) {
-	NewLog(WarnLevel, params...).WriteToAll()
+	NewLog(WarnLevel, params...).Write()
 }
 
 // Warnf will format and print a message at warn level
 func Warnf(message string, params ...interface{}) {
-	NewLogf(WarnLevel, message, params...).WriteToAll()
+	NewLogf(WarnLevel, message, params...).Write()
 }
 
 //
@@ -62,12 +60,12 @@ func Warnf(message string, params ...interface{}) {
 
 // Info will print an object at info level
 func Info(params ...interface{}) {
-	NewLog(InfoLevel, params...).WriteToAll()
+	NewLog(InfoLevel, params...).Write()
 }
 
 // Infof will format and print a message at info level
 func Infof(message string, params ...interface{}) {
-	NewLogf(InfoLevel, message, params...).WriteToAll()
+	NewLogf(InfoLevel, message, params...).Write()
 }
 
 //
@@ -76,12 +74,12 @@ func Infof(message string, params ...interface{}) {
 
 // Debug will print an object at debug level
 func Debug(params ...interface{}) {
-	NewLog(DebugLevel, params...).WriteToAll()
+	NewLog(DebugLevel, params...).Write()
 }
 
 // Debugf will format and print a message at debug level
 func Debugf(message string, params ...interface{}) {
-	NewLogf(DebugLevel, message, params...).WriteToAll()
+	NewLogf(DebugLevel, message, params...).Write()
 }
 
 //
@@ -90,10 +88,10 @@ func Debugf(message string, params ...interface{}) {
 
 // Trace will print an object at debug level
 func Trace(params ...interface{}) {
-	NewLog(TraceLevel, params...).WriteToAll()
+	NewLog(TraceLevel, params...).Write()
 }
 
 // Tracef will format and print a message at debug level
 func Tracef(message string, params ...interface{}) {
-	NewLogf(TraceLevel, message, params...).WriteToAll()
+	NewLogf(TraceLevel, message, params...).Write()
 }
