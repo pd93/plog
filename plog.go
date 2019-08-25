@@ -75,8 +75,8 @@ func Warn(variables ...interface{}) {
 }
 
 // Warnf will print a formatted message to all loggers at warn level
-func Warnf(message string, variables ...interface{}) {
-	loggers.Write(NewLogf(WarnLevel, message, variables...))
+func Warnf(format string, variables ...interface{}) {
+	loggers.Write(NewLogf(WarnLevel, format, variables...))
 }
 
 //
@@ -89,8 +89,8 @@ func Info(variables ...interface{}) {
 }
 
 // Infof will print a formatted message to all loggers at info level
-func Infof(message string, variables ...interface{}) {
-	loggers.Write(NewLogf(InfoLevel, message, variables...))
+func Infof(format string, variables ...interface{}) {
+	loggers.Write(NewLogf(InfoLevel, format, variables...))
 }
 
 //
@@ -103,8 +103,8 @@ func Debug(variables ...interface{}) {
 }
 
 // Debugf will print a formatted message to all loggers at debug level
-func Debugf(message string, variables ...interface{}) {
-	loggers.Write(NewLogf(DebugLevel, message, variables...))
+func Debugf(format string, variables ...interface{}) {
+	loggers.Write(NewLogf(DebugLevel, format, variables...))
 }
 
 //
@@ -117,6 +117,6 @@ func Trace(variables ...interface{}) {
 }
 
 // Tracef will print a formatted message to all loggers at debug level
-func Tracef(message string, variables ...interface{}) {
-	loggers.Write(NewLogf(TraceLevel, message, variables...))
+func Tracef(format string, variables ...interface{}) {
+	loggers.Write(NewLogf(TraceLevel, format, variables...))
 }

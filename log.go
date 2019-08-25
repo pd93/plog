@@ -14,7 +14,7 @@ type Log struct {
 
 // NewLog creates a new instance of log and populates it with a log level and a message
 // A timestamp is also generated and stored
-func NewLog(logLevel LogLevel, variables ...interface{}) (log *Log) {
+func NewLog(logLevel LogLevel, variables ...interface{}) *Log {
 	return &Log{
 		LogLevel:  logLevel,
 		Variables: variables,
@@ -23,8 +23,8 @@ func NewLog(logLevel LogLevel, variables ...interface{}) (log *Log) {
 }
 
 // NewLogf creates a new instance of log and populates it with a log level and a formatted message
-// You can send any number of variables to this function and they will be printed according to the format specified in the message
+// You can send any number of variables to this function and they will be printed according to the format specified
 // A timestamp is also generated and stored
-func NewLogf(level LogLevel, message string, variables ...interface{}) (log *Log) {
-	return NewLog(level, fmt.Sprintf(message, variables...))
+func NewLogf(level LogLevel, format string, variables ...interface{}) *Log {
+	return NewLog(level, fmt.Sprintf(format, variables...))
 }
