@@ -4,7 +4,7 @@ A lightweight and feature rich logger for Golang.
 
 ***Note: PLog is in pre-release and should not be used in production systems until v1 is released.***
 
-[![Travis](https://img.shields.io/travis/pd93/plog?style=for-the-badge)](https://travis-ci.org/pd93/plog)
+[![Travis](https://img.shields.io/travis/pd93/plog/master?style=for-the-badge)](https://travis-ci.org/pd93/plog)
 [![Codecov](https://img.shields.io/codecov/c/github/pd93/plog?style=for-the-badge)](https://codecov.io/gh/pd93/plog)
 [![Release](https://img.shields.io/github/v/release/pd93/plog?style=for-the-badge)](https://github.com/pd93/plog/releases)
 [![GoDoc](https://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge)](https://godoc.org/github.com/pd93/plog)
