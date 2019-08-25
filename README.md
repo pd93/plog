@@ -23,6 +23,8 @@ A lightweight and feature rich logger for Golang.
 
 - **Log Reader** - No more nano or vim to read you logs. PLog include a binary to parse your logs, filter them and display them in a readable format.
 - **Log File Rotation** - Plog can automatically generate and rotate log files. You can specify custom conditions for when these files should be rotated and how to name them.
+- **Log Prefixes** - A string to prepend to every message in a logger. Can be used to split up logs from different components of your code.
+- **Custom Colors** - Override the default colors for each logging level.
 
 ## Installation
 
