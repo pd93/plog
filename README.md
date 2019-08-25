@@ -7,7 +7,7 @@ A lightweight and feature rich logger for Golang.
 [![Travis](https://img.shields.io/travis/pd93/plog/master?style=for-the-badge)](https://travis-ci.org/pd93/plog)
 [![Codecov](https://img.shields.io/codecov/c/github/pd93/plog?style=for-the-badge)](https://codecov.io/gh/pd93/plog)
 [![Release](https://img.shields.io/github/v/release/pd93/plog?style=for-the-badge)](https://github.com/pd93/plog/releases)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge)](https://godoc.org/github.com/pd93/plog)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge)](https://godoc.org/gopkg.in/pd93/plog.v0)
 [![Licence](https://img.shields.io/github/license/pd93/plog?style=for-the-badge)](https://github.com/pd93/plog/blob/master/LICENSE)
 
 ## Features
@@ -36,11 +36,51 @@ If you're using Go Modules (v1.12+), no installation is required. Once you've im
 
 If you haven't migrated from `$GOPATH` to Go Modules yet, you will need to run the following command to download the package before it can be used.
 
-- `$ go get -u gopkg.in/pd93/plog.v0`
+```sh
+$ go get -u gopkg.in/pd93/plog.v0
+```
 
 ## Usage
 
-WIP
+1. Import the package (aliasing to `log` is recommended)
+
+    ```go
+    import (
+        log "gopkg.in/pd93/plog.v0"
+    )
+    ```
+
+1. Create/open a log file
+
+    ```go
+	logFile, err := os.OpenFile("log.json", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return err
+	}
+	defer logFile.Close()
+    ```
+
+1. Set up your loggers
+
+    ```go
+    // Standard logger
+	log.AddLogger("std", log.NewLogger())
+
+    // JSON file logger
+	log.AddLogger("json", log.NewJSONFileLogger(logFile))
+    ```
+
+1. Log things!
+
+    ```go
+    // Write to all loggers
+    log.Info("Starting process")
+    log.Debug(vars, to, debug)
+    log.Debugf("%.2f", num)
+
+    // Write to a specific logger
+    log.GetLogger("std").Info("Special log that only prints to stdout")
+    ```
 
 ## Logger Config
 
