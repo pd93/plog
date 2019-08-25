@@ -51,13 +51,13 @@ func Error(err error) {
 //
 
 // Warn will print any number of variables to all loggers at warn level
-func Warn(params ...interface{}) {
-	loggers.Write(NewLog(WarnLevel, params...))
+func Warn(variables ...interface{}) {
+	loggers.Write(NewLog(WarnLevel, variables...))
 }
 
 // Warnf will print a formatted message to all loggers at warn level
-func Warnf(message string, params ...interface{}) {
-	loggers.Write(NewLogf(WarnLevel, message, params...))
+func Warnf(message string, variables ...interface{}) {
+	loggers.Write(NewLogf(WarnLevel, message, variables...))
 }
 
 //
@@ -65,13 +65,13 @@ func Warnf(message string, params ...interface{}) {
 //
 
 // Info will print any number of variables to all loggers at info level
-func Info(params ...interface{}) {
-	loggers.Write(NewLog(InfoLevel, params...))
+func Info(variables ...interface{}) {
+	loggers.Write(NewLog(InfoLevel, variables...))
 }
 
 // Infof will print a formatted message to all loggers at info level
-func Infof(message string, params ...interface{}) {
-	loggers.Write(NewLogf(InfoLevel, message, params...))
+func Infof(message string, variables ...interface{}) {
+	loggers.Write(NewLogf(InfoLevel, message, variables...))
 }
 
 //
@@ -79,13 +79,13 @@ func Infof(message string, params ...interface{}) {
 //
 
 // Debug will print any number of variables to all loggers at debug level
-func Debug(params ...interface{}) {
-	loggers.Write(NewLog(DebugLevel, params...))
+func Debug(variables ...interface{}) {
+	loggers.Write(NewLog(DebugLevel, variables...))
 }
 
 // Debugf will print a formatted message to all loggers at debug level
-func Debugf(message string, params ...interface{}) {
-	loggers.Write(NewLogf(DebugLevel, message, params...))
+func Debugf(message string, variables ...interface{}) {
+	loggers.Write(NewLogf(DebugLevel, message, variables...))
 }
 
 //
@@ -93,11 +93,11 @@ func Debugf(message string, params ...interface{}) {
 //
 
 // Trace will print any number of variables to all loggers at debug level
-func Trace(params ...interface{}) {
-	loggers.Write(NewLog(TraceLevel, params...))
+func Trace(variables ...interface{}) {
+	loggers.Write(NewLog(TraceLevel, variables...))
 }
 
 // Tracef will print a formatted message to all loggers at debug level
-func Tracef(message string, params ...interface{}) {
-	loggers.Write(NewLogf(TraceLevel, message, params...))
+func Tracef(message string, variables ...interface{}) {
+	loggers.Write(NewLogf(TraceLevel, message, variables...))
 }

@@ -138,8 +138,8 @@ func (logger *Logger) Write(log *Log) (err error) {
 			}
 
 			// Stringify the variables
-			variables := make([]string, len(log.Body))
-			for i, variable := range log.Body {
+			variables := make([]string, len(log.Variables))
+			for i, variable := range log.Variables {
 				variables[i] = fmt.Sprintf("%v", variable)
 			}
 
@@ -186,13 +186,13 @@ func (logger *Logger) Error(err error) {
 //
 
 // Warn will print any number of variables at warn level
-func (logger *Logger) Warn(params ...interface{}) {
-	logger.Write(NewLog(WarnLevel, params...))
+func (logger *Logger) Warn(variables ...interface{}) {
+	logger.Write(NewLog(WarnLevel, variables...))
 }
 
 // Warnf will print a formatted message at warn level
-func (logger *Logger) Warnf(message string, params ...interface{}) {
-	logger.Write(NewLogf(WarnLevel, message, params...))
+func (logger *Logger) Warnf(message string, variables ...interface{}) {
+	logger.Write(NewLogf(WarnLevel, message, variables...))
 }
 
 //
@@ -200,13 +200,13 @@ func (logger *Logger) Warnf(message string, params ...interface{}) {
 //
 
 // Info will print any number of variables at info level
-func (logger *Logger) Info(params ...interface{}) {
-	logger.Write(NewLog(InfoLevel, params...))
+func (logger *Logger) Info(variables ...interface{}) {
+	logger.Write(NewLog(InfoLevel, variables...))
 }
 
 // Infof will print a formatted message at info level
-func (logger *Logger) Infof(message string, params ...interface{}) {
-	logger.Write(NewLogf(InfoLevel, message, params...))
+func (logger *Logger) Infof(message string, variables ...interface{}) {
+	logger.Write(NewLogf(InfoLevel, message, variables...))
 }
 
 //
@@ -214,13 +214,13 @@ func (logger *Logger) Infof(message string, params ...interface{}) {
 //
 
 // Debug will print any number of variables at debug level
-func (logger *Logger) Debug(params ...interface{}) {
-	logger.Write(NewLog(DebugLevel, params...))
+func (logger *Logger) Debug(variables ...interface{}) {
+	logger.Write(NewLog(DebugLevel, variables...))
 }
 
 // Debugf will print a formatted message at debug level
-func (logger *Logger) Debugf(message string, params ...interface{}) {
-	logger.Write(NewLogf(DebugLevel, message, params...))
+func (logger *Logger) Debugf(message string, variables ...interface{}) {
+	logger.Write(NewLogf(DebugLevel, message, variables...))
 }
 
 //
@@ -228,11 +228,11 @@ func (logger *Logger) Debugf(message string, params ...interface{}) {
 //
 
 // Trace will print any number of variables at debug level
-func (logger *Logger) Trace(params ...interface{}) {
-	logger.Write(NewLog(TraceLevel, params...))
+func (logger *Logger) Trace(variables ...interface{}) {
+	logger.Write(NewLog(TraceLevel, variables...))
 }
 
 // Tracef will print a formatted message at debug level
-func (logger *Logger) Tracef(message string, params ...interface{}) {
-	logger.Write(NewLogf(TraceLevel, message, params...))
+func (logger *Logger) Tracef(message string, variables ...interface{}) {
+	logger.Write(NewLogf(TraceLevel, message, variables...))
 }
