@@ -2,7 +2,7 @@ package plog
 
 import "fmt"
 
-var loggers Loggers = make(map[string]*Logger)
+var loggers = make(loggerMap)
 
 //
 // Loggers
@@ -13,7 +13,7 @@ var loggers Loggers = make(map[string]*Logger)
 func AddLogger(name string, logger *Logger) {
 
 	// Check that the logger is valid are set the default values
-	if err := logger.Validate(); err != nil {
+	if err := logger.validate(); err != nil {
 		panic(err)
 	}
 
@@ -53,7 +53,7 @@ func DeleteLogger(name string) {
 
 // Fatal will print a fatal error message to all loggers
 func Fatal(err error) {
-	loggers.Write(NewLogf(FatalLevel, "%v", err))
+	loggers.write(newLogf(FatalLevel, "%v", err))
 }
 
 //
@@ -62,7 +62,7 @@ func Fatal(err error) {
 
 // Error will print a non-fatal error message to all loggers
 func Error(err error) {
-	loggers.Write(NewLogf(ErrorLevel, "%v", err))
+	loggers.write(newLogf(ErrorLevel, "%v", err))
 }
 
 //
@@ -71,12 +71,12 @@ func Error(err error) {
 
 // Warn will print any number of variables to all loggers at warn level
 func Warn(variables ...interface{}) {
-	loggers.Write(NewLog(WarnLevel, variables...))
+	loggers.write(newLog(WarnLevel, variables...))
 }
 
 // Warnf will print a formatted message to all loggers at warn level
 func Warnf(format string, variables ...interface{}) {
-	loggers.Write(NewLogf(WarnLevel, format, variables...))
+	loggers.write(newLogf(WarnLevel, format, variables...))
 }
 
 //
@@ -85,12 +85,12 @@ func Warnf(format string, variables ...interface{}) {
 
 // Info will print any number of variables to all loggers at info level
 func Info(variables ...interface{}) {
-	loggers.Write(NewLog(InfoLevel, variables...))
+	loggers.write(newLog(InfoLevel, variables...))
 }
 
 // Infof will print a formatted message to all loggers at info level
 func Infof(format string, variables ...interface{}) {
-	loggers.Write(NewLogf(InfoLevel, format, variables...))
+	loggers.write(newLogf(InfoLevel, format, variables...))
 }
 
 //
@@ -99,12 +99,12 @@ func Infof(format string, variables ...interface{}) {
 
 // Debug will print any number of variables to all loggers at debug level
 func Debug(variables ...interface{}) {
-	loggers.Write(NewLog(DebugLevel, variables...))
+	loggers.write(newLog(DebugLevel, variables...))
 }
 
 // Debugf will print a formatted message to all loggers at debug level
 func Debugf(format string, variables ...interface{}) {
-	loggers.Write(NewLogf(DebugLevel, format, variables...))
+	loggers.write(newLogf(DebugLevel, format, variables...))
 }
 
 //
@@ -113,10 +113,10 @@ func Debugf(format string, variables ...interface{}) {
 
 // Trace will print any number of variables to all loggers at debug level
 func Trace(variables ...interface{}) {
-	loggers.Write(NewLog(TraceLevel, variables...))
+	loggers.write(newLog(TraceLevel, variables...))
 }
 
 // Tracef will print a formatted message to all loggers at debug level
 func Tracef(format string, variables ...interface{}) {
-	loggers.Write(NewLogf(TraceLevel, format, variables...))
+	loggers.write(newLogf(TraceLevel, format, variables...))
 }

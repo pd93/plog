@@ -11,43 +11,40 @@ import (
 
 // A Logger is a channel for writing logs
 type Logger struct {
-	Output          io.Writer
-	LogLevel        LogLevel
-	LogFormat       LogFormat
-	TimestampFormat string
-	ColorLogging    bool
+	output          io.Writer
+	logLevel        LogLevel
+	logFormat       LogFormat
+	timestampFormat string
+	colorLogging    bool
 }
 
-// Validate will set default values for uninitialised values
-// It also check whether or not the logger is configured correctly and return any errors it finds
-func (logger *Logger) Validate() (err error) {
+//
+// Getters
+//
 
-	// Set the default out to stdout
-	if logger.Output == nil {
-		logger.Output = os.Stdout
-	}
+// Output will return the logger's current output
+func (logger *Logger) Output() io.Writer {
+	return logger.output
+}
 
-	// Set the default timestamp format to RFC3339
-	if logger.TimestampFormat == "" {
-		logger.TimestampFormat = time.RFC3339
-	}
+// LogLevel will return the logger's current log level
+func (logger *Logger) LogLevel() LogLevel {
+	return logger.logLevel
+}
 
-	// Turn on coloured logs for the text format
-	if logger.LogFormat == TextFormat {
-		logger.ColorLogging = true
-	}
+// LogFormat will return the logger's current log format
+func (logger *Logger) LogFormat() LogFormat {
+	return logger.logFormat
+}
 
-	// Check if the log level is valid
-	if logger.LogLevel.String() == "" {
-		return errors.New("Invalid log level")
-	}
+// TimestampFormat will return the logger's current timestamp format
+func (logger *Logger) TimestampFormat() string {
+	return logger.timestampFormat
+}
 
-	// Check if the log format is valid
-	if logger.LogFormat.String() == "" {
-		return errors.New("Invalid log format")
-	}
-
-	return
+// ColorLogging will return whether or not color logging is enabled
+func (logger *Logger) ColorLogging() bool {
+	return logger.colorLogging
 }
 
 //
@@ -57,50 +54,156 @@ func (logger *Logger) Validate() (err error) {
 // SetOutput allows you to change where the logs are being output to.
 // Examples include 'os.File', 'os.Stdout', 'os.Stderr', 'os.Stdin' or any other writer.
 func (logger *Logger) SetOutput(output io.Writer) {
-	logger.Output = output
+	logger.output = output
 }
 
 // SetLogLevel will set the level of the log message
 func (logger *Logger) SetLogLevel(logLevel LogLevel) {
-	logger.LogLevel = logLevel
+	logger.logLevel = logLevel
 }
 
 // SetLogFormat will set the format of the log message
 func (logger *Logger) SetLogFormat(logFormat LogFormat) {
-	logger.LogFormat = logFormat
+	logger.logFormat = logFormat
 }
 
 // SetTimestampFormat allows the user to specify a custom timestamp format.
 // The default format is 'time.RFC3339'.
 // You can find the documentation on time formatting in Golang here: https://golang.org/pkg/time/#Time.Format
 func (logger *Logger) SetTimestampFormat(timestampFormat string) {
-	logger.TimestampFormat = timestampFormat
+	logger.timestampFormat = timestampFormat
 }
 
 // SetColorLogging will enable/disable colored logging.
 func (logger *Logger) SetColorLogging(colorLogging bool) {
-	logger.ColorLogging = colorLogging
+	logger.colorLogging = colorLogging
 }
 
 //
-// Writer
+// Fatal logging (Level 1)
 //
 
-// Write will add a log message to the logger
-func (logger *Logger) Write(log *Log) {
+// Fatal will print a fatal error message
+func (logger *Logger) Fatal(err error) {
+	logger.write(newLogf(FatalLevel, "%v", err))
+}
+
+//
+// Error logging (Level 2)
+//
+
+// Error will print a non-fatal error message
+func (logger *Logger) Error(err error) {
+	logger.write(newLogf(ErrorLevel, "%v", err))
+}
+
+//
+// Warn logging (Level 3)
+//
+
+// Warn will print any number of variables at warn level
+func (logger *Logger) Warn(variables ...interface{}) {
+	logger.write(newLog(WarnLevel, variables...))
+}
+
+// Warnf will print a formatted message at warn level
+func (logger *Logger) Warnf(format string, variables ...interface{}) {
+	logger.write(newLogf(WarnLevel, format, variables...))
+}
+
+//
+// Info logging (Level 4)
+//
+
+// Info will print any number of variables at info level
+func (logger *Logger) Info(variables ...interface{}) {
+	logger.write(newLog(InfoLevel, variables...))
+}
+
+// Infof will print a formatted message at info level
+func (logger *Logger) Infof(format string, variables ...interface{}) {
+	logger.write(newLogf(InfoLevel, format, variables...))
+}
+
+//
+// Debug logging (Level 5)
+//
+
+// Debug will print any number of variables at debug level
+func (logger *Logger) Debug(variables ...interface{}) {
+	logger.write(newLog(DebugLevel, variables...))
+}
+
+// Debugf will print a formatted message at debug level
+func (logger *Logger) Debugf(format string, variables ...interface{}) {
+	logger.write(newLogf(DebugLevel, format, variables...))
+}
+
+//
+// Trace logging (Level 6)
+//
+
+// Trace will print any number of variables at debug level
+func (logger *Logger) Trace(variables ...interface{}) {
+	logger.write(newLog(TraceLevel, variables...))
+}
+
+// Tracef will print a formatted message at debug level
+func (logger *Logger) Tracef(format string, variables ...interface{}) {
+	logger.write(newLogf(TraceLevel, format, variables...))
+}
+
+//
+// Private functions
+//
+
+// validate will set default values for uninitialised values
+// It also check whether or not the logger is configured correctly and return any errors it finds
+func (logger *Logger) validate() (err error) {
+
+	// Set the default out to stdout
+	if logger.output == nil {
+		logger.output = os.Stdout
+	}
+
+	// Set the default timestamp format to RFC3339
+	if logger.timestampFormat == "" {
+		logger.timestampFormat = time.RFC3339
+	}
+
+	// Turn on coloured logs for the text format
+	if logger.logFormat == TextFormat {
+		logger.colorLogging = true
+	}
+
+	// Check if the log level is valid
+	if logger.logLevel.String() == "" {
+		return errors.New("Invalid log level")
+	}
+
+	// Check if the log format is valid
+	if logger.logFormat.String() == "" {
+		return errors.New("Invalid log format")
+	}
+
+	return
+}
+
+// write will add a log message to the logger
+func (logger *Logger) write(l *log) {
 
 	// Check if we need to log this message or not
-	if logger.LogLevel >= log.LogLevel {
+	if logger.logLevel >= l.logLevel {
 
 		// Render the timestamp and log level strings
-		timestamp := log.Timestamp.Format(logger.TimestampFormat)
-		logLevel := strings.ToUpper(log.LogLevel.String())
+		timestamp := l.timestamp.Format(logger.timestampFormat)
+		logLevel := strings.ToUpper(l.logLevel.String())
 
 		// Check if colored logging is enabled
-		if logger.ColorLogging {
+		if logger.colorLogging {
 
 			// Set the color of the text
-			switch log.LogLevel {
+			switch l.logLevel {
 			case ErrorLevel, FatalLevel:
 				logLevel = color(logLevel, FgRed)
 			case WarnLevel:
@@ -115,15 +218,16 @@ func (logger *Logger) Write(log *Log) {
 		}
 
 		// Stringify the variables
-		variables := make([]string, len(log.Variables))
-		for i, variable := range log.Variables {
+		variables := make([]string, len(l.variables))
+		for i, variable := range l.variables {
 			variables[i] = fmt.Sprintf("%v", variable)
 		}
 		message := strings.Join(variables, " ")
 
+		// Create the output string
 		var outputString string
 
-		switch logger.LogFormat {
+		switch logger.logFormat {
 
 		case TextFormat:
 			outputString = fmt.Sprintf("%s [%s] %s", timestamp, logLevel, message)
@@ -136,82 +240,8 @@ func (logger *Logger) Write(log *Log) {
 		}
 
 		// Print the message to the output writer
-		fmt.Fprintln(logger.Output, outputString)
+		fmt.Fprintln(logger.output, outputString)
 	}
 
 	return
-}
-
-//
-// Fatal logging (Level 1)
-//
-
-// Fatal will print a fatal error message
-func (logger *Logger) Fatal(err error) {
-	logger.Write(NewLogf(FatalLevel, "%v", err))
-}
-
-//
-// Error logging (Level 2)
-//
-
-// Error will print a non-fatal error message
-func (logger *Logger) Error(err error) {
-	logger.Write(NewLogf(ErrorLevel, "%v", err))
-}
-
-//
-// Warn logging (Level 3)
-//
-
-// Warn will print any number of variables at warn level
-func (logger *Logger) Warn(variables ...interface{}) {
-	logger.Write(NewLog(WarnLevel, variables...))
-}
-
-// Warnf will print a formatted message at warn level
-func (logger *Logger) Warnf(format string, variables ...interface{}) {
-	logger.Write(NewLogf(WarnLevel, format, variables...))
-}
-
-//
-// Info logging (Level 4)
-//
-
-// Info will print any number of variables at info level
-func (logger *Logger) Info(variables ...interface{}) {
-	logger.Write(NewLog(InfoLevel, variables...))
-}
-
-// Infof will print a formatted message at info level
-func (logger *Logger) Infof(format string, variables ...interface{}) {
-	logger.Write(NewLogf(InfoLevel, format, variables...))
-}
-
-//
-// Debug logging (Level 5)
-//
-
-// Debug will print any number of variables at debug level
-func (logger *Logger) Debug(variables ...interface{}) {
-	logger.Write(NewLog(DebugLevel, variables...))
-}
-
-// Debugf will print a formatted message at debug level
-func (logger *Logger) Debugf(format string, variables ...interface{}) {
-	logger.Write(NewLogf(DebugLevel, format, variables...))
-}
-
-//
-// Trace logging (Level 6)
-//
-
-// Trace will print any number of variables at debug level
-func (logger *Logger) Trace(variables ...interface{}) {
-	logger.Write(NewLog(TraceLevel, variables...))
-}
-
-// Tracef will print a formatted message at debug level
-func (logger *Logger) Tracef(format string, variables ...interface{}) {
-	logger.Write(NewLogf(TraceLevel, format, variables...))
 }
