@@ -32,7 +32,7 @@ func GetLogger(name string) *Logger {
 // Fatal logging (Level 1)
 //
 
-// Fatal will print an error message
+// Fatal will print a fatal error message to all loggers
 func Fatal(err error) {
 	loggers.Write(NewLogf(FatalLevel, "%v", err))
 }
@@ -41,7 +41,7 @@ func Fatal(err error) {
 // Error logging (Level 2)
 //
 
-// Error will print an error message
+// Error will print a non-fatal error message to all loggers
 func Error(err error) {
 	loggers.Write(NewLogf(ErrorLevel, "%v", err))
 }
@@ -50,12 +50,12 @@ func Error(err error) {
 // Warn logging (Level 3)
 //
 
-// Warn will print an object at warn level
+// Warn will print any number of variables to all loggers at warn level
 func Warn(params ...interface{}) {
 	loggers.Write(NewLog(WarnLevel, params...))
 }
 
-// Warnf will format and print a message at warn level
+// Warnf will print a formatted message to all loggers at warn level
 func Warnf(message string, params ...interface{}) {
 	loggers.Write(NewLogf(WarnLevel, message, params...))
 }
@@ -64,12 +64,12 @@ func Warnf(message string, params ...interface{}) {
 // Info logging (Level 4)
 //
 
-// Info will print an object at info level
+// Info will print any number of variables to all loggers at info level
 func Info(params ...interface{}) {
 	loggers.Write(NewLog(InfoLevel, params...))
 }
 
-// Infof will format and print a message at info level
+// Infof will print a formatted message to all loggers at info level
 func Infof(message string, params ...interface{}) {
 	loggers.Write(NewLogf(InfoLevel, message, params...))
 }
@@ -78,12 +78,12 @@ func Infof(message string, params ...interface{}) {
 // Debug logging (Level 5)
 //
 
-// Debug will print an object at debug level
+// Debug will print any number of variables to all loggers at debug level
 func Debug(params ...interface{}) {
 	loggers.Write(NewLog(DebugLevel, params...))
 }
 
-// Debugf will format and print a message at debug level
+// Debugf will print a formatted message to all loggers at debug level
 func Debugf(message string, params ...interface{}) {
 	loggers.Write(NewLogf(DebugLevel, message, params...))
 }
@@ -92,12 +92,12 @@ func Debugf(message string, params ...interface{}) {
 // Trace logging (Level 6)
 //
 
-// Trace will print an object at debug level
+// Trace will print any number of variables to all loggers at debug level
 func Trace(params ...interface{}) {
 	loggers.Write(NewLog(TraceLevel, params...))
 }
 
-// Tracef will format and print a message at debug level
+// Tracef will print a formatted message to all loggers at debug level
 func Tracef(message string, params ...interface{}) {
 	loggers.Write(NewLogf(TraceLevel, message, params...))
 }

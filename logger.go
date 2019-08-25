@@ -63,6 +63,10 @@ func (logger *Logger) Validate() (err error) {
 	return
 }
 
+//
+// Setters
+//
+
 // SetOutput allows you to change where the logs are being output to.
 // Examples include 'os.File', 'os.Stdout', 'os.Stderr', 'os.Stdin' or any other writer.
 func (logger *Logger) SetOutput(output io.Writer) {
@@ -90,6 +94,10 @@ func (logger *Logger) SetTimestampFormat(timestampFormat string) {
 func (logger *Logger) SetColorLogging(colorLogging bool) {
 	logger.ColorLogging = colorLogging
 }
+
+//
+// Writer
+//
 
 // Write will add a log message to the logger
 func (logger *Logger) Write(log *Log) (err error) {
@@ -152,4 +160,78 @@ func (logger *Logger) Write(log *Log) (err error) {
 	}
 
 	return
+}
+
+//
+// Fatal logging (Level 1)
+//
+
+// Fatal will print a fatal error message
+func (logger *Logger) Fatal(err error) {
+	logger.Write(NewLogf(FatalLevel, "%v", err))
+}
+
+//
+// Error logging (Level 2)
+//
+
+// Error will print a non-fatal error message
+func (logger *Logger) Error(err error) {
+	logger.Write(NewLogf(ErrorLevel, "%v", err))
+}
+
+//
+// Warn logging (Level 3)
+//
+
+// Warn will print any number of variables at warn level
+func (logger *Logger) Warn(params ...interface{}) {
+	logger.Write(NewLog(WarnLevel, params...))
+}
+
+// Warnf will print a formatted message at warn level
+func (logger *Logger) Warnf(message string, params ...interface{}) {
+	logger.Write(NewLogf(WarnLevel, message, params...))
+}
+
+//
+// Info logging (Level 4)
+//
+
+// Info will print any number of variables at info level
+func (logger *Logger) Info(params ...interface{}) {
+	logger.Write(NewLog(InfoLevel, params...))
+}
+
+// Infof will print a formatted message at info level
+func (logger *Logger) Infof(message string, params ...interface{}) {
+	logger.Write(NewLogf(InfoLevel, message, params...))
+}
+
+//
+// Debug logging (Level 5)
+//
+
+// Debug will print any number of variables at debug level
+func (logger *Logger) Debug(params ...interface{}) {
+	logger.Write(NewLog(DebugLevel, params...))
+}
+
+// Debugf will print a formatted message at debug level
+func (logger *Logger) Debugf(message string, params ...interface{}) {
+	logger.Write(NewLogf(DebugLevel, message, params...))
+}
+
+//
+// Trace logging (Level 6)
+//
+
+// Trace will print any number of variables at debug level
+func (logger *Logger) Trace(params ...interface{}) {
+	logger.Write(NewLog(TraceLevel, params...))
+}
+
+// Tracef will print a formatted message at debug level
+func (logger *Logger) Tracef(message string, params ...interface{}) {
+	logger.Write(NewLogf(TraceLevel, message, params...))
 }
