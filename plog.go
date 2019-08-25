@@ -1,12 +1,42 @@
 package plog
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 var loggers = make(loggerMap)
 
 //
 // Loggers
 //
+
+// NewLogger creates and returns an instance of Logger with the default variables
+func NewLogger() *Logger {
+	return &Logger{}
+}
+
+// NewJSONFileLogger creates and returns an instance of Logger which will write to the specified file
+// The log level is set to TraceLevel (log everything) and color logging is disabled
+// The logs will be written in JSON format, but the file does not need to end in '.json'
+func NewJSONFileLogger(file *os.File) *Logger {
+	return &Logger{
+		output:    file,
+		logLevel:  TraceLevel,
+		logFormat: JSONFormat,
+	}
+}
+
+// NewCSVFileLogger creates and returns an instance of Logger which will write to the specified file
+// The log level is set to TraceLevel (log everything) and color logging is disabled
+// The logs will be written in CSV format, but the file does not need to end in '.csv'
+func NewCSVFileLogger(file *os.File) *Logger {
+	return &Logger{
+		output:    file,
+		logLevel:  TraceLevel,
+		logFormat: CSVFormat,
+	}
+}
 
 // AddLogger adds the provided logger to PLog
 // See `type Logger` for more details
