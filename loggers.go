@@ -10,8 +10,6 @@ func (loggers Loggers) Write(log *Log) {
 	for _, logger := range loggers {
 
 		// Write to the logger
-		if err := logger.Write(log); err != nil {
-			panic(err)
-		}
+		logger.Write(log)
 	}
 }

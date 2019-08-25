@@ -8,6 +8,8 @@ const (
 	TextFormat LogFormat = iota
 	// JSONFormat will print the log as a JSON object
 	JSONFormat
+	// CSVFormat will print the log as comma-separated values
+	CSVFormat
 )
 
 func (format LogFormat) String() string {
@@ -16,6 +18,8 @@ func (format LogFormat) String() string {
 		return "Text"
 	case JSONFormat:
 		return "JSON"
+	case CSVFormat:
+		return "CSV"
 	default:
 		return ""
 	}

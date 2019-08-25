@@ -17,7 +17,7 @@ A lightweight and feature rich logger for Golang.
 - **Multiple Formats** - Output your logs in a format that suits your needs.
   - `Text` - A pretty printed plaintext string with color support.
   - `JSON` - Each log gets stored as a JSON object to allow parsing and filtering.
-  - More to come...
+  - `CSV` - Comma-separated values. Compatible with spreadsheets.
 
 ## Roadmap
 

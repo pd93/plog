@@ -1,7 +1,6 @@
 package plog
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -88,64 +87,56 @@ func (logger *Logger) SetColorLogging(colorLogging bool) {
 //
 
 // Write will add a log message to the logger
-func (logger *Logger) Write(log *Log) (err error) {
+func (logger *Logger) Write(log *Log) {
 
 	// Check if we need to log this message or not
 	if logger.LogLevel >= log.LogLevel {
 
-		var message string
+		// Render the timestamp and log level strings
+		timestamp := log.Timestamp.Format(logger.TimestampFormat)
+		logLevel := strings.ToUpper(log.LogLevel.String())
+
+		// Check if colored logging is enabled
+		if logger.ColorLogging {
+
+			// Set the color of the text
+			switch log.LogLevel {
+			case ErrorLevel, FatalLevel:
+				logLevel = color(logLevel, FgRed)
+			case WarnLevel:
+				logLevel = color(logLevel, FgYellow)
+			case InfoLevel:
+				logLevel = color(logLevel, FgGreen)
+			case DebugLevel:
+				logLevel = color(logLevel, FgCyan)
+			case TraceLevel:
+				logLevel = color(logLevel, FgBlue)
+			}
+		}
+
+		// Stringify the variables
+		variables := make([]string, len(log.Variables))
+		for i, variable := range log.Variables {
+			variables[i] = fmt.Sprintf("%v", variable)
+		}
+		message := strings.Join(variables, " ")
+
+		var outputString string
 
 		switch logger.LogFormat {
 
-		//
-		// Text logger
-		//
-
 		case TextFormat:
-
-			// Render the timestamp and log level strings
-			timestamp := log.Timestamp.Format(logger.TimestampFormat)
-			logLevel := strings.ToUpper(log.LogLevel.String())
-
-			// Check if colored logging is enabled
-			if logger.ColorLogging {
-
-				// Set the color of the text
-				switch log.LogLevel {
-				case ErrorLevel, FatalLevel:
-					logLevel = color(logLevel, FgRed)
-				case WarnLevel:
-					logLevel = color(logLevel, FgYellow)
-				case InfoLevel:
-					logLevel = color(logLevel, FgGreen)
-				case DebugLevel:
-					logLevel = color(logLevel, FgCyan)
-				case TraceLevel:
-					logLevel = color(logLevel, FgBlue)
-				}
-			}
-
-			// Stringify the variables
-			variables := make([]string, len(log.Variables))
-			for i, variable := range log.Variables {
-				variables[i] = fmt.Sprintf("%v", variable)
-			}
-
-			// Format the message
-			message = fmt.Sprintf("%s [%s] %s", timestamp, logLevel, strings.Join(variables, " "))
-
-		//
-		// JSON logger
-		//
+			outputString = fmt.Sprintf("%s [%s] %s", timestamp, logLevel, message)
 
 		case JSONFormat:
-			var b []byte
-			b, err = json.Marshal(log)
-			message = string(b)
+			outputString = fmt.Sprintf(`{ "timestamp": "%s", "logLevel": "%s", "message": "%s" }`, timestamp, logLevel, message)
+
+		case CSVFormat:
+			outputString = fmt.Sprintf(`%s,%s,%s`, timestamp, logLevel, message)
 		}
 
 		// Print the message to the output writer
-		fmt.Fprintln(logger.Output, message)
+		fmt.Fprintln(logger.Output, outputString)
 	}
 
 	return

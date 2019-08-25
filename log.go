@@ -7,9 +7,9 @@ import (
 
 // A Log holds a single message along with its log level and timestamp
 type Log struct {
-	LogLevel  LogLevel      `json:"logLevel"`
-	Variables []interface{} `json:"message"`
-	Timestamp time.Time     `json:"timestamp"`
+	LogLevel  LogLevel
+	Variables []interface{}
+	Timestamp time.Time
 }
 
 // NewLog creates a new instance of log and populates it with a log level and a message
