@@ -1,12 +1,9 @@
 package plog
 
 import (
-	"errors"
 	"fmt"
 	"io"
-	"os"
 	"strings"
-	"time"
 )
 
 // A Logger is a channel for writing logs
@@ -154,40 +151,8 @@ func (logger *Logger) Tracef(format string, variables ...interface{}) {
 }
 
 //
-// Private functions
+// Writer
 //
-
-// validate will set default values for uninitialised values
-// It also check whether or not the logger is configured correctly and return any errors it finds
-func (logger *Logger) validate() (err error) {
-
-	// Set the default out to stdout
-	if logger.output == nil {
-		logger.output = os.Stdout
-	}
-
-	// Set the default timestamp format to RFC3339
-	if logger.timestampFormat == "" {
-		logger.timestampFormat = time.RFC3339
-	}
-
-	// Turn on coloured logs for the text format
-	if logger.logFormat == TextFormat {
-		logger.colorLogging = true
-	}
-
-	// Check if the log level is valid
-	if logger.logLevel.String() == "" {
-		return errors.New("Invalid log level")
-	}
-
-	// Check if the log format is valid
-	if logger.logFormat.String() == "" {
-		return errors.New("Invalid log format")
-	}
-
-	return
-}
 
 // write will add a log message to the logger
 func (logger *Logger) write(l *log) {
