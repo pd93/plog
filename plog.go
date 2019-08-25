@@ -1,5 +1,7 @@
 package plog
 
+import "fmt"
+
 var loggers Loggers = make(map[string]*Logger)
 
 //
@@ -15,17 +17,34 @@ func AddLogger(name string, logger *Logger) {
 		panic(err)
 	}
 
-	loggers[name] = logger
-}
+	// Check if the logger name is already used
+	if _, exists := loggers[name]; exists {
+		panic(fmt.Errorf("Logger with the name: '%s' already exists", name))
+	}
 
-// DeleteLogger removes the specified logger from PLog
-func DeleteLogger(name string) {
-	delete(loggers, name)
+	loggers[name] = logger
 }
 
 // GetLogger returns the specified logger
 func GetLogger(name string) *Logger {
+
+	// Check if the logger exists
+	if val, exists := loggers[name]; !exists || val == nil {
+		panic(fmt.Errorf("Cannot return non-existent logger: '%s'", name))
+	}
+
 	return loggers[name]
+}
+
+// DeleteLogger removes the specified logger from PLog
+func DeleteLogger(name string) {
+
+	// Check if the logger exists
+	if val, exists := loggers[name]; !exists || val == nil {
+		panic(fmt.Errorf("Cannot delete non-existent logger: '%s'", name))
+	}
+
+	delete(loggers, name)
 }
 
 //
