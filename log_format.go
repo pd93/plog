@@ -17,6 +17,6 @@ func (format LogFormat) String() string {
 	case JSONFormat:
 		return "JSON"
 	default:
-		return "Invalid log format"
+		return ""
 	}
 }

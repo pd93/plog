@@ -9,6 +9,12 @@ var loggers = make(map[string]*Logger)
 // AddLogger adds the provided logger to PLog
 // See `type Logger` for more details
 func AddLogger(name string, logger *Logger) {
+
+	// Check that the logger is valid are set the default values
+	if err := logger.Validate(); err != nil {
+		panic(err)
+	}
+
 	loggers[name] = logger
 }
 

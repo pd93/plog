@@ -2,6 +2,7 @@ package plog
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -28,6 +29,38 @@ func NewStdLogger() (logger *Logger) {
 		TimestampFormat: time.RFC3339,
 		ColorLogging:    true,
 	}
+}
+
+// Validate will set default values for uninitialised values
+// It also check whether or not the logger is configured correctly and return any errors it finds
+func (logger *Logger) Validate() (err error) {
+
+	// Set the default out to stdout
+	if logger.Output == nil {
+		logger.Output = os.Stdout
+	}
+
+	// Set the default timestamp format to RFC3339
+	if logger.TimestampFormat == "" {
+		logger.TimestampFormat = time.RFC3339
+	}
+
+	// Turn on coloured logs for the text format
+	if logger.LogFormat == TextFormat {
+		logger.ColorLogging = true
+	}
+
+	// Check if the log level is valid
+	if logger.LogLevel.String() == "" {
+		return errors.New("Invalid log level")
+	}
+
+	// Check if the log format is valid
+	if logger.LogFormat.String() == "" {
+		return errors.New("Invalid log format")
+	}
+
+	return
 }
 
 // SetOutput allows you to change where the logs are being output to.
@@ -99,11 +132,6 @@ func (logger *Logger) Write(log *Log) (err error) {
 		var b []byte
 		b, err = json.Marshal(log)
 		message = string(b)
-	}
-
-	// Check that the output is set
-	if logger.Output == nil {
-		return fmt.Errorf("Logger missing output writer")
 	}
 
 	// Print the message to the output writer

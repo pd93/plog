@@ -37,6 +37,6 @@ func (logLevel LogLevel) String() string {
 	case TraceLevel:
 		return "Trace"
 	default:
-		return "Invalid log level"
+		return ""
 	}
 }
