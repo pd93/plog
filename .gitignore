@@ -3,5 +3,8 @@
 *.json
 *.log
 
+# Coverage report
+coverage.*
+
 # Ignore any binaries that are built
 bin/*

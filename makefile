@@ -39,3 +39,6 @@ test:
 
 codecov:
 	go test -v -coverprofile=coverage.txt -covermode=atomic ./...
+
+coverhtml: codecov
+	go tool cover -html=coverage.txt -o coverage.html
