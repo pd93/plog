@@ -102,10 +102,10 @@ func (logger *Logger) SetColorLogging(colorLogging bool) {
 // Write will add a log message to the logger
 func (logger *Logger) Write(log *Log) (err error) {
 
-	var message, body string
-
 	// Check if we need to log this message or not
 	if logger.LogLevel >= log.LogLevel {
+
+		var message string
 
 		switch logger.LogFormat {
 
@@ -137,13 +137,14 @@ func (logger *Logger) Write(log *Log) (err error) {
 				}
 			}
 
-			// Stringify the body
-			for _, item := range log.Body {
-				body += fmt.Sprintf(" %v", item)
+			// Stringify the variables
+			variables := make([]string, len(log.Body))
+			for i, variable := range log.Body {
+				variables[i] = fmt.Sprintf("%v", variable)
 			}
 
 			// Format the message
-			message = fmt.Sprintf("%s [%s] %s", timestamp, logLevel, body)
+			message = fmt.Sprintf("%s [%s] %s", timestamp, logLevel, strings.Join(variables, " "))
 
 		//
 		// JSON logger
