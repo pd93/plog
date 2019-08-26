@@ -18,79 +18,17 @@ A lightweight and feature rich logger for Golang.
   - `Text` - A pretty printed plaintext string with color support.
   - `JSON` - Each log gets stored as a JSON object to allow parsing and filtering.
   - `CSV` - Comma-separated values. Compatible with spreadsheets.
+- **And more to come! See our [Roadmap](https://github.com/pd93/plog/projects/1).**
+<!-- - **Log File Parser** #1 - No more nano or vim to read you logs. PLog include a binary to parse your logs, filter them and display them in a readable format. -->
+<!-- - **Log File Rotation** #2 - Plog can automatically generate and rotate log files. You can specify custom conditions for when these files should be rotated and how to name them. -->
+<!-- - **Custom Colors** #3 - Override the default colors for each logging level. -->
+<!-- - **Log Prefixes** #4 - A string to prepend to every message in a logger. Can be used to split up logs from different components of your code. -->
 
-## Roadmap
+## Documentation
 
-- **Log Reader** - No more nano or vim to read you logs. PLog include a binary to parse your logs, filter them and display them in a readable format.
-- **Log File Rotation** - Plog can automatically generate and rotate log files. You can specify custom conditions for when these files should be rotated and how to name them.
-- **Log Prefixes** - A string to prepend to every message in a logger. Can be used to split up logs from different components of your code.
-- **Custom Colors** - Override the default colors for each logging level.
-
-## Installation
-
-### Go Modules
-
-If you're using Go Modules (v1.12+), no installation is required. Once you've imported the package (see [usage](#usage)), PLog will be downloaded automatically when you build your software.
-
-### $GOPATH
-
-If you haven't migrated from `$GOPATH` to Go Modules yet, you will need to run the following command to download the package before it can be used.
-
-```sh
-$ go get -u gopkg.in/pd93/plog.v0
-```
-
-## Usage
-
-1. Import the package (aliasing to `log` is recommended)
-
-    ```go
-    import (
-        log "gopkg.in/pd93/plog.v0"
-    )
-    ```
-
-1. Create/open a log file
-
-    ```go
-	logFile, err := os.OpenFile("log.json", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		return err
-	}
-	defer logFile.Close()
-    ```
-
-1. Set up your loggers
-
-    ```go
-    // Standard logger
-	log.AddLogger("std", log.NewLogger())
-
-    // JSON file logger
-	log.AddLogger("json", log.NewJSONFileLogger(logFile))
-    ```
-
-1. Log things!
-
-    ```go
-    // Write to all loggers
-    log.Info("Starting process")
-    log.Debug(vars, to, debug)
-    log.Debugf("%.2f", num)
-
-    // Write to a specific logger
-    log.GetLogger("std").Info("Special log that only prints to stdout")
-    ```
-
-## Logger Config
-
-| Name              | Type             | Possible Values<br>(default in bold)
-|-------------------|------------------|---
-| `Output`          | `io.Writer`      | **`os.Stdout`**<br>`os.File`<br>`bytes.Buffer`<br>Any type that implements the `io.Writer` interface
-| `Loglevel`        | `plog.LogLevel`  | `plog.None`<br>`plog.FatalLevel`<br>`plog.ErrorLevel`<br>`plog.WarnLevel`<br>**`plog.InfoLevel`**<br>`plog.DebugLevel`<br>`plog.TraceLevel`
-| `LogFormat`       | `plog.LogFormat` | **`plog.TextFormat`**<br>`plog.JSONFormat`<br>`plog.CSVFormat`
-| `TimestampFormat` | `string`         | **`time.RFC3339`**<br>`"Mon Jan 2 15:04:05 -0700 MST 2006"`<br>See [`time.Format()` docs](https://golang.org/pkg/time/#Time.Format) for more information
-| `ColorLogging`    | `bool`           | **`false`**<br>**`true`** when  `LogLevel` set to `plog.TextFormat` |
+- **[GoDoc](https://godoc.org/gopkg.in/pd93/plog.v0)**
+- **[Wiki](https://github.com/pd93/plog/wiki)**
+- **[Releases/Changelog](https://github.com/pd93/plog/releases)**
 
 ## Credits
 
