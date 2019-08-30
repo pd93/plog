@@ -158,3 +158,45 @@ func Trace(variables ...interface{}) {
 func Tracef(format string, variables ...interface{}) {
 	loggers.write(newLogf(TraceLevel, format, variables...))
 }
+
+//
+// Convenience functions
+//
+
+// SetOutput will loop through all the loggers and set where the logs are being output to.
+// Examples include 'os.File', 'os.Stdout', 'bytes.Buffer' or any other writer.
+func SetOutput(output io.Writer) {
+	for _, logger := range loggers {
+		logger.SetOutput(output)
+	}
+}
+
+// SetLogLevel will loop through all the loggers and set the level of the log message
+func SetLogLevel(logLevel LogLevel) {
+	for _, logger := range loggers {
+		logger.SetLogLevel(logLevel)
+	}
+}
+
+// SetLogFormat will loop through all the loggers and set the format of the log message
+func SetLogFormat(logFormat LogFormat) {
+	for _, logger := range loggers {
+		logger.SetLogFormat(logFormat)
+	}
+}
+
+// SetTimestampFormat will loop through all the loggers and set the timestampFormat setting
+// The default format is 'time.RFC3339'.
+// You can find the documentation on time formatting in Golang here: https://golang.org/pkg/time/#Time.Format
+func SetTimestampFormat(timestampFormat string) {
+	for _, logger := range loggers {
+		logger.SetTimestampFormat(timestampFormat)
+	}
+}
+
+// SetColorLogging will loop through all the loggers and enable/disable colored logging.
+func SetColorLogging(colorLogging bool) {
+	for _, logger := range loggers {
+		logger.SetColorLogging(colorLogging)
+	}
+}

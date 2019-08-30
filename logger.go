@@ -49,7 +49,7 @@ func (logger *Logger) ColorLogging() bool {
 //
 
 // SetOutput allows you to change where the logs are being output to.
-// Examples include 'os.File', 'os.Stdout', 'os.Stderr', 'os.Stdin' or any other writer.
+// Examples include 'os.File', 'os.Stdout', 'bytes.Buffer' or any other writer.
 func (logger *Logger) SetOutput(output io.Writer) {
 	logger.output = output
 }
