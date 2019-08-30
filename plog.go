@@ -94,6 +94,11 @@ func Fatal(err error) {
 	loggers.write(newLogf(FatalLevel, "%v", err))
 }
 
+// Fatalf will print a formatted, non-fatal error message
+func Fatalf(format string, err error) {
+	loggers.write(newLogf(FatalLevel, format, err))
+}
+
 //
 // Error logging (Level 2)
 //
@@ -101,6 +106,11 @@ func Fatal(err error) {
 // Error will print a non-fatal error message to all loggers
 func Error(err error) {
 	loggers.write(newLogf(ErrorLevel, "%v", err))
+}
+
+// Errorf will print a formatted, non-fatal error message
+func Errorf(format string, err error) {
+	loggers.write(newLogf(ErrorLevel, format, err))
 }
 
 //
