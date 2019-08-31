@@ -71,11 +71,16 @@ func (w *Writer) Flush() (n int, err error) {
 		return
 	}
 
-	// Reset the buffer and set the size back to zero
+	// Clear the buffer
 	w.buf.Reset()
-	w.size = 0
 
 	return
+}
+
+// Reset will clear the buffer and set the size back to zero
+func (w *Writer) Reset() {
+	w.buf.Reset()
+	w.size = 0
 }
 
 // String returns the contents of the unwritten buffer as a string
