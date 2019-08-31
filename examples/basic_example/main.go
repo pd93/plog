@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"os"
 
 	log "gopkg.in/pd93/plog.v0"
 )
@@ -16,23 +15,23 @@ func main() {
 func plog() (err error) {
 
 	// Open a JSON file
-	jsonFile, err := os.OpenFile("log.json", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	jsonWriter, err := log.NewWriter("log.json")
 	if err != nil {
 		return err
 	}
-	defer jsonFile.Close()
+	defer jsonWriter.Close()
 
 	// Open a CSV file
-	csvFile, err := os.OpenFile("log.csv", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	csvWriter, err := log.NewWriter("log.csv")
 	if err != nil {
 		return err
 	}
-	defer csvFile.Close()
+	defer csvWriter.Close()
 
 	// Create some loggers
 	log.AddLogger("std", log.NewLogger())
-	log.AddLogger("json", log.NewJSONFileLogger(jsonFile))
-	log.AddLogger("csv", log.NewCSVFileLogger(csvFile))
+	log.AddLogger("json", log.NewJSONFileLogger(jsonWriter))
+	log.AddLogger("csv", log.NewCSVFileLogger(csvWriter))
 
 	// Write to all loggers
 	log.Fatal(errors.New("Fatal log"))
