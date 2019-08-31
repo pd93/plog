@@ -20,6 +20,13 @@ version:
 	@echo $(VERSION)
 
 #
+# Cleaners
+#
+
+clean:
+	rm -f *.csv *.json *.log
+
+#
 # Builders
 #
 
