@@ -3,7 +3,9 @@ package plog
 import (
 	"fmt"
 	"io"
+	"os"
 	"strings"
+	"time"
 )
 
 // A Logger is a channel for writing logs
@@ -14,6 +16,50 @@ type Logger struct {
 	timestampFormat string
 	colorLogging    bool
 	colorMap        ColorMap
+}
+
+//
+// Constructors
+//
+
+// NewLogger creates and returns an instance of Logger with the default variables
+func NewLogger() *Logger {
+	return &Logger{
+		output:          os.Stdout,
+		logLevel:        InfoLevel,
+		logFormat:       TextFormat,
+		timestampFormat: time.RFC3339,
+		colorLogging:    true,
+		colorMap:        NewColorMap(),
+	}
+}
+
+// NewJSONFileLogger creates and returns an instance of Logger which will write to the specified file
+// The log level is set to TraceLevel (log everything) and color logging is disabled
+// The logs will be written in JSON format, but the file does not need to end in '.json'
+func NewJSONFileLogger(output io.Writer) *Logger {
+	return &Logger{
+		output:          output,
+		logLevel:        TraceLevel,
+		logFormat:       JSONFormat,
+		timestampFormat: time.RFC3339,
+		colorLogging:    false,
+		colorMap:        NewColorMap(),
+	}
+}
+
+// NewCSVFileLogger creates and returns an instance of Logger which will write to the specified file
+// The log level is set to TraceLevel (log everything) and color logging is disabled
+// The logs will be written in CSV format, but the file does not need to end in '.csv'
+func NewCSVFileLogger(output io.Writer) *Logger {
+	return &Logger{
+		output:          output,
+		logLevel:        TraceLevel,
+		logFormat:       CSVFormat,
+		timestampFormat: time.RFC3339,
+		colorLogging:    false,
+		colorMap:        NewColorMap(),
+	}
 }
 
 //
