@@ -6,7 +6,7 @@ A lightweight and feature rich logger for Golang.
 
 [![Travis](https://img.shields.io/travis/pd93/plog/master?style=for-the-badge)](https://travis-ci.org/pd93/plog)
 [![Codecov](https://img.shields.io/codecov/c/github/pd93/plog?style=for-the-badge)](https://codecov.io/gh/pd93/plog)
-[![Release](https://img.shields.io/github/v/release/pd93/plog?style=for-the-badge)](https://github.com/pd93/plog/releases)
+[![Release](https://img.shields.io/github/v/release/pd93/plog?include_prereleases&style=for-the-badge)](https://github.com/pd93/plog/releases)
 [![GoDoc](https://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge)](https://godoc.org/gopkg.in/pd93/plog.v0)
 [![Licence](https://img.shields.io/github/license/pd93/plog?style=for-the-badge)](https://github.com/pd93/plog/blob/master/LICENSE)
 
@@ -23,6 +23,7 @@ A lightweight and feature rich logger for Golang.
 <!-- - **Log File Rotation** #2 - Plog can automatically generate and rotate log files. You can specify custom conditions for when these files should be rotated and how to name them. -->
 <!-- - **Custom Colors** #3 - Override the default colors for each logging level. -->
 <!-- - **Log Prefixes** #4 - A string to prepend to every message in a logger. Can be used to split up logs from different components of your code. -->
+<!-- - **Logs Tags** - Tag a log with some meta information and then search for these tags later -->
 
 ## Documentation
 
