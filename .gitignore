@@ -1,0 +1,11 @@
+# Ignore generated log files
+*.txt
+*.log
+*.json
+*.csv
+
+# Coverage report
+coverage.*
+
+# Ignore any binaries that are built
+bin/*
