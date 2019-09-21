@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.0
+
+- Added custom color map support
+
 ## v0.1.0
 
 - Added file writer wrapper
