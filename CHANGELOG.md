@@ -2,22 +2,18 @@
 
 ## v0.1.0
 
+- Added file writer wrapper
 - Added color logging support
-- Added top-level functions:
-  - `AddLogger`
-  - `AddStdLogger`
-  - `Fatal`
-  - `Error`
+- Added examples:
+  - `basic_example` - A simple stdout logger
+  - `file_example` - Log to a stdout *and* multiple files
+- Added top-level and logger-level functions:
+  - `Fatal` & `Fatalf`
+  - `Error` & `Errorf`
   - `Warn` & `Warnf`
   - `Info` & `Infof`
   - `Debug` & `Debugf`
   - `Trace` & `Tracef`
-- Added types:
-  - [`Log`](https://godoc.org/gopkg.in/pd93/plog.v0#Log)
-  - [`Logger`](https://godoc.org/gopkg.in/pd93/plog.v0#Logger)
-  - [`LogLevel`](https://godoc.org/gopkg.in/pd93/plog.v0#LogLevel)
-  - [`LogFormat`](https://godoc.org/gopkg.in/pd93/plog.v0#LogFormat)
-  - [`Config`](https://godoc.org/gopkg.in/pd93/plog.v0#Config)
 - Added a [`makefile`](./makefile)
   - Versioning
   - Build/install targets
