@@ -13,6 +13,7 @@ type Logger struct {
 	logFormat       LogFormat
 	timestampFormat string
 	colorLogging    bool
+	colorMap        ColorMap
 }
 
 //
@@ -42,6 +43,11 @@ func (logger *Logger) TimestampFormat() string {
 // ColorLogging will return whether or not color logging is enabled
 func (logger *Logger) ColorLogging() bool {
 	return logger.colorLogging
+}
+
+// ColorMap will return the logger's text attributes for each log level
+func (logger *Logger) ColorMap() ColorMap {
+	return logger.colorMap
 }
 
 //
@@ -74,6 +80,11 @@ func (logger *Logger) SetTimestampFormat(timestampFormat string) {
 // SetColorLogging will enable/disable colored logging.
 func (logger *Logger) SetColorLogging(colorLogging bool) {
 	logger.colorLogging = colorLogging
+}
+
+// SetColorMap set the colors for each log level.
+func (logger *Logger) SetColorMap(colorMap ColorMap) {
+	logger.colorMap = colorMap
 }
 
 //
@@ -177,18 +188,9 @@ func (logger *Logger) write(l *log) {
 		// Check if colored logging is enabled
 		if logger.colorLogging {
 
-			// Set the color of the text
-			switch l.logLevel {
-			case ErrorLevel, FatalLevel:
-				logLevel = color(logLevel, FgRed)
-			case WarnLevel:
-				logLevel = color(logLevel, FgYellow)
-			case InfoLevel:
-				logLevel = color(logLevel, FgGreen)
-			case DebugLevel:
-				logLevel = color(logLevel, FgCyan)
-			case TraceLevel:
-				logLevel = color(logLevel, FgBlue)
+			// If there is an entry for the log level in the color map, colour it in
+			if attributes, ok := logger.colorMap[l.logLevel]; ok {
+				logLevel = color(logLevel, attributes...)
 			}
 		}
 
