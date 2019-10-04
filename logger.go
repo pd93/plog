@@ -305,28 +305,6 @@ func (logger *Logger) write(l *log) {
 		timestamp := l.timestamp.Format(logger.timestampFormat)
 		logLevel := strings.ToUpper(l.logLevel.String())
 
-		var tags string
-		switch logger.logFormat {
-		case TextFormat:
-			tags = l.tags.Text()
-		case JSONFormat:
-			tags = l.tags.JSON()
-		case CSVFormat:
-			tags = l.tags.CSV()
-		}
-
-		// Check if colored logging is enabled
-		if logger.colorLogging {
-
-			// If there is an entry for the log level in the color map, colour it in
-			if attributes, ok := logger.colorMap[l.logLevel]; ok {
-				logLevel = color(logLevel, attributes...)
-			}
-
-			// Color the tags in grey
-			tags = color(tags, FgWhite, Faint)
-		}
-
 		// Stringify the variables
 		variables := make([]string, len(l.variables))
 		for i, variable := range l.variables {
@@ -334,18 +312,34 @@ func (logger *Logger) write(l *log) {
 		}
 		message := strings.Join(variables, " ")
 
-		// Create the output string
+		// Check if colored logging is enabled
+		if logger.colorLogging {
+
+			var attributes []Attribute
+			var ok bool
+
+			// If there is an entry for the log level in the color map, colour it in
+			if attributes, ok = logger.colorMap[l.logLevel]; ok {
+				logLevel = color(logLevel, attributes...)
+			}
+		}
+
+		var tags string
 		var outputString string
 
+		// Create the output string
 		switch logger.logFormat {
 
 		case TextFormat:
+			tags = l.tags.Text(logger.colorLogging, logger.tagColorMap)
 			outputString = fmt.Sprintf("%s [%s] %s %s", timestamp, logLevel, message, tags)
 
 		case JSONFormat:
+			tags = l.tags.JSON(logger.colorLogging, logger.tagColorMap)
 			outputString = fmt.Sprintf(`{ "timestamp": "%s", "logLevel": "%s", "message": "%s", "tags": %s] }`, timestamp, logLevel, message, tags)
 
 		case CSVFormat:
+			tags = l.tags.CSV(logger.colorLogging, logger.tagColorMap)
 			outputString = fmt.Sprintf(`%s,%s,%s,%s`, timestamp, logLevel, message, tags)
 		}
 
