@@ -45,5 +45,5 @@ func newTLog(logLevel LogLevel, tags Tags, variables ...interface{}) *log {
 // You can send any number of variables to this function and they will be printed according to the format specified
 // A timestamp is also generated and stored
 func newTLogf(level LogLevel, tags Tags, format string, variables ...interface{}) *log {
-	return newLog(level, tags, fmt.Sprintf(format, variables...))
+	return newTLog(level, tags, fmt.Sprintf(format, variables...))
 }
