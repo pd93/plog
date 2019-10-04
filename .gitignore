@@ -1,8 +1,8 @@
 # Ignore generated log files
-*.txt
 *.log
-*.json
-*.csv
+log.txt
+log.json
+log.csv
 
 # Coverage report
 coverage.*
