@@ -10,12 +10,13 @@ import (
 
 // A Logger is a channel for writing logs
 type Logger struct {
-	output          io.Writer
-	logLevel        LogLevel
-	logFormat       LogFormat
-	timestampFormat string
-	colorLogging    bool
-	colorMap        ColorMap
+	output           io.Writer
+	logLevel         LogLevel
+	logFormat        LogFormat
+	timestampFormat  string
+	colorLogging     bool
+	logLevelColorMap LogLevelColorMap
+	tagColorMap      TagColorMap
 }
 
 //
@@ -25,12 +26,13 @@ type Logger struct {
 // NewLogger creates and returns an instance of Logger with the default variables
 func NewLogger() *Logger {
 	return &Logger{
-		output:          os.Stdout,
-		logLevel:        InfoLevel,
-		logFormat:       TextFormat,
-		timestampFormat: time.RFC3339,
-		colorLogging:    true,
-		colorMap:        NewColorMap(),
+		output:           os.Stdout,
+		logLevel:         InfoLevel,
+		logFormat:        TextFormat,
+		timestampFormat:  time.RFC3339,
+		colorLogging:     true,
+		logLevelColorMap: NewLogLevelColorMap(),
+		tagColorMap:      NewTagColorMap(),
 	}
 }
 
@@ -39,12 +41,13 @@ func NewLogger() *Logger {
 // The logs will be written in JSON format, but the file does not need to end in '.json'
 func NewJSONFileLogger(output io.Writer) *Logger {
 	return &Logger{
-		output:          output,
-		logLevel:        TraceLevel,
-		logFormat:       JSONFormat,
-		timestampFormat: time.RFC3339,
-		colorLogging:    false,
-		colorMap:        NewColorMap(),
+		output:           output,
+		logLevel:         TraceLevel,
+		logFormat:        JSONFormat,
+		timestampFormat:  time.RFC3339,
+		colorLogging:     false,
+		logLevelColorMap: NewLogLevelColorMap(),
+		tagColorMap:      NewTagColorMap(),
 	}
 }
 
@@ -53,12 +56,13 @@ func NewJSONFileLogger(output io.Writer) *Logger {
 // The logs will be written in CSV format, but the file does not need to end in '.csv'
 func NewCSVFileLogger(output io.Writer) *Logger {
 	return &Logger{
-		output:          output,
-		logLevel:        TraceLevel,
-		logFormat:       CSVFormat,
-		timestampFormat: time.RFC3339,
-		colorLogging:    false,
-		colorMap:        NewColorMap(),
+		output:           output,
+		logLevel:         TraceLevel,
+		logFormat:        CSVFormat,
+		timestampFormat:  time.RFC3339,
+		colorLogging:     false,
+		logLevelColorMap: NewLogLevelColorMap(),
+		tagColorMap:      NewTagColorMap(),
 	}
 }
 
@@ -91,9 +95,14 @@ func (logger *Logger) ColorLogging() bool {
 	return logger.colorLogging
 }
 
-// ColorMap will return the logger's text attributes for each log level
-func (logger *Logger) ColorMap() ColorMap {
-	return logger.colorMap
+// LogLevelColorMap will return the logger's text attributes for each log level
+func (logger *Logger) LogLevelColorMap() LogLevelColorMap {
+	return logger.logLevelColorMap
+}
+
+// TagColorMap will return the logger's text attributes for each tag
+func (logger *Logger) TagColorMap() TagColorMap {
+	return logger.tagColorMap
 }
 
 //
@@ -128,9 +137,14 @@ func (logger *Logger) SetColorLogging(colorLogging bool) {
 	logger.colorLogging = colorLogging
 }
 
-// SetColorMap set the colors for each log level.
-func (logger *Logger) SetColorMap(colorMap ColorMap) {
-	logger.colorMap = colorMap
+// SetLogLevelColorMap set the colors for each log level.
+func (logger *Logger) SetLogLevelColorMap(logLevelColorMap LogLevelColorMap) {
+	logger.logLevelColorMap = logLevelColorMap
+}
+
+// SetTagColorMap set the colors for each tag.
+func (logger *Logger) SetTagColorMap(tagColorMap TagColorMap) {
+	logger.tagColorMap = tagColorMap
 }
 
 //
@@ -147,6 +161,16 @@ func (logger *Logger) Fatalf(format string, err error) {
 	logger.write(newLogf(FatalLevel, format, err))
 }
 
+// TFatal will print a fatal error message and meta-tag the log
+func (logger *Logger) TFatal(tags Tags, err error) {
+	logger.write(newTLogf(FatalLevel, tags, "%v", err))
+}
+
+// TFatalf will print a formatted, fatal error message and meta-tag the log
+func (logger *Logger) TFatalf(tags Tags, format string, err error) {
+	logger.write(newTLogf(FatalLevel, tags, format, err))
+}
+
 //
 // Error logging (Level 2)
 //
@@ -159,6 +183,16 @@ func (logger *Logger) Error(err error) {
 // Errorf will print a formatted, non-fatal error message
 func (logger *Logger) Errorf(format string, err error) {
 	logger.write(newLogf(ErrorLevel, format, err))
+}
+
+// TError will print a non-fatal error message and meta-tag the log
+func (logger *Logger) TError(tags Tags, err error) {
+	logger.write(newTLogf(ErrorLevel, tags, "%v", err))
+}
+
+// TErrorf will print a formatted, non-fatal error message and meta-tag the log
+func (logger *Logger) TErrorf(tags Tags, format string, err error) {
+	logger.write(newTLogf(ErrorLevel, tags, format, err))
 }
 
 //
@@ -175,6 +209,16 @@ func (logger *Logger) Warnf(format string, variables ...interface{}) {
 	logger.write(newLogf(WarnLevel, format, variables...))
 }
 
+// TWarn will print any number of variables at warn level and meta-tag the log
+func (logger *Logger) TWarn(tags Tags, variables ...interface{}) {
+	logger.write(newTLog(WarnLevel, tags, variables...))
+}
+
+// TWarnf will print a formatted message at warn level and meta-tag the log
+func (logger *Logger) TWarnf(tags Tags, format string, variables ...interface{}) {
+	logger.write(newTLogf(WarnLevel, tags, format, variables...))
+}
+
 //
 // Info logging (Level 4)
 //
@@ -187,6 +231,16 @@ func (logger *Logger) Info(variables ...interface{}) {
 // Infof will print a formatted message at info level
 func (logger *Logger) Infof(format string, variables ...interface{}) {
 	logger.write(newLogf(InfoLevel, format, variables...))
+}
+
+// TInfo will print any number of variables at info level and meta-tag the log
+func (logger *Logger) TInfo(tags Tags, variables ...interface{}) {
+	logger.write(newTLog(InfoLevel, tags, variables...))
+}
+
+// TInfof will print a formatted message at info level and meta-tag the log
+func (logger *Logger) TInfof(tags Tags, format string, variables ...interface{}) {
+	logger.write(newTLogf(InfoLevel, tags, format, variables...))
 }
 
 //
@@ -203,6 +257,16 @@ func (logger *Logger) Debugf(format string, variables ...interface{}) {
 	logger.write(newLogf(DebugLevel, format, variables...))
 }
 
+// TDebug will print any number of variables at debug level and meta-tag the log
+func (logger *Logger) TDebug(tags Tags, variables ...interface{}) {
+	logger.write(newTLog(DebugLevel, tags, variables...))
+}
+
+// TDebugf will print a formatted message at debug level and meta-tag the log
+func (logger *Logger) TDebugf(tags Tags, format string, variables ...interface{}) {
+	logger.write(newTLogf(DebugLevel, tags, format, variables...))
+}
+
 //
 // Trace logging (Level 6)
 //
@@ -217,6 +281,16 @@ func (logger *Logger) Tracef(format string, variables ...interface{}) {
 	logger.write(newLogf(TraceLevel, format, variables...))
 }
 
+// TTrace will print any number of variables at trace level and meta-tag the log
+func (logger *Logger) TTrace(tags Tags, variables ...interface{}) {
+	logger.write(newTLog(TraceLevel, tags, variables...))
+}
+
+// TTracef will print a formatted message at trace level and meta-tag the log
+func (logger *Logger) TTracef(tags Tags, format string, variables ...interface{}) {
+	logger.write(newTLogf(TraceLevel, tags, format, variables...))
+}
+
 //
 // Writer
 //
@@ -229,16 +303,7 @@ func (logger *Logger) write(l *log) {
 
 		// Render the timestamp and log level strings
 		timestamp := l.timestamp.Format(logger.timestampFormat)
-		logLevel := strings.ToUpper(l.logLevel.String())
-
-		// Check if colored logging is enabled
-		if logger.colorLogging {
-
-			// If there is an entry for the log level in the color map, colour it in
-			if attributes, ok := logger.colorMap[l.logLevel]; ok {
-				logLevel = color(logLevel, attributes...)
-			}
-		}
+		logLevel := l.logLevel.text(logger.colorLogging, logger.logLevelColorMap)
 
 		// Stringify the variables
 		variables := make([]string, len(l.variables))
@@ -247,19 +312,23 @@ func (logger *Logger) write(l *log) {
 		}
 		message := strings.Join(variables, " ")
 
-		// Create the output string
+		var tags string
 		var outputString string
 
+		// Create the output string
 		switch logger.logFormat {
 
 		case TextFormat:
-			outputString = fmt.Sprintf("%s [%s] %s", timestamp, logLevel, message)
+			tags = l.tags.text(logger.colorLogging, logger.tagColorMap)
+			outputString = fmt.Sprintf("%s [%s] %s %s", timestamp, logLevel, message, tags)
 
 		case JSONFormat:
-			outputString = fmt.Sprintf(`{ "timestamp": "%s", "logLevel": "%s", "message": "%s" }`, timestamp, logLevel, message)
+			tags = l.tags.json(logger.colorLogging, logger.tagColorMap)
+			outputString = fmt.Sprintf(`{ "timestamp": "%s", "logLevel": "%s", "message": "%s", "tags": %s }`, timestamp, logLevel, message, tags)
 
 		case CSVFormat:
-			outputString = fmt.Sprintf(`%s,%s,%s`, timestamp, logLevel, message)
+			tags = l.tags.csv(logger.colorLogging, logger.tagColorMap)
+			outputString = fmt.Sprintf(`%s,%s,%s,%s`, timestamp, logLevel, message, tags)
 		}
 
 		// Print the message to the output writer

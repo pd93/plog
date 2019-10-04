@@ -20,23 +20,32 @@ const (
 	TraceLevel
 )
 
-func (logLevel LogLevel) String() string {
+// text will stringify the log level into a readable format
+func (logLevel LogLevel) text(colorLogging bool, logLevelColorMap LogLevelColorMap) (str string) {
+
 	switch logLevel {
 	case None:
-		return "None"
+		str = "NONE"
 	case FatalLevel:
-		return "Fatal"
+		str = "FATAL"
 	case ErrorLevel:
-		return "Error"
+		str = "ERROR"
 	case WarnLevel:
-		return "Warn"
+		str = "WARN"
 	case InfoLevel:
-		return "Info"
+		str = "INFO"
 	case DebugLevel:
-		return "Debug"
+		str = "DEBUG"
 	case TraceLevel:
-		return "Trace"
+		str = "TRACE"
 	default:
 		return ""
 	}
+
+	// Check if color logging is enabled and whether there is a color for this log level in the map
+	if attributes, ok := logLevelColorMap[logLevel]; ok && colorLogging {
+		return color(str, attributes...)
+	}
+
+	return
 }
