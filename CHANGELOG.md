@@ -1,8 +1,15 @@
 # Changelog
 
+## v0.3.0
+
+- [#5] Added ability to add meta-tags to logs
+- Added custom tag color map support
+
 ## v0.2.0
 
-- [#3] Added custom color map support
+- [#3] Added custom log level color map support
+- Added examples:
+  - `color_example` - Change the default color map
 - Added some launch configurations for debugging
 
 ## v0.1.0
