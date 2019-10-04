@@ -46,6 +46,15 @@
             "program": "${workspaceFolder}/examples/file_example",
             "env": {},
             "args": []
+        },
+        {
+            "name": "Tag Example",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/examples/tag_example",
+            "env": {},
+            "args": []
         }
     ]
 }

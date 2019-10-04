@@ -4,6 +4,8 @@
 
 - [#5] Added ability to add meta-tags to logs
 - Added custom tag color map support
+- Added examples:
+  - `tag_example` - Add meta-tags to logs
 
 ## v0.2.0
 
