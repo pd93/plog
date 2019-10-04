@@ -23,6 +23,13 @@ func newLog(logLevel LogLevel, variables ...interface{}) *log {
 	}
 }
 
+// newLogf creates a new instance of log and populates it with a log level and a formatted message
+// You can send any number of variables to this function and they will be printed according to the format specified
+// A timestamp is also generated and stored
+func newLogf(level LogLevel, format string, variables ...interface{}) *log {
+	return newLog(level, fmt.Sprintf(format, variables...))
+}
+
 // newTLog creates a new instance of log and populates it with a log level, a message and a series of meta-tags
 // A timestamp is also generated and stored
 func newTLog(logLevel LogLevel, tags Tags, variables ...interface{}) *log {
@@ -32,13 +39,6 @@ func newTLog(logLevel LogLevel, tags Tags, variables ...interface{}) *log {
 		timestamp: time.Now(),
 		tags:      tags,
 	}
-}
-
-// newLogf creates a new instance of log and populates it with a log level and a formatted message
-// You can send any number of variables to this function and they will be printed according to the format specified
-// A timestamp is also generated and stored
-func newLogf(level LogLevel, format string, variables ...interface{}) *log {
-	return newLog(level, fmt.Sprintf(format, variables...))
 }
 
 // newTLogf creates a new instance of log and populates it with a log level, a formatted message and a series of meta-tags
