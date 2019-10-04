@@ -2,15 +2,17 @@
 
 ## v0.3.0
 
-- [#5] Added ability to add meta-tags to logs
-- Added custom tag color map support
-- Added examples:
-  - `tag_example` - Add meta-tags to logs
+**Added:**
+
+- [#5] Log tag support
+- Custom tag color map support
+- Examples:
+  - [`tag_example`](./examples/tag_example/main.go) - Add meta-tags to logs
 
 **Changes:**
 
 - Examples:
-  - `color_example` - Added tag color example
+  - [`color_example`](./examples/color_example/main.go) - Added tag color example
 
 **Breaking Changes:**
 
@@ -19,27 +21,31 @@
 
 ## v0.2.0
 
-- [#3] Added custom log level color map support
-- Added examples:
-  - `color_example` - Change the default color map
-- Added some launch configurations for debugging
+**Added:**
+
+- [#3] Custom log level color map support
+- Examples:
+  - [`color_example`](./examples/color_example/main.go) - Change the default colors
+- Launch configurations for debugging
 
 ## v0.1.0
 
-- Added file writer wrapper
-- Added color logging support
-- Added examples:
-  - `basic_example` - A simple stdout logger
-  - `file_example` - Log to a stdout *and* multiple files
-- Added top-level and logger-level functions:
+**Added:**
+
+- File writer wrapper
+- Color logging support
+- Examples:
+  - [`basic_example`](./examples/basic_example/main.go) - A simple stdout logger
+  - [`file_example`](./examples/file_example/main.go) - Log to a stdout *and* multiple files
+- Top-level and logger-level functions:
   - `Fatal` & `Fatalf`
   - `Error` & `Errorf`
   - `Warn` & `Warnf`
   - `Info` & `Infof`
   - `Debug` & `Debugf`
   - `Trace` & `Tracef`
-- Added a [`makefile`](./makefile)
+- [`makefile`](./makefile)
   - Versioning
   - Build/install targets
   - Test/coverage targets
-- Integrated with [Travis CI](https://travis-ci.org/pd93/plog) and [CodeCov](https://codecov.io/gh/pd93/plog)
+- Integration with [Travis CI](https://travis-ci.org/pd93/plog) and [CodeCov](https://codecov.io/gh/pd93/plog)
