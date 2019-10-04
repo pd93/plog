@@ -18,12 +18,8 @@ A lightweight and feature rich logger for Golang.
   - `Text` - A pretty printed plaintext string with color support.
   - `JSON` - Each log gets stored as a JSON object to allow parsing and filtering.
   - `CSV` - Comma-separated values. Compatible with spreadsheets.
+- **Custom Colors** - Override the default colors for each logging level.
 - **And more to come! See our [Roadmap](https://github.com/pd93/plog/projects/1).**
-<!-- - **Log File Parser** #1 - No more nano or vim to read you logs. PLog include a binary to parse your logs, filter them and display them in a readable format. -->
-<!-- - **Log File Rotation** #2 - Plog can automatically generate and rotate log files. You can specify custom conditions for when these files should be rotated and how to name them. -->
-<!-- - **Custom Colors** #3 - Override the default colors for each logging level. -->
-<!-- - **Log Prefixes** #4 - A string to prepend to every message in a logger. Can be used to split up logs from different components of your code. -->
-<!-- - **Logs Tags** - Tag a log with some meta information and then search for these tags later -->
 
 ## Documentation
 

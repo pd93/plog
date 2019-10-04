@@ -2,7 +2,8 @@
 
 ## v0.2.0
 
-- Added custom color map support
+- [#3] Added custom color map support
+- Added some launch configurations for debugging
 
 ## v0.1.0
 
