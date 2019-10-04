@@ -27,12 +27,12 @@ func colorExample() (err error) {
 	stdLogger := log.GetLogger("std")
 
 	// Change the text attributes for fatal level logs
-	stdLogger.ColorMap().Set(log.FatalLevel, log.BgMagenta)
+	stdLogger.LogLevelColorMap().Set(log.FatalLevel, log.BgMagenta)
 	log.Fatal(errors.New("Fatal log"))
 
 	// Change all the colors!
 	// You can change other text attributes too, such as bold, underline and italics
-	stdLogger.SetColorMap(log.ColorMap{
+	stdLogger.SetLogLevelColorMap(log.LogLevelColorMap{
 		log.FatalLevel: []log.Attribute{log.FgRed, log.Underline},
 		log.ErrorLevel: []log.Attribute{log.FgRed},
 		log.WarnLevel:  []log.Attribute{log.FgYellow, log.Faint},

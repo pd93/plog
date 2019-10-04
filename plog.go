@@ -232,10 +232,10 @@ func SetColorLogging(colorLogging bool) {
 	}
 }
 
-// SetColorMap will loop through all the loggers and set the colors for each log level.
-func SetColorMap(colorMap ColorMap) {
+// SetLogLevelColorMap will loop through all the loggers and set the colors for each log level.
+func SetLogLevelColorMap(logLevelColorMap LogLevelColorMap) {
 	for _, logger := range loggers {
-		logger.SetColorMap(colorMap)
+		logger.SetLogLevelColorMap(logLevelColorMap)
 	}
 }
 

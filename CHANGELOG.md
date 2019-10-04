@@ -7,6 +7,11 @@
 - Added examples:
   - `tag_example` - Add meta-tags to logs
 
+**Breaking Changes:**
+
+- Renamed `ColorMap` -> `InfoLevelColorMap` to distiguish it from `TagColorMap`
+  - All methods with the phrase `ColorMap` in them are also renamed.
+
 ## v0.2.0
 
 - [#3] Added custom log level color map support

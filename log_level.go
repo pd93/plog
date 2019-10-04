@@ -21,7 +21,7 @@ const (
 )
 
 // text will stringify the log level into a readable format
-func (logLevel LogLevel) text(colorLogging bool, colorMap ColorMap) (str string) {
+func (logLevel LogLevel) text(colorLogging bool, logLevelColorMap LogLevelColorMap) (str string) {
 
 	switch logLevel {
 	case None:
@@ -43,7 +43,7 @@ func (logLevel LogLevel) text(colorLogging bool, colorMap ColorMap) (str string)
 	}
 
 	// Check if color logging is enabled and whether there is a color for this log level in the map
-	if attributes, ok := colorMap[logLevel]; ok && colorLogging {
+	if attributes, ok := logLevelColorMap[logLevel]; ok && colorLogging {
 		return color(str, attributes...)
 	}
 

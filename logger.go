@@ -10,13 +10,13 @@ import (
 
 // A Logger is a channel for writing logs
 type Logger struct {
-	output          io.Writer
-	logLevel        LogLevel
-	logFormat       LogFormat
-	timestampFormat string
-	colorLogging    bool
-	colorMap        ColorMap
-	tagColorMap     TagColorMap
+	output           io.Writer
+	logLevel         LogLevel
+	logFormat        LogFormat
+	timestampFormat  string
+	colorLogging     bool
+	logLevelColorMap LogLevelColorMap
+	tagColorMap      TagColorMap
 }
 
 //
@@ -26,13 +26,13 @@ type Logger struct {
 // NewLogger creates and returns an instance of Logger with the default variables
 func NewLogger() *Logger {
 	return &Logger{
-		output:          os.Stdout,
-		logLevel:        InfoLevel,
-		logFormat:       TextFormat,
-		timestampFormat: time.RFC3339,
-		colorLogging:    true,
-		colorMap:        NewColorMap(),
-		tagColorMap:     NewTagColorMap(),
+		output:           os.Stdout,
+		logLevel:         InfoLevel,
+		logFormat:        TextFormat,
+		timestampFormat:  time.RFC3339,
+		colorLogging:     true,
+		logLevelColorMap: NewLogLevelColorMap(),
+		tagColorMap:      NewTagColorMap(),
 	}
 }
 
@@ -41,13 +41,13 @@ func NewLogger() *Logger {
 // The logs will be written in JSON format, but the file does not need to end in '.json'
 func NewJSONFileLogger(output io.Writer) *Logger {
 	return &Logger{
-		output:          output,
-		logLevel:        TraceLevel,
-		logFormat:       JSONFormat,
-		timestampFormat: time.RFC3339,
-		colorLogging:    false,
-		colorMap:        NewColorMap(),
-		tagColorMap:     NewTagColorMap(),
+		output:           output,
+		logLevel:         TraceLevel,
+		logFormat:        JSONFormat,
+		timestampFormat:  time.RFC3339,
+		colorLogging:     false,
+		logLevelColorMap: NewLogLevelColorMap(),
+		tagColorMap:      NewTagColorMap(),
 	}
 }
 
@@ -56,13 +56,13 @@ func NewJSONFileLogger(output io.Writer) *Logger {
 // The logs will be written in CSV format, but the file does not need to end in '.csv'
 func NewCSVFileLogger(output io.Writer) *Logger {
 	return &Logger{
-		output:          output,
-		logLevel:        TraceLevel,
-		logFormat:       CSVFormat,
-		timestampFormat: time.RFC3339,
-		colorLogging:    false,
-		colorMap:        NewColorMap(),
-		tagColorMap:     NewTagColorMap(),
+		output:           output,
+		logLevel:         TraceLevel,
+		logFormat:        CSVFormat,
+		timestampFormat:  time.RFC3339,
+		colorLogging:     false,
+		logLevelColorMap: NewLogLevelColorMap(),
+		tagColorMap:      NewTagColorMap(),
 	}
 }
 
@@ -95,9 +95,9 @@ func (logger *Logger) ColorLogging() bool {
 	return logger.colorLogging
 }
 
-// ColorMap will return the logger's text attributes for each log level
-func (logger *Logger) ColorMap() ColorMap {
-	return logger.colorMap
+// LogLevelColorMap will return the logger's text attributes for each log level
+func (logger *Logger) LogLevelColorMap() LogLevelColorMap {
+	return logger.logLevelColorMap
 }
 
 // TagColorMap will return the logger's text attributes for each tag
@@ -137,9 +137,9 @@ func (logger *Logger) SetColorLogging(colorLogging bool) {
 	logger.colorLogging = colorLogging
 }
 
-// SetColorMap set the colors for each log level.
-func (logger *Logger) SetColorMap(colorMap ColorMap) {
-	logger.colorMap = colorMap
+// SetLogLevelColorMap set the colors for each log level.
+func (logger *Logger) SetLogLevelColorMap(logLevelColorMap LogLevelColorMap) {
+	logger.logLevelColorMap = logLevelColorMap
 }
 
 // SetTagColorMap set the colors for each tag.
@@ -303,7 +303,7 @@ func (logger *Logger) write(l *log) {
 
 		// Render the timestamp and log level strings
 		timestamp := l.timestamp.Format(logger.timestampFormat)
-		logLevel := l.logLevel.text(logger.colorLogging, logger.colorMap)
+		logLevel := l.logLevel.text(logger.colorLogging, logger.logLevelColorMap)
 
 		// Stringify the variables
 		variables := make([]string, len(l.variables))

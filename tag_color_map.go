@@ -8,7 +8,7 @@ type TagColorMap map[Tag][]Attribute
 //
 
 // NewTagColorMap creates and returns an instance of TagColorMap with the default values
-func NewTagColorMap() (tagColorMap TagColorMap) {
+func NewTagColorMap() TagColorMap {
 	return TagColorMap{}
 }
 
