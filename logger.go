@@ -303,7 +303,7 @@ func (logger *Logger) write(l *log) {
 
 		// Render the timestamp and log level strings
 		timestamp := l.timestamp.Format(logger.timestampFormat)
-		logLevel := strings.ToUpper(l.logLevel.String())
+		logLevel := l.logLevel.text(logger.colorLogging, logger.colorMap)
 
 		// Stringify the variables
 		variables := make([]string, len(l.variables))
@@ -311,18 +311,6 @@ func (logger *Logger) write(l *log) {
 			variables[i] = fmt.Sprintf("%v", variable)
 		}
 		message := strings.Join(variables, " ")
-
-		// Check if colored logging is enabled
-		if logger.colorLogging {
-
-			var attributes []Attribute
-			var ok bool
-
-			// If there is an entry for the log level in the color map, colour it in
-			if attributes, ok = logger.colorMap[l.logLevel]; ok {
-				logLevel = color(logLevel, attributes...)
-			}
-		}
 
 		var tags string
 		var outputString string
