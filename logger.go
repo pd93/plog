@@ -301,9 +301,8 @@ func (logger *Logger) write(l *log) {
 	// Check if we need to log this message or not
 	if logger.logLevel >= l.logLevel {
 
-		// Render the timestamp and log level strings
+		// Render the timestamp string
 		timestamp := l.timestamp.Format(logger.timestampFormat)
-		logLevel := l.logLevel.text(logger.colorLogging, logger.logLevelColorMap)
 
 		// Stringify the variables
 		variables := make([]string, len(l.variables))
@@ -319,14 +318,17 @@ func (logger *Logger) write(l *log) {
 		switch logger.logFormat {
 
 		case TextFormat:
+			logLevel := l.logLevel.text(logger.colorLogging, logger.logLevelColorMap)
 			tags = l.tags.text(logger.colorLogging, logger.tagColorMap)
 			outputString = fmt.Sprintf("%s [%s] %s %s", timestamp, logLevel, message, tags)
 
 		case JSONFormat:
+			logLevel := l.logLevel.json(logger.colorLogging, logger.logLevelColorMap)
 			tags = l.tags.json(logger.colorLogging, logger.tagColorMap)
-			outputString = fmt.Sprintf(`{ "timestamp": "%s", "logLevel": "%s", "message": "%s", "tags": %s }`, timestamp, logLevel, message, tags)
+			outputString = fmt.Sprintf(`{ "timestamp": "%s", "logLevel": %s, "message": "%s", "tags": %s }`, timestamp, logLevel, message, tags)
 
 		case CSVFormat:
+			logLevel := l.logLevel.csv(logger.colorLogging, logger.logLevelColorMap)
 			tags = l.tags.csv(logger.colorLogging, logger.tagColorMap)
 			outputString = fmt.Sprintf(`%s,%s,%s,%s`, timestamp, logLevel, message, tags)
 		}

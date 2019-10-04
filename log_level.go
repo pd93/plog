@@ -1,5 +1,7 @@
 package plog
 
+import "strconv"
+
 // LogLevel dictates when a logged message should be displayed or recorded
 type LogLevel int
 
@@ -20,32 +22,52 @@ const (
 	TraceLevel
 )
 
-// text will stringify the log level into a readable format
-func (logLevel LogLevel) text(colorLogging bool, logLevelColorMap LogLevelColorMap) (str string) {
-
+func (logLevel LogLevel) String() string {
 	switch logLevel {
 	case None:
-		str = "NONE"
+		return "NONE"
 	case FatalLevel:
-		str = "FATAL"
+		return "FATAL"
 	case ErrorLevel:
-		str = "ERROR"
+		return "ERROR"
 	case WarnLevel:
-		str = "WARN"
+		return "WARN"
 	case InfoLevel:
-		str = "INFO"
+		return "INFO"
 	case DebugLevel:
-		str = "DEBUG"
+		return "DEBUG"
 	case TraceLevel:
-		str = "TRACE"
+		return "TRACE"
 	default:
 		return ""
 	}
+}
+
+// text will stringify the log level into a readable format
+func (logLevel LogLevel) text(colorLogging bool, logLevelColorMap LogLevelColorMap) string {
+
+	// Check if color logging is enabled and whether there is a color for this log level in the map
+	if attributes, ok := logLevelColorMap[logLevel]; colorLogging && ok {
+		return color(logLevel.String(), attributes...)
+	}
+
+	return logLevel.String()
+}
+
+// json will stringify the tag into a quoted string and color it if necessary
+func (logLevel LogLevel) json(colorLogging bool, logLevelColorMap LogLevelColorMap) string {
 
 	// Check if color logging is enabled and whether there is a color for this log level in the map
 	if attributes, ok := logLevelColorMap[logLevel]; ok && colorLogging {
-		return color(str, attributes...)
+		return color(strconv.Quote(logLevel.String()), attributes...)
 	}
 
-	return
+	return strconv.Quote(logLevel.String())
+}
+
+// csv will stringify the tag and color it if necessary
+func (logLevel LogLevel) csv(colorLogging bool, logLevelColorMap LogLevelColorMap) string {
+
+	// CSV looks the same as text, so just call the text method
+	return logLevel.text(colorLogging, logLevelColorMap)
 }
