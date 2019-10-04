@@ -7,6 +7,11 @@
 - Added examples:
   - `tag_example` - Add meta-tags to logs
 
+**Changes:**
+
+- Examples:
+  - `color_example` - Added tag color example
+
 **Breaking Changes:**
 
 - Renamed `ColorMap` -> `InfoLevelColorMap` to distiguish it from `TagColorMap`
