@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"strings"
 	"time"
 )
 
@@ -301,40 +300,35 @@ func (logger *Logger) write(l *log) {
 	// Check if we need to log this message or not
 	if logger.logLevel >= l.logLevel {
 
+		var output string
+
 		// Render the timestamp string
 		timestamp := l.timestamp.Format(logger.timestampFormat)
-
-		// Stringify the variables
-		variables := make([]string, len(l.variables))
-		for i, variable := range l.variables {
-			variables[i] = fmt.Sprintf("%v", variable)
-		}
-		message := strings.Join(variables, " ")
-
-		var tags string
-		var outputString string
 
 		// Create the output string
 		switch logger.logFormat {
 
 		case TextFormat:
+			message := l.variables.text()
 			logLevel := l.logLevel.text(logger.colorLogging, logger.logLevelColorMap)
-			tags = l.tags.text(logger.colorLogging, logger.tagColorMap)
-			outputString = fmt.Sprintf("%s [%s] %s %s", timestamp, logLevel, message, tags)
+			tags := l.tags.text(logger.colorLogging, logger.tagColorMap)
+			output = fmt.Sprintf("%s [%s] %s %s", timestamp, logLevel, message, tags)
 
 		case JSONFormat:
+			message := l.variables.json()
 			logLevel := l.logLevel.json(logger.colorLogging, logger.logLevelColorMap)
-			tags = l.tags.json(logger.colorLogging, logger.tagColorMap)
-			outputString = fmt.Sprintf(`{ "timestamp": "%s", "logLevel": %s, "message": "%s", "tags": %s }`, timestamp, logLevel, message, tags)
+			tags := l.tags.json(logger.colorLogging, logger.tagColorMap)
+			output = fmt.Sprintf(`{ "timestamp": "%s", "logLevel": %s, "message": %s, "tags": %s }`, timestamp, logLevel, message, tags)
 
 		case CSVFormat:
+			message := l.variables.csv()
 			logLevel := l.logLevel.csv(logger.colorLogging, logger.logLevelColorMap)
-			tags = l.tags.csv(logger.colorLogging, logger.tagColorMap)
-			outputString = fmt.Sprintf(`%s,%s,%s,%s`, timestamp, logLevel, message, tags)
+			tags := l.tags.csv(logger.colorLogging, logger.tagColorMap)
+			output = fmt.Sprintf(`%s,%s,%s,%s`, timestamp, logLevel, message, tags)
 		}
 
 		// Print the message to the output writer
-		fmt.Fprintln(logger.output, outputString)
+		fmt.Fprintln(logger.output, output)
 	}
 
 	return

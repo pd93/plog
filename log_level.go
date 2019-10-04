@@ -54,7 +54,7 @@ func (logLevel LogLevel) text(colorLogging bool, logLevelColorMap LogLevelColorM
 	return logLevel.String()
 }
 
-// json will stringify the tag into a quoted string and color it if necessary
+// json will stringify the log level into a quoted string and color it if necessary
 func (logLevel LogLevel) json(colorLogging bool, logLevelColorMap LogLevelColorMap) string {
 
 	// Check if color logging is enabled and whether there is a color for this log level in the map
@@ -65,7 +65,7 @@ func (logLevel LogLevel) json(colorLogging bool, logLevelColorMap LogLevelColorM
 	return strconv.Quote(logLevel.String())
 }
 
-// csv will stringify the tag and color it if necessary
+// csv will stringify the log level and color it if necessary
 func (logLevel LogLevel) csv(colorLogging bool, logLevelColorMap LogLevelColorMap) string {
 
 	// CSV looks the same as text, so just call the text method
