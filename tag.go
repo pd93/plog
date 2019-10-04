@@ -3,65 +3,55 @@ package plog
 import (
 	"fmt"
 	"strconv"
-	"strings"
 )
 
 // A Tag is a metadata string that can be assigned to any log message
 type Tag string
 
-// Tags is a slice of Tag
-type Tags []Tag
+// text will stringify the tag into a readable format and color it if necessary
+func (tag Tag) text(colorLogging bool, tagColorMap TagColorMap) string {
 
-// Text will stringify the tags into a readable format
-func (tags Tags) Text(colorLogging bool, tagColorMap TagColorMap) string {
-
-	strSlice := make([]string, len(tags))
-
-	for i, tag := range tags {
-		if attributes, ok := tagColorMap[tag]; colorLogging && ok {
-			strSlice[i] = color(fmt.Sprintf("#%s", tag), attributes...)
-		} else if colorLogging {
-			strSlice[i] = color(fmt.Sprintf("#%s", tag), FgWhite, Faint)
-		} else {
-			strSlice[i] = fmt.Sprintf("#%s", tag)
-		}
+	// Check if color logging is enabled and whether there is a color for this tag in the map
+	if attributes, ok := tagColorMap[tag]; colorLogging && ok {
+		return color(fmt.Sprintf("#%s", tag), attributes...)
 	}
 
-	return strings.Join(strSlice, " ")
+	// If there is no entry in the map, but color logging is still enabled
+	if colorLogging {
+		return color(fmt.Sprintf("#%s", tag), FgWhite, Faint)
+	}
+
+	return fmt.Sprintf("#%s", tag)
 }
 
-// JSON will stringify the tags into a JSON array
-func (tags Tags) JSON(colorLogging bool, tagColorMap TagColorMap) string {
+// json will stringify the tag into a quoted string and color it if necessary
+func (tag Tag) json(colorLogging bool, tagColorMap TagColorMap) string {
 
-	strSlice := make([]string, len(tags))
-
-	for i, tag := range tags {
-		if attributes, ok := tagColorMap[tag]; colorLogging && ok {
-			strSlice[i] = color(strconv.Quote(string(tag)), attributes...)
-		} else if colorLogging {
-			strSlice[i] = color(strconv.Quote(string(tag)), FgWhite, Faint)
-		} else {
-			strSlice[i] = strconv.Quote(string(tag))
-		}
+	// Check if color logging is enabled and whether there is a color for this tag in the map
+	if attributes, ok := tagColorMap[tag]; colorLogging && ok {
+		return color(strconv.Quote(string(tag)), attributes...)
 	}
 
-	return fmt.Sprintf(`[ %s ]`, strings.Join(strSlice, ", "))
+	// If there is no entry in the map, but color logging is still enabled
+	if colorLogging {
+		return color(strconv.Quote(string(tag)), FgWhite, Faint)
+	}
+
+	return strconv.Quote(string(tag))
 }
 
-// CSV will stringify the tags into a CSV compatible string
-func (tags Tags) CSV(colorLogging bool, tagColorMap TagColorMap) string {
+// csv will stringify the tag and color it if necessary
+func (tag Tag) csv(colorLogging bool, tagColorMap TagColorMap) string {
 
-	strSlice := make([]string, len(tags))
-
-	for i, tag := range tags {
-		if attributes, ok := tagColorMap[tag]; colorLogging && ok {
-			strSlice[i] = color(string(tag), attributes...)
-		} else if colorLogging {
-			strSlice[i] = color(string(tag), FgWhite, Faint)
-		} else {
-			strSlice[i] = string(tag)
-		}
+	// Check if color logging is enabled and whether there is a color for this tag in the map
+	if attributes, ok := tagColorMap[tag]; colorLogging && ok {
+		return color(string(tag), attributes...)
 	}
 
-	return strings.Join(strSlice, ":")
+	// If there is no entry in the map, but color logging is still enabled
+	if colorLogging {
+		return color(string(tag), FgWhite, Faint)
+	}
+
+	return string(tag)
 }

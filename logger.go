@@ -331,15 +331,15 @@ func (logger *Logger) write(l *log) {
 		switch logger.logFormat {
 
 		case TextFormat:
-			tags = l.tags.Text(logger.colorLogging, logger.tagColorMap)
+			tags = l.tags.text(logger.colorLogging, logger.tagColorMap)
 			outputString = fmt.Sprintf("%s [%s] %s %s", timestamp, logLevel, message, tags)
 
 		case JSONFormat:
-			tags = l.tags.JSON(logger.colorLogging, logger.tagColorMap)
-			outputString = fmt.Sprintf(`{ "timestamp": "%s", "logLevel": "%s", "message": "%s", "tags": %s] }`, timestamp, logLevel, message, tags)
+			tags = l.tags.json(logger.colorLogging, logger.tagColorMap)
+			outputString = fmt.Sprintf(`{ "timestamp": "%s", "logLevel": "%s", "message": "%s", "tags": %s }`, timestamp, logLevel, message, tags)
 
 		case CSVFormat:
-			tags = l.tags.CSV(logger.colorLogging, logger.tagColorMap)
+			tags = l.tags.csv(logger.colorLogging, logger.tagColorMap)
 			outputString = fmt.Sprintf(`%s,%s,%s,%s`, timestamp, logLevel, message, tags)
 		}
 
