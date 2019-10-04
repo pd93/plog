@@ -147,6 +147,16 @@ func (logger *Logger) Fatalf(format string, err error) {
 	logger.write(newLogf(FatalLevel, format, err))
 }
 
+// TFatal will print a fatal error message and meta-tag the log
+func (logger *Logger) TFatal(tags Tags, err error) {
+	logger.write(newTLogf(FatalLevel, tags, "%v", err))
+}
+
+// TFatalf will print a formatted, fatal error message and meta-tag the log
+func (logger *Logger) TFatalf(tags Tags, format string, err error) {
+	logger.write(newTLogf(FatalLevel, tags, format, err))
+}
+
 //
 // Error logging (Level 2)
 //
@@ -159,6 +169,16 @@ func (logger *Logger) Error(err error) {
 // Errorf will print a formatted, non-fatal error message
 func (logger *Logger) Errorf(format string, err error) {
 	logger.write(newLogf(ErrorLevel, format, err))
+}
+
+// TError will print a non-fatal error message and meta-tag the log
+func (logger *Logger) TError(tags Tags, err error) {
+	logger.write(newTLogf(ErrorLevel, tags, "%v", err))
+}
+
+// TErrorf will print a formatted, non-fatal error message and meta-tag the log
+func (logger *Logger) TErrorf(tags Tags, format string, err error) {
+	logger.write(newTLogf(ErrorLevel, tags, format, err))
 }
 
 //
@@ -175,6 +195,16 @@ func (logger *Logger) Warnf(format string, variables ...interface{}) {
 	logger.write(newLogf(WarnLevel, format, variables...))
 }
 
+// TWarn will print any number of variables at warn level and meta-tag the log
+func (logger *Logger) TWarn(tags Tags, variables ...interface{}) {
+	logger.write(newTLog(WarnLevel, tags, variables...))
+}
+
+// TWarnf will print a formatted message at warn level and meta-tag the log
+func (logger *Logger) TWarnf(tags Tags, format string, variables ...interface{}) {
+	logger.write(newTLogf(WarnLevel, tags, format, variables...))
+}
+
 //
 // Info logging (Level 4)
 //
@@ -187,6 +217,16 @@ func (logger *Logger) Info(variables ...interface{}) {
 // Infof will print a formatted message at info level
 func (logger *Logger) Infof(format string, variables ...interface{}) {
 	logger.write(newLogf(InfoLevel, format, variables...))
+}
+
+// TInfo will print any number of variables at info level and meta-tag the log
+func (logger *Logger) TInfo(tags Tags, variables ...interface{}) {
+	logger.write(newTLog(InfoLevel, tags, variables...))
+}
+
+// TInfof will print a formatted message at info level and meta-tag the log
+func (logger *Logger) TInfof(tags Tags, format string, variables ...interface{}) {
+	logger.write(newTLogf(InfoLevel, tags, format, variables...))
 }
 
 //
@@ -203,6 +243,16 @@ func (logger *Logger) Debugf(format string, variables ...interface{}) {
 	logger.write(newLogf(DebugLevel, format, variables...))
 }
 
+// TDebug will print any number of variables at debug level and meta-tag the log
+func (logger *Logger) TDebug(tags Tags, variables ...interface{}) {
+	logger.write(newTLog(DebugLevel, tags, variables...))
+}
+
+// TDebugf will print a formatted message at debug level and meta-tag the log
+func (logger *Logger) TDebugf(tags Tags, format string, variables ...interface{}) {
+	logger.write(newTLogf(DebugLevel, tags, format, variables...))
+}
+
 //
 // Trace logging (Level 6)
 //
@@ -215,6 +265,16 @@ func (logger *Logger) Trace(variables ...interface{}) {
 // Tracef will print a formatted message at debug level
 func (logger *Logger) Tracef(format string, variables ...interface{}) {
 	logger.write(newLogf(TraceLevel, format, variables...))
+}
+
+// TTrace will print any number of variables at trace level and meta-tag the log
+func (logger *Logger) TTrace(tags Tags, variables ...interface{}) {
+	logger.write(newTLog(TraceLevel, tags, variables...))
+}
+
+// TTracef will print a formatted message at trace level and meta-tag the log
+func (logger *Logger) TTracef(tags Tags, format string, variables ...interface{}) {
+	logger.write(newTLogf(TraceLevel, tags, format, variables...))
 }
 
 //
