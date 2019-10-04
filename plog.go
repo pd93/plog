@@ -238,3 +238,10 @@ func SetColorMap(colorMap ColorMap) {
 		logger.SetColorMap(colorMap)
 	}
 }
+
+// SetTagColorMap will loop through all the loggers and set the colors for each tag.
+func SetTagColorMap(tagColorMap TagColorMap) {
+	for _, logger := range loggers {
+		logger.SetTagColorMap(tagColorMap)
+	}
+}

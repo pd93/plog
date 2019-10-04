@@ -16,6 +16,7 @@ type Logger struct {
 	timestampFormat string
 	colorLogging    bool
 	colorMap        ColorMap
+	tagColorMap     TagColorMap
 }
 
 //
@@ -31,6 +32,7 @@ func NewLogger() *Logger {
 		timestampFormat: time.RFC3339,
 		colorLogging:    true,
 		colorMap:        NewColorMap(),
+		tagColorMap:     NewTagColorMap(),
 	}
 }
 
@@ -45,6 +47,7 @@ func NewJSONFileLogger(output io.Writer) *Logger {
 		timestampFormat: time.RFC3339,
 		colorLogging:    false,
 		colorMap:        NewColorMap(),
+		tagColorMap:     NewTagColorMap(),
 	}
 }
 
@@ -59,6 +62,7 @@ func NewCSVFileLogger(output io.Writer) *Logger {
 		timestampFormat: time.RFC3339,
 		colorLogging:    false,
 		colorMap:        NewColorMap(),
+		tagColorMap:     NewTagColorMap(),
 	}
 }
 
@@ -96,6 +100,11 @@ func (logger *Logger) ColorMap() ColorMap {
 	return logger.colorMap
 }
 
+// TagColorMap will return the logger's text attributes for each tag
+func (logger *Logger) TagColorMap() TagColorMap {
+	return logger.tagColorMap
+}
+
 //
 // Setters
 //
@@ -131,6 +140,11 @@ func (logger *Logger) SetColorLogging(colorLogging bool) {
 // SetColorMap set the colors for each log level.
 func (logger *Logger) SetColorMap(colorMap ColorMap) {
 	logger.colorMap = colorMap
+}
+
+// SetTagColorMap set the colors for each tag.
+func (logger *Logger) SetTagColorMap(tagColorMap TagColorMap) {
+	logger.tagColorMap = tagColorMap
 }
 
 //
