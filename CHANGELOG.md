@@ -6,6 +6,10 @@
 
 - [#6] Custom log formatters
 
+**Changes:**
+
+- Exposed `Log` and `Logger.Write()` APIs
+
 **Breaking Changes:**
 
 - Overhaul of log formatting (to allow for custom formatters)

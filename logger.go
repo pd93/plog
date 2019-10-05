@@ -295,13 +295,13 @@ func (logger *Logger) TTracef(tags Tags, format string, variables ...interface{}
 //
 
 // write will add a log message to the logger
-func (logger *Logger) write(l *log) {
+func (logger *Logger) write(log *Log) {
 
 	// Check if we need to log this message or not
-	if logger.logLevel >= l.logLevel {
+	if logger.logLevel >= log.logLevel {
 
 		// Fetch the output
-		output, err := logger.formatter(logger, l)
+		output, err := logger.formatter(logger, log)
 		if err != nil {
 			panic(err)
 		}

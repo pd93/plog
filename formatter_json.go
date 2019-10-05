@@ -6,27 +6,27 @@ import (
 )
 
 // JSONFormatter will create a JSON string using given log and logger configuration
-func JSONFormatter(logger *Logger, l *log) (string, error) {
+func JSONFormatter(logger *Logger, log *Log) (string, error) {
 
 	var fields []string
 
 	// Timestamp
-	if timestamp := l.timestamp.Format(logger.timestampFormat); timestamp != "" {
+	if timestamp := log.timestamp.Format(logger.timestampFormat); timestamp != "" {
 		fields = append(fields, fmt.Sprintf(`"timestamp": "%s"`, timestamp))
 	}
 
 	// Log level
-	if logLevel := l.logLevel.json(logger.colorLogging, logger.logLevelColorMap); logLevel != "" {
+	if logLevel := log.logLevel.json(logger.colorLogging, logger.logLevelColorMap); logLevel != "" {
 		fields = append(fields, fmt.Sprintf(`"logLevel": %s`, logLevel))
 	}
 
 	// Message
-	if message := l.variables.json(); message != "" {
+	if message := log.variables.json(); message != "" {
 		fields = append(fields, fmt.Sprintf(`"message": %s`, message))
 	}
 
 	// Tags
-	if tags := l.tags.json(logger.colorLogging, logger.tagColorMap); tags != "" {
+	if tags := log.tags.json(logger.colorLogging, logger.tagColorMap); tags != "" {
 		fields = append(fields, fmt.Sprintf(`"tags": %s`, tags))
 	}
 
