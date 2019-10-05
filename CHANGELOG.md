@@ -8,10 +8,15 @@
 - Examples:
   - [`formatter_example`](./examples/formatter_example/main.go) - Use a custom formatter to create your logs
 - `NewTextFileLogger()` to make it easier to log text formatted logs to a file
+- `TextFileWriter`, `JSONFileWriter` and `CSVFileWriter`
+  - These file writers allow you to write a formatted document instead of just writing independant lines
+  - Some basic syntax validation is now performed when writing to a file with `JSONFileWriter` or `CSVFileWriter`
 
 **Changes:**
 
 - Exposed `Log` and `Logger.Write()` APIs
+- Examples:
+  - [`file_example`](./examples/file_example/main.go) - Now writes to a text file and implements `TextFileWriter`, `JSONFileWriter` and `CSVFileWriter`
 
 **Breaking Changes:**
 
