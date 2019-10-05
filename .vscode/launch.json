@@ -10,15 +10,15 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/cmd/plog",
-            "env": {},
-            "args": []
+            "cwd": "${workspaceFolder}"
         },
         {
             "name": "Tests",
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}"
+            "program": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}"
         },
         {
             "name": "Basic Example",
@@ -26,8 +26,7 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/examples/basic_example",
-            "env": {},
-            "args": []
+            "cwd": "${workspaceFolder}"
         },
         {
             "name": "Color Example",
@@ -35,8 +34,7 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/examples/color_example",
-            "env": {},
-            "args": []
+            "cwd": "${workspaceFolder}"
         },
         {
             "name": "File Example",
@@ -44,8 +42,15 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/examples/file_example",
-            "env": {},
-            "args": []
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Formatter Example",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/examples/formatter_example",
+            "cwd": "${workspaceFolder}"
         },
         {
             "name": "Tag Example",
@@ -53,8 +58,7 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/examples/tag_example",
-            "env": {},
-            "args": []
+            "cwd": "${workspaceFolder}"
         }
     ]
 }

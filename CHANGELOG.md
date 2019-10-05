@@ -5,6 +5,8 @@
 **Added:**
 
 - [#6] Custom log formatters
+- Examples:
+  - [`formatter_example`](./examples/formatter_example/main.go) - Use a custom formatter to create your logs
 - `NewTextFileLogger()` to make it easier to log text formatted logs to a file
 
 **Changes:**
