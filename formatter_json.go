@@ -16,17 +16,17 @@ func JSONFormatter(logger *Logger, log *Log) (string, error) {
 	}
 
 	// Log level
-	if logLevel := log.logLevel.json(logger.colorLogging, logger.logLevelColorMap); logLevel != "" {
+	if logLevel := log.logLevel.JSON(logger.colorLogging, logger.logLevelColorMap); logLevel != "" {
 		fields = append(fields, fmt.Sprintf(`"logLevel": %s`, logLevel))
 	}
 
 	// Message
-	if message := log.variables.json(); message != "" {
+	if message := log.variables.JSON(); message != "" {
 		fields = append(fields, fmt.Sprintf(`"message": %s`, message))
 	}
 
 	// Tags
-	if tags := log.tags.json(logger.colorLogging, logger.tagColorMap); tags != "" {
+	if tags := log.tags.JSON(logger.colorLogging, logger.tagColorMap); tags != "" {
 		fields = append(fields, fmt.Sprintf(`"tags": %s`, tags))
 	}
 

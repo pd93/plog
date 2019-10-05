@@ -8,8 +8,8 @@ import (
 // Tags is a slice of Tag
 type Tags []Tag
 
-// text will stringify the tag into a readable format
-func (tags Tags) text(colorLogging bool, tagColorMap TagColorMap) string {
+// Text will stringify the tag into a readable format
+func (tags Tags) Text(colorLogging bool, tagColorMap TagColorMap) string {
 
 	// Return an empty string if there are no tags
 	if len(tags) == 0 {
@@ -20,14 +20,14 @@ func (tags Tags) text(colorLogging bool, tagColorMap TagColorMap) string {
 
 	// Loop through the tags and format them
 	for i, tag := range tags {
-		strSlice[i] = tag.text(colorLogging, tagColorMap)
+		strSlice[i] = tag.Text(colorLogging, tagColorMap)
 	}
 
 	return strings.Join(strSlice, " ")
 }
 
-// json will stringify the tags into a JSON array
-func (tags Tags) json(colorLogging bool, tagColorMap TagColorMap) string {
+// JSON will stringify the tags into a JSON array
+func (tags Tags) JSON(colorLogging bool, tagColorMap TagColorMap) string {
 
 	// Return an empty string if there are no tags
 	if len(tags) == 0 {
@@ -38,14 +38,14 @@ func (tags Tags) json(colorLogging bool, tagColorMap TagColorMap) string {
 
 	// Loop through the tags and format them
 	for i, tag := range tags {
-		strSlice[i] = tag.json(colorLogging, tagColorMap)
+		strSlice[i] = tag.JSON(colorLogging, tagColorMap)
 	}
 
 	return fmt.Sprintf(`[ %s ]`, strings.Join(strSlice, ", "))
 }
 
-// csv will stringify the tags into a CSV compatible string
-func (tags Tags) csv(colorLogging bool, tagColorMap TagColorMap) string {
+// CSV will stringify the tags into a CSV compatible string
+func (tags Tags) CSV(colorLogging bool, tagColorMap TagColorMap) string {
 
 	// Return an empty string if there are no tags
 	if len(tags) == 0 {
@@ -56,7 +56,7 @@ func (tags Tags) csv(colorLogging bool, tagColorMap TagColorMap) string {
 
 	// Loop through the tags and format them
 	for i, tag := range tags {
-		strSlice[i] = tag.csv(colorLogging, tagColorMap)
+		strSlice[i] = tag.CSV(colorLogging, tagColorMap)
 	}
 
 	return strings.Join(strSlice, ":")

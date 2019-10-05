@@ -43,8 +43,8 @@ func (logLevel LogLevel) String() string {
 	}
 }
 
-// text will stringify the log level into a readable format
-func (logLevel LogLevel) text(colorLogging bool, logLevelColorMap LogLevelColorMap) string {
+// Text will stringify the log level into a readable format
+func (logLevel LogLevel) Text(colorLogging bool, logLevelColorMap LogLevelColorMap) string {
 
 	// Check if color logging is enabled and whether there is a color for this log level in the map
 	if attributes, ok := logLevelColorMap[logLevel]; colorLogging && ok {
@@ -54,8 +54,8 @@ func (logLevel LogLevel) text(colorLogging bool, logLevelColorMap LogLevelColorM
 	return logLevel.String()
 }
 
-// json will stringify the log level into a quoted string and color it if necessary
-func (logLevel LogLevel) json(colorLogging bool, logLevelColorMap LogLevelColorMap) string {
+// JSON will stringify the log level into a quoted string and color it if necessary
+func (logLevel LogLevel) JSON(colorLogging bool, logLevelColorMap LogLevelColorMap) string {
 
 	// Check if color logging is enabled and whether there is a color for this log level in the map
 	if attributes, ok := logLevelColorMap[logLevel]; ok && colorLogging {
@@ -65,9 +65,9 @@ func (logLevel LogLevel) json(colorLogging bool, logLevelColorMap LogLevelColorM
 	return strconv.Quote(logLevel.String())
 }
 
-// csv will stringify the log level and color it if necessary
-func (logLevel LogLevel) csv(colorLogging bool, logLevelColorMap LogLevelColorMap) string {
+// CSV will stringify the log level and color it if necessary
+func (logLevel LogLevel) CSV(colorLogging bool, logLevelColorMap LogLevelColorMap) string {
 
 	// CSV looks the same as text, so just call the text method
-	return logLevel.text(colorLogging, logLevelColorMap)
+	return logLevel.Text(colorLogging, logLevelColorMap)
 }

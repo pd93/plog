@@ -9,8 +9,8 @@ import (
 // Variables contains a slice of variables that need to be logged
 type Variables []interface{}
 
-// text will stringify the variables into a readable format and color it if necessary
-func (variables Variables) text() string {
+// Text will stringify the variables into a readable format and color it if necessary
+func (variables Variables) Text() string {
 
 	// Return an empty string if there are no variables
 	if len(variables) == 0 {
@@ -27,8 +27,8 @@ func (variables Variables) text() string {
 	return strings.Join(strVariables, " ")
 }
 
-// json will stringify the variables into a quoted string and color it if necessary
-func (variables Variables) json() string {
+// JSON will stringify the variables into a quoted string and color it if necessary
+func (variables Variables) JSON() string {
 
 	// Return an empty string if there are no variables
 	if len(variables) == 0 {
@@ -47,9 +47,9 @@ func (variables Variables) json() string {
 	return fmt.Sprintf(`[ %s ]`, strings.Join(strVariables, ", "))
 }
 
-// csv will stringify the variables and color it if necessary
-func (variables Variables) csv() string {
+// CSV will stringify the variables and color it if necessary
+func (variables Variables) CSV() string {
 
 	// CSV looks the same as text, so just call the text method
-	return variables.text()
+	return variables.Text()
 }

@@ -12,8 +12,8 @@ func (tag Tag) String() string {
 	return string(tag)
 }
 
-// text will stringify the tag into a readable format and color it if necessary
-func (tag Tag) text(colorLogging bool, tagColorMap TagColorMap) string {
+// Text will stringify the tag into a readable format and color it if necessary
+func (tag Tag) Text(colorLogging bool, tagColorMap TagColorMap) string {
 
 	// Check if color logging is enabled and whether there is a color for this tag in the map
 	if attributes, ok := tagColorMap[tag]; colorLogging && ok {
@@ -28,8 +28,8 @@ func (tag Tag) text(colorLogging bool, tagColorMap TagColorMap) string {
 	return fmt.Sprintf("#%s", tag)
 }
 
-// json will stringify the tag into a quoted string and color it if necessary
-func (tag Tag) json(colorLogging bool, tagColorMap TagColorMap) string {
+// JSON will stringify the tag into a quoted string and color it if necessary
+func (tag Tag) JSON(colorLogging bool, tagColorMap TagColorMap) string {
 
 	// Check if color logging is enabled and whether there is a color for this tag in the map
 	if attributes, ok := tagColorMap[tag]; colorLogging && ok {
@@ -44,8 +44,8 @@ func (tag Tag) json(colorLogging bool, tagColorMap TagColorMap) string {
 	return strconv.Quote(tag.String())
 }
 
-// csv will stringify the tag and color it if necessary
-func (tag Tag) csv(colorLogging bool, tagColorMap TagColorMap) string {
+// CSV will stringify the tag and color it if necessary
+func (tag Tag) CSV(colorLogging bool, tagColorMap TagColorMap) string {
 
 	// Check if color logging is enabled and whether there is a color for this tag in the map
 	if attributes, ok := tagColorMap[tag]; colorLogging && ok {
