@@ -34,6 +34,21 @@ func NewLogger(output io.Writer) *Logger {
 	}
 }
 
+// NewTextFileLogger creates and returns an instance of Logger which will write to the specified file
+// The log level is set to TraceLevel (log everything) and color logging is disabled
+// The logs will be written in text format, but the file does not need to end in '.txt'
+func NewTextFileLogger(output io.Writer) *Logger {
+	return &Logger{
+		output:           output,
+		logLevel:         TraceLevel,
+		formatter:        TextFormatter,
+		timestampFormat:  time.RFC3339,
+		colorLogging:     false,
+		logLevelColorMap: NewLogLevelColorMap(),
+		tagColorMap:      NewTagColorMap(),
+	}
+}
+
 // NewJSONFileLogger creates and returns an instance of Logger which will write to the specified file
 // The log level is set to TraceLevel (log everything) and color logging is disabled
 // The logs will be written in JSON format, but the file does not need to end in '.json'

@@ -5,6 +5,7 @@
 **Added:**
 
 - [#6] Custom log formatters
+- `NewTextFileLogger()` to make it easier to log text formatted logs to a file
 
 **Changes:**
 
