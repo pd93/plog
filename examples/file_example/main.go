@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"os"
 
 	log "gopkg.in/pd93/plog.v0"
 )
