@@ -3,8 +3,6 @@ package plog
 import (
 	"fmt"
 	"io"
-	"os"
-	"strings"
 	"time"
 )
 
@@ -12,7 +10,7 @@ import (
 type Logger struct {
 	output           io.Writer
 	logLevel         LogLevel
-	logFormat        LogFormat
+	formatter        Formatter
 	timestampFormat  string
 	colorLogging     bool
 	logLevelColorMap LogLevelColorMap
@@ -24,13 +22,28 @@ type Logger struct {
 //
 
 // NewLogger creates and returns an instance of Logger with the default variables
-func NewLogger() *Logger {
+func NewLogger(output io.Writer) *Logger {
 	return &Logger{
-		output:           os.Stdout,
+		output:           output,
 		logLevel:         InfoLevel,
-		logFormat:        TextFormat,
+		formatter:        TextFormatter,
 		timestampFormat:  time.RFC3339,
 		colorLogging:     true,
+		logLevelColorMap: NewLogLevelColorMap(),
+		tagColorMap:      NewTagColorMap(),
+	}
+}
+
+// NewTextFileLogger creates and returns an instance of Logger which will write to the specified file
+// The log level is set to TraceLevel (log everything) and color logging is disabled
+// The logs will be written in text format, but the file does not need to end in '.txt'
+func NewTextFileLogger(output io.Writer) *Logger {
+	return &Logger{
+		output:           output,
+		logLevel:         TraceLevel,
+		formatter:        TextFormatter,
+		timestampFormat:  time.RFC3339,
+		colorLogging:     false,
 		logLevelColorMap: NewLogLevelColorMap(),
 		tagColorMap:      NewTagColorMap(),
 	}
@@ -43,7 +56,7 @@ func NewJSONFileLogger(output io.Writer) *Logger {
 	return &Logger{
 		output:           output,
 		logLevel:         TraceLevel,
-		logFormat:        JSONFormat,
+		formatter:        JSONFormatter,
 		timestampFormat:  time.RFC3339,
 		colorLogging:     false,
 		logLevelColorMap: NewLogLevelColorMap(),
@@ -58,7 +71,7 @@ func NewCSVFileLogger(output io.Writer) *Logger {
 	return &Logger{
 		output:           output,
 		logLevel:         TraceLevel,
-		logFormat:        CSVFormat,
+		formatter:        CSVFormatter,
 		timestampFormat:  time.RFC3339,
 		colorLogging:     false,
 		logLevelColorMap: NewLogLevelColorMap(),
@@ -80,9 +93,9 @@ func (logger *Logger) LogLevel() LogLevel {
 	return logger.logLevel
 }
 
-// LogFormat will return the logger's current log format
-func (logger *Logger) LogFormat() LogFormat {
-	return logger.logFormat
+// Formatter will return the logger's current log format
+func (logger *Logger) Formatter() Formatter {
+	return logger.formatter
 }
 
 // TimestampFormat will return the logger's current timestamp format
@@ -120,9 +133,9 @@ func (logger *Logger) SetLogLevel(logLevel LogLevel) {
 	logger.logLevel = logLevel
 }
 
-// SetLogFormat will set the format of the log message
-func (logger *Logger) SetLogFormat(logFormat LogFormat) {
-	logger.logFormat = logFormat
+// SetFormatter will set the format of the log message
+func (logger *Logger) SetFormatter(formatter Formatter) {
+	logger.formatter = formatter
 }
 
 // SetTimestampFormat allows the user to specify a custom timestamp format.
@@ -296,43 +309,21 @@ func (logger *Logger) TTracef(tags Tags, format string, variables ...interface{}
 //
 
 // write will add a log message to the logger
-func (logger *Logger) write(l *log) {
+func (logger *Logger) write(log *Log) {
 
 	// Check if we need to log this message or not
-	if logger.logLevel >= l.logLevel {
+	if logger.logLevel >= log.logLevel {
 
-		// Render the timestamp and log level strings
-		timestamp := l.timestamp.Format(logger.timestampFormat)
-		logLevel := l.logLevel.text(logger.colorLogging, logger.logLevelColorMap)
-
-		// Stringify the variables
-		variables := make([]string, len(l.variables))
-		for i, variable := range l.variables {
-			variables[i] = fmt.Sprintf("%v", variable)
-		}
-		message := strings.Join(variables, " ")
-
-		var tags string
-		var outputString string
-
-		// Create the output string
-		switch logger.logFormat {
-
-		case TextFormat:
-			tags = l.tags.text(logger.colorLogging, logger.tagColorMap)
-			outputString = fmt.Sprintf("%s [%s] %s %s", timestamp, logLevel, message, tags)
-
-		case JSONFormat:
-			tags = l.tags.json(logger.colorLogging, logger.tagColorMap)
-			outputString = fmt.Sprintf(`{ "timestamp": "%s", "logLevel": "%s", "message": "%s", "tags": %s }`, timestamp, logLevel, message, tags)
-
-		case CSVFormat:
-			tags = l.tags.csv(logger.colorLogging, logger.tagColorMap)
-			outputString = fmt.Sprintf(`%s,%s,%s,%s`, timestamp, logLevel, message, tags)
+		// Fetch the output
+		output, err := logger.formatter(logger, log)
+		if err != nil {
+			panic(err)
 		}
 
 		// Print the message to the output writer
-		fmt.Fprintln(logger.output, outputString)
+		if _, err := fmt.Fprintln(logger.output, output); err != nil {
+			panic(err)
+		}
 	}
 
 	return

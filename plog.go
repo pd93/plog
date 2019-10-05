@@ -209,10 +209,10 @@ func SetLogLevel(logLevel LogLevel) {
 	}
 }
 
-// SetLogFormat will loop through all the loggers and set the format of the log message
-func SetLogFormat(logFormat LogFormat) {
+// SetFormatter will loop through all the loggers and set the format of the log message
+func SetFormatter(formatter Formatter) {
 	for _, logger := range loggers {
-		logger.SetLogFormat(logFormat)
+		logger.SetFormatter(formatter)
 	}
 }
 

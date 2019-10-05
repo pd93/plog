@@ -8,8 +8,12 @@ import (
 // A Tag is a metadata string that can be assigned to any log message
 type Tag string
 
-// text will stringify the tag into a readable format and color it if necessary
-func (tag Tag) text(colorLogging bool, tagColorMap TagColorMap) string {
+func (tag Tag) String() string {
+	return string(tag)
+}
+
+// Text will stringify the tag into a readable format and color it if necessary
+func (tag Tag) Text(colorLogging bool, tagColorMap TagColorMap) string {
 
 	// Check if color logging is enabled and whether there is a color for this tag in the map
 	if attributes, ok := tagColorMap[tag]; colorLogging && ok {
@@ -24,34 +28,34 @@ func (tag Tag) text(colorLogging bool, tagColorMap TagColorMap) string {
 	return fmt.Sprintf("#%s", tag)
 }
 
-// json will stringify the tag into a quoted string and color it if necessary
-func (tag Tag) json(colorLogging bool, tagColorMap TagColorMap) string {
+// JSON will stringify the tag into a quoted string and color it if necessary
+func (tag Tag) JSON(colorLogging bool, tagColorMap TagColorMap) string {
 
 	// Check if color logging is enabled and whether there is a color for this tag in the map
 	if attributes, ok := tagColorMap[tag]; colorLogging && ok {
-		return color(strconv.Quote(string(tag)), attributes...)
+		return color(strconv.Quote(tag.String()), attributes...)
 	}
 
 	// If there is no entry in the map, but color logging is still enabled
 	if colorLogging {
-		return color(strconv.Quote(string(tag)), FgWhite, Faint)
+		return color(strconv.Quote(tag.String()), FgWhite, Faint)
 	}
 
-	return strconv.Quote(string(tag))
+	return strconv.Quote(tag.String())
 }
 
-// csv will stringify the tag and color it if necessary
-func (tag Tag) csv(colorLogging bool, tagColorMap TagColorMap) string {
+// CSV will stringify the tag and color it if necessary
+func (tag Tag) CSV(colorLogging bool, tagColorMap TagColorMap) string {
 
 	// Check if color logging is enabled and whether there is a color for this tag in the map
 	if attributes, ok := tagColorMap[tag]; colorLogging && ok {
-		return color(string(tag), attributes...)
+		return color(tag.String(), attributes...)
 	}
 
 	// If there is no entry in the map, but color logging is still enabled
 	if colorLogging {
-		return color(string(tag), FgWhite, Faint)
+		return color(tag.String(), FgWhite, Faint)
 	}
 
-	return string(tag)
+	return tag.String()
 }

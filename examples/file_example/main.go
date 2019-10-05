@@ -29,7 +29,7 @@ func fileExample() (err error) {
 	defer csvWriter.Close()
 
 	// Create some loggers
-	log.AddLogger("std", log.NewLogger())
+	log.AddLogger("std", log.NewLogger(os.Stdout))
 	log.AddLogger("json", log.NewJSONFileLogger(jsonWriter))
 	log.AddLogger("csv", log.NewCSVFileLogger(csvWriter))
 

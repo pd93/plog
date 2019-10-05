@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.4.0
+
+**Added:**
+
+- [#6] Custom log formatters
+- Examples:
+  - [`formatter_example`](./examples/formatter_example/main.go) - Use a custom formatter to create your logs
+- `NewTextFileLogger()` to make it easier to log text formatted logs to a file
+
+**Changes:**
+
+- Exposed `Log` and `Logger.Write()` APIs
+
+**Breaking Changes:**
+
+- Overhaul of log formatting (to allow for custom formatters)
+  - Renamed `SetLogFormat()` -> `SetFormatter()`
+  - Removed `TextFormat`, `JSONFormat` and `CSVFormat` enums and replaced them with `TextFormatter`, `JSONFormatter` and `CSVFormatter` functions
+- `NewLogger()` now takes an `io.Writer` instead of defaulting to `os.Stdout` - This makes it easier to log to a text file quickly
+
 ## v0.3.0
 
 **Added:**
