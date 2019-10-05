@@ -15,6 +15,7 @@
 - Overhaul of log formatting (to allow for custom formatters)
   - Renamed `SetLogFormat()` -> `SetFormatter()`
   - Removed `TextFormat`, `JSONFormat` and `CSVFormat` enums and replaced them with `TextFormatter`, `JSONFormatter` and `CSVFormatter` functions
+- `NewLogger()` now takes an `io.Writer` instead of defaulting to `os.Stdout` - This makes it easier to log to a text file quickly
 
 ## v0.3.0
 

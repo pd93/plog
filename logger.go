@@ -3,7 +3,6 @@ package plog
 import (
 	"fmt"
 	"io"
-	"os"
 	"time"
 )
 
@@ -23,9 +22,9 @@ type Logger struct {
 //
 
 // NewLogger creates and returns an instance of Logger with the default variables
-func NewLogger() *Logger {
+func NewLogger(output io.Writer) *Logger {
 	return &Logger{
-		output:           os.Stdout,
+		output:           output,
 		logLevel:         InfoLevel,
 		formatter:        TextFormatter,
 		timestampFormat:  time.RFC3339,
