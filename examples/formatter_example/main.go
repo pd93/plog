@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"time"
 
 	log "gopkg.in/pd93/plog.v0"
 )
@@ -28,6 +29,7 @@ func formatterExample() (err error) {
 	log.Trace("Trace log", true, 42, 3.14159)
 
 	// Change the logger's formatter
+	log.GetLogger("std").SetTimestampFormat(time.RFC1123)
 	log.GetLogger("std").SetFormatter(func(logger *log.Logger, l *log.Log) (str string, err error) {
 
 		// Render each component of the log
