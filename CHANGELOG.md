@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.4.0
+
+**Added:**
+
+- [#6] Custom log formatters
+
+**Breaking Changes:**
+
+- Overhaul of log formatting (to allow for custom formatters)
+  - Renamed `SetLogFormat()` -> `SetFormatter()`
+  - Removed `TextFormat`, `JSONFormat` and `CSVFormat` enums and replaced them with `TextFormatter`, `JSONFormatter` and `CSVFormatter` functions
+
 ## v0.3.0
 
 **Added:**

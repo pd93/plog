@@ -11,7 +11,7 @@ import (
 type Logger struct {
 	output           io.Writer
 	logLevel         LogLevel
-	logFormat        LogFormat
+	formatter        Formatter
 	timestampFormat  string
 	colorLogging     bool
 	logLevelColorMap LogLevelColorMap
@@ -27,7 +27,7 @@ func NewLogger() *Logger {
 	return &Logger{
 		output:           os.Stdout,
 		logLevel:         InfoLevel,
-		logFormat:        TextFormat,
+		formatter:        TextFormatter,
 		timestampFormat:  time.RFC3339,
 		colorLogging:     true,
 		logLevelColorMap: NewLogLevelColorMap(),
@@ -42,7 +42,7 @@ func NewJSONFileLogger(output io.Writer) *Logger {
 	return &Logger{
 		output:           output,
 		logLevel:         TraceLevel,
-		logFormat:        JSONFormat,
+		formatter:        JSONFormatter,
 		timestampFormat:  time.RFC3339,
 		colorLogging:     false,
 		logLevelColorMap: NewLogLevelColorMap(),
@@ -57,7 +57,7 @@ func NewCSVFileLogger(output io.Writer) *Logger {
 	return &Logger{
 		output:           output,
 		logLevel:         TraceLevel,
-		logFormat:        CSVFormat,
+		formatter:        CSVFormatter,
 		timestampFormat:  time.RFC3339,
 		colorLogging:     false,
 		logLevelColorMap: NewLogLevelColorMap(),
@@ -79,9 +79,9 @@ func (logger *Logger) LogLevel() LogLevel {
 	return logger.logLevel
 }
 
-// LogFormat will return the logger's current log format
-func (logger *Logger) LogFormat() LogFormat {
-	return logger.logFormat
+// Formatter will return the logger's current log format
+func (logger *Logger) Formatter() Formatter {
+	return logger.formatter
 }
 
 // TimestampFormat will return the logger's current timestamp format
@@ -119,9 +119,9 @@ func (logger *Logger) SetLogLevel(logLevel LogLevel) {
 	logger.logLevel = logLevel
 }
 
-// SetLogFormat will set the format of the log message
-func (logger *Logger) SetLogFormat(logFormat LogFormat) {
-	logger.logFormat = logFormat
+// SetFormatter will set the format of the log message
+func (logger *Logger) SetFormatter(formatter Formatter) {
+	logger.formatter = formatter
 }
 
 // SetTimestampFormat allows the user to specify a custom timestamp format.
@@ -300,35 +300,16 @@ func (logger *Logger) write(l *log) {
 	// Check if we need to log this message or not
 	if logger.logLevel >= l.logLevel {
 
-		var output string
-
-		// Render the timestamp string
-		timestamp := l.timestamp.Format(logger.timestampFormat)
-
-		// Create the output string
-		switch logger.logFormat {
-
-		case TextFormat:
-			message := l.variables.text()
-			logLevel := l.logLevel.text(logger.colorLogging, logger.logLevelColorMap)
-			tags := l.tags.text(logger.colorLogging, logger.tagColorMap)
-			output = fmt.Sprintf("%s [%s] %s %s", timestamp, logLevel, message, tags)
-
-		case JSONFormat:
-			message := l.variables.json()
-			logLevel := l.logLevel.json(logger.colorLogging, logger.logLevelColorMap)
-			tags := l.tags.json(logger.colorLogging, logger.tagColorMap)
-			output = fmt.Sprintf(`{ "timestamp": "%s", "logLevel": %s, "message": %s, "tags": %s }`, timestamp, logLevel, message, tags)
-
-		case CSVFormat:
-			message := l.variables.csv()
-			logLevel := l.logLevel.csv(logger.colorLogging, logger.logLevelColorMap)
-			tags := l.tags.csv(logger.colorLogging, logger.tagColorMap)
-			output = fmt.Sprintf(`%s,%s,%s,%s`, timestamp, logLevel, message, tags)
+		// Fetch the output
+		output, err := logger.formatter(logger, l)
+		if err != nil {
+			panic(err)
 		}
 
 		// Print the message to the output writer
-		fmt.Fprintln(logger.output, output)
+		if _, err := fmt.Fprintln(logger.output, output); err != nil {
+			panic(err)
+		}
 	}
 
 	return
