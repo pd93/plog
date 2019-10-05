@@ -47,3 +47,27 @@ func newTLog(logLevel LogLevel, tags Tags, variables ...interface{}) *Log {
 func newTLogf(level LogLevel, tags Tags, format string, variables ...interface{}) *Log {
 	return newTLog(level, tags, fmt.Sprintf(format, variables...))
 }
+
+//
+// Getters
+//
+
+// LogLevel will return the level at which this log is set to write
+func (log *Log) LogLevel() LogLevel {
+	return log.logLevel
+}
+
+// Variables will return the list of log output variables
+func (log *Log) Variables() Variables {
+	return log.variables
+}
+
+// Timestamp will return the log creation timestamp
+func (log *Log) Timestamp() time.Time {
+	return log.timestamp
+}
+
+// Tags will return the list of tags associated with the log
+func (log *Log) Tags() Tags {
+	return log.tags
+}
