@@ -8,7 +8,7 @@ import (
 // A log holds a single message along with its log level and timestamp
 type log struct {
 	logLevel  LogLevel
-	variables LogVariables
+	variables Variables
 	timestamp time.Time
 	tags      Tags
 }
