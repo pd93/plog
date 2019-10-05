@@ -15,15 +15,22 @@ func main() {
 
 func fileExample() (err error) {
 
+	// Open a text file
+	textWriter, err := log.NewTextFileWriter("log.txt")
+	if err != nil {
+		return err
+	}
+	defer textWriter.Close()
+
 	// Open a JSON file
-	jsonWriter, err := log.NewFile("log.json")
+	jsonWriter, err := log.NewJSONFileWriter("log.json")
 	if err != nil {
 		return err
 	}
 	defer jsonWriter.Close()
 
 	// Open a CSV file
-	csvWriter, err := log.NewFile("log.csv")
+	csvWriter, err := log.NewCSVFileWriter("log.csv")
 	if err != nil {
 		return err
 	}
@@ -31,6 +38,7 @@ func fileExample() (err error) {
 
 	// Create some loggers
 	log.AddLogger("std", log.NewLogger(os.Stdout))
+	log.AddLogger("text", log.NewTextFileLogger(textWriter))
 	log.AddLogger("json", log.NewJSONFileLogger(jsonWriter))
 	log.AddLogger("csv", log.NewCSVFileLogger(csvWriter))
 
