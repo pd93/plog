@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.0
+
+**Fixed:**
+
+- A bug where a space was left at the end of a line when using `TextFormatter` if there were no tags
+
 ## v0.4.0
 
 **Added:**

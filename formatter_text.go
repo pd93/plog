@@ -2,6 +2,7 @@ package plog
 
 import (
 	"fmt"
+	"strings"
 )
 
 // TextFormatter will create a readable string using given log and logger configuration
@@ -14,5 +15,5 @@ func TextFormatter(logger *Logger, log *Log) (string, error) {
 	tags := log.tags.Text(logger.colorLogging, logger.tagColorMap)
 
 	// Set the output
-	return fmt.Sprintf("%s [%s] %s %s", timestamp, logLevel, message, tags), nil
+	return strings.TrimSpace(fmt.Sprintf("%s [%s] %s %s", timestamp, logLevel, message, tags)), nil
 }
