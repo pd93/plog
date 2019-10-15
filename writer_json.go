@@ -17,10 +17,10 @@ const jsonLineStart = "\t"
 const jsonLineEnd = "\n"
 
 // NewJSONFileWriter will create and return a new JSON file writer
-func NewJSONFileWriter(filepath string) (*JSONFileWriter, error) {
+func NewJSONFileWriter(filePath string) (*JSONFileWriter, error) {
 
 	// Open the file for appending
-	file, err := os.OpenFile(filepath, os.O_CREATE|os.O_RDWR, 0644)
+	file, err := os.OpenFile(filePath, os.O_CREATE|os.O_RDWR, 0644)
 	if err != nil {
 		return nil, err
 	}

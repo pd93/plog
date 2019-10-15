@@ -14,10 +14,10 @@ type CSVFileWriter struct {
 const csvHeader = "Timestamp,LogLevel,Message,Tags\n"
 
 // NewCSVFileWriter will create and return a new CSV file writer
-func NewCSVFileWriter(filepath string) (*CSVFileWriter, error) {
+func NewCSVFileWriter(filePath string) (*CSVFileWriter, error) {
 
 	// Open the file for appending
-	file, err := os.OpenFile(filepath, os.O_APPEND|os.O_CREATE|os.O_RDWR, 0644)
+	file, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_RDWR, 0644)
 	if err != nil {
 		return nil, err
 	}
