@@ -16,21 +16,21 @@ func main() {
 func fileExample() (err error) {
 
 	// Open a text file
-	textWriter, err := log.NewTextFileWriter("log.txt")
+	textWriter, err := log.NewTextFileWriter("./logs/log.txt")
 	if err != nil {
 		return err
 	}
 	defer textWriter.Close()
 
 	// Open a JSON file
-	jsonWriter, err := log.NewJSONFileWriter("log.json")
+	jsonWriter, err := log.NewJSONFileWriter("./logs/log.json")
 	if err != nil {
 		return err
 	}
 	defer jsonWriter.Close()
 
 	// Open a CSV file
-	csvWriter, err := log.NewCSVFileWriter("log.csv")
+	csvWriter, err := log.NewCSVFileWriter("./logs/log.csv")
 	if err != nil {
 		return err
 	}
