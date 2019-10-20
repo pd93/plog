@@ -6,6 +6,13 @@
 
 - A bug where a space was left at the end of a line when using `TextFormatter` if there were no tags
 
+**Breaking Changes:**
+
+- The `Formatter` function has a new, simpler signature
+  - Colored strings and the timestamp are now pre-formatted
+  - Old: `func(logger *Logger, log *Log) (string, error)`
+  - New: `func(timestamp, logLevel string, variables []interface{}, tags []string) (string, error)`
+
 ## v0.4.0
 
 **Added:**

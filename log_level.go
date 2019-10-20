@@ -1,7 +1,5 @@
 package plog
 
-import "strconv"
-
 // LogLevel dictates when a logged message should be displayed or recorded
 type LogLevel int
 
@@ -22,52 +20,33 @@ const (
 	TraceLevel
 )
 
-func (logLevel LogLevel) String() string {
+// String will stringify the log level into a readable format and color it if necessary
+func (logLevel LogLevel) String(colorLogging bool, logLevelColorMap LogLevelColorMap) (str string) {
+
+	// Get the log level text
 	switch logLevel {
 	case None:
-		return "NONE"
+		str = "NONE"
 	case FatalLevel:
-		return "FATAL"
+		str = "FATAL"
 	case ErrorLevel:
-		return "ERROR"
+		str = "ERROR"
 	case WarnLevel:
-		return "WARN"
+		str = "WARN"
 	case InfoLevel:
-		return "INFO"
+		str = "INFO"
 	case DebugLevel:
-		return "DEBUG"
+		str = "DEBUG"
 	case TraceLevel:
-		return "TRACE"
+		str = "TRACE"
 	default:
-		return ""
+		str = ""
 	}
-}
-
-// Text will stringify the log level into a readable format
-func (logLevel LogLevel) Text(colorLogging bool, logLevelColorMap LogLevelColorMap) string {
 
 	// Check if color logging is enabled and whether there is a color for this log level in the map
 	if attributes, ok := logLevelColorMap[logLevel]; colorLogging && ok {
-		return color(logLevel.String(), attributes...)
+		return color(str, attributes...)
 	}
 
-	return logLevel.String()
-}
-
-// JSON will stringify the log level into a quoted string and color it if necessary
-func (logLevel LogLevel) JSON(colorLogging bool, logLevelColorMap LogLevelColorMap) string {
-
-	// Check if color logging is enabled and whether there is a color for this log level in the map
-	if attributes, ok := logLevelColorMap[logLevel]; ok && colorLogging {
-		return color(strconv.Quote(logLevel.String()), attributes...)
-	}
-
-	return strconv.Quote(logLevel.String())
-}
-
-// CSV will stringify the log level and color it if necessary
-func (logLevel LogLevel) CSV(colorLogging bool, logLevelColorMap LogLevelColorMap) string {
-
-	// CSV looks the same as text, so just call the text method
-	return logLevel.Text(colorLogging, logLevelColorMap)
+	return
 }

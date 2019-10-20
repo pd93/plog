@@ -1,4 +1,4 @@
 package plog
 
-// Formatter is a function that takes a logger configuration and generates a formatted string of a given log message
-type Formatter func(logger *Logger, log *Log) (string, error)
+// Formatter is a function that generates a formatted string from a log
+type Formatter func(timestamp, logLevel string, variables []interface{}, tags []string) (string, error)

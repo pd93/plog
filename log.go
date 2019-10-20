@@ -8,7 +8,7 @@ import (
 // A Log holds a single message along with its log level and timestamp
 type Log struct {
 	logLevel  LogLevel
-	variables Variables
+	variables []interface{}
 	timestamp time.Time
 	tags      Tags
 }
@@ -58,7 +58,7 @@ func (log *Log) LogLevel() LogLevel {
 }
 
 // Variables will return the list of log output variables
-func (log *Log) Variables() Variables {
+func (log *Log) Variables() []interface{} {
 	return log.variables
 }
 
