@@ -24,7 +24,7 @@ version:
 #
 
 clean:
-	rm ./logs/*
+	rm -f ./logs/*
 
 #
 # Builders
