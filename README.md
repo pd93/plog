@@ -23,6 +23,7 @@
   - `Custom` - Specify your own formatter function to style your log output however you like.
 - **Log Tags** - Tag your logs to make them easier to search and filter.
 - **Custom Colors** - Override the default colors for each logging level and tag.
+- **Log File Rotation** - Plog can automatically generate and rotate log files. You can specify custom conditions for when these files should be rotated and how to name them using a built-in or custom sequencer.
 - **And more to come! See our [Roadmap](https://github.com/pd93/plog/projects/1).**
 
 ## Documentation
