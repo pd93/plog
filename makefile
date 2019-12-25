@@ -1,5 +1,5 @@
 # Variables
-SEMVER := 0.1.0
+SEMVER := 0.5.0
 COMMIT := $(shell git rev-list -1 HEAD | cut -c1-7)
 VERSION := $(shell if [ "$$(git branch | grep \* | cut -d ' ' -f2)" = "master" ]; then echo $(SEMVER); else echo $(SEMVER)-$(COMMIT); fi)
 LDFLAGS := -ldflags "-X main.Version=$(VERSION)"
