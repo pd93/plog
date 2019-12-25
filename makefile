@@ -24,6 +24,7 @@ version:
 #
 
 clean:
+	rm -f ./bin/*
 	rm -f ./logs/*
 
 #
@@ -32,7 +33,8 @@ clean:
 
 build:
 	$(shell if [ ! -d ./bin ]; then mkdir ./bin; fi)
-	go build -o ./bin $(LDFLAGS) ./...
+	go build -o ./bin $(LDFLAGS) ./cmd/...
+	go build -o ./bin ./examples/...
 
 install:
 	go install $(LDFLAGS) ./...
