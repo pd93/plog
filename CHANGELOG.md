@@ -2,6 +2,15 @@
 
 ## v0.5.0
 
+**Added:**
+
+- [#2] Log File Rotation
+  - Automatically generate and rotate log files
+  - Specify custom conditions for when log files should be rotated
+  - Control how to name log files with sequencers
+- Examples:
+  - [`rotation_example`](./examples/rotation_example/main.go) - Set up a log rotator with custom naming and rotation conditions
+
 **Fixed:**
 
 - A bug where a space was left at the end of a line when using `TextFormatter` if there were no tags
