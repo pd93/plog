@@ -30,16 +30,10 @@ func formatterExample() (err error) {
 
 	// Change the logger's formatter
 	log.GetLogger("std").SetTimestampFormat(time.RFC1123)
-	log.GetLogger("std").SetFormatter(func(logger *log.Logger, l *log.Log) (str string, err error) {
-
-		// Render each component of the log
-		timestamp := l.Timestamp().Format(logger.TimestampFormat())
-		message := l.Variables().Text()
-		logLevel := l.LogLevel().Text(logger.ColorLogging(), logger.LogLevelColorMap())
-		tags := l.Tags().Text(logger.ColorLogging(), logger.TagColorMap())
+	log.GetLogger("std").SetFormatter(func(timestamp, logLevel string, variables []interface{}, tags []string) (string, error) {
 
 		// Set the output
-		return fmt.Sprintf("%s - %s - {%s} %s", timestamp, logLevel, tags, message), nil
+		return fmt.Sprintf("%s - %s - {%s} %s", timestamp, logLevel, tags, fmt.Sprintf("%v", variables)), nil
 	})
 
 	// Write to all loggers again
