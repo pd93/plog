@@ -3,7 +3,6 @@ package main
 import (
 	"errors"
 	"fmt"
-	"os"
 	"time"
 
 	log "gopkg.in/pd93/plog.v0"
@@ -18,7 +17,7 @@ func main() {
 func formatterExample() (err error) {
 
 	// Create a logger
-	log.AddLogger("std", log.NewLogger(os.Stdout))
+	log.AddLogger("std", log.NewLogger())
 
 	// Write to all loggers
 	log.Fatal(errors.New("Fatal log"))

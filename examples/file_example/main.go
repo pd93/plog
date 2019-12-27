@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"os"
 
 	log "gopkg.in/pd93/plog.v0"
 )
@@ -37,7 +36,7 @@ func fileExample() (err error) {
 	defer csvFile.Close()
 
 	// Create some loggers
-	log.AddLogger("std", log.NewLogger(os.Stdout))
+	log.AddLogger("std", log.NewLogger())
 	log.AddLogger("text", log.NewTextFileLogger(textFile))
 	log.AddLogger("json", log.NewJSONFileLogger(jsonFile))
 	log.AddLogger("csv", log.NewCSVFileLogger(csvFile))

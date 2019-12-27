@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"os"
 
 	log "gopkg.in/pd93/plog.v0"
 )
@@ -15,8 +14,8 @@ func main() {
 
 func basicExample() (err error) {
 
-	// Create some loggers
-	log.AddLogger("std", log.NewLogger(os.Stdout))
+	// Create a logger that logs to stdout
+	log.AddLogger("std", log.NewLogger())
 
 	// Write to all loggers
 	log.Fatal(errors.New("Fatal log"))

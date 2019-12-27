@@ -1,8 +1,6 @@
 package main
 
 import (
-	"os"
-
 	log "gopkg.in/pd93/plog.v0"
 )
 
@@ -33,7 +31,7 @@ func rotationExample() (err error) {
 	rotatingJSONFile.SetMaxFileSize(256)
 
 	// Create some loggers
-	log.AddLogger("std", log.NewLogger(os.Stdout))
+	log.AddLogger("std", log.NewLogger())
 	log.AddLogger("text", log.NewTextFileLogger(rotatingTextFile))
 	log.AddLogger("json", log.NewJSONFileLogger(rotatingJSONFile))
 

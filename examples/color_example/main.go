@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"os"
 
 	log "gopkg.in/pd93/plog.v0"
 )
@@ -16,7 +15,7 @@ func main() {
 func colorExample() (err error) {
 
 	// Create some loggers
-	log.AddLogger("std", log.NewLogger(os.Stdout))
+	log.AddLogger("std", log.NewLogger())
 
 	// Write to all loggers
 	log.Fatal(errors.New("Fatal log"))

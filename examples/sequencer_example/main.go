@@ -1,8 +1,6 @@
 package main
 
 import (
-	"os"
-
 	log "gopkg.in/pd93/plog.v0"
 )
 
@@ -27,7 +25,7 @@ func sequencerExample() (err error) {
 	})
 
 	// Create some loggers
-	log.AddLogger("std", log.NewLogger(os.Stdout))
+	log.AddLogger("std", log.NewLogger())
 	log.AddLogger("text", log.NewTextFileLogger(rotatingTextFile))
 
 	// Write to all loggers a few times

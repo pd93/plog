@@ -25,7 +25,7 @@ func writerExample() (err error) {
 	defer textFile.Close()
 
 	// Create some loggers
-	log.AddLogger("std", log.NewLogger(os.Stdout))
+	log.AddLogger("std", log.NewLogger())
 	log.AddLogger("text", log.NewTextFileLogger(textFile))
 
 	// Set the writer
