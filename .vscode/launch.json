@@ -53,12 +53,36 @@
             "cwd": "${workspaceFolder}"
         },
         {
+            "name": "Rotation Example",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/examples/rotation_example",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Sequencer Example",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/examples/sequencer_example",
+            "cwd": "${workspaceFolder}"
+        },
+        {
             "name": "Tag Example",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/examples/tag_example",
             "cwd": "${workspaceFolder}"
-        }
+        },
+        {
+            "name": "Writer Example",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/examples/writer_example",
+            "cwd": "${workspaceFolder}"
+        },
     ]
 }

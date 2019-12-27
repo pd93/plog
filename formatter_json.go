@@ -2,32 +2,48 @@ package plog
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
 // JSONFormatter will create a JSON string using given log and logger configuration
-func JSONFormatter(logger *Logger, log *Log) (string, error) {
+func JSONFormatter(timestamp, logLevel string, variables []interface{}, tags []string) (string, error) {
 
 	var fields []string
 
 	// Timestamp
-	if timestamp := log.timestamp.Format(logger.timestampFormat); timestamp != "" {
+	if timestamp != "" {
 		fields = append(fields, fmt.Sprintf(`"timestamp": "%s"`, timestamp))
 	}
 
 	// Log level
-	if logLevel := log.logLevel.JSON(logger.colorLogging, logger.logLevelColorMap); logLevel != "" {
-		fields = append(fields, fmt.Sprintf(`"logLevel": %s`, logLevel))
+	if logLevel != "" {
+		fields = append(fields, fmt.Sprintf(`"logLevel": %s`, strconv.Quote(logLevel)))
 	}
 
 	// Message
-	if message := log.variables.JSON(); message != "" {
-		fields = append(fields, fmt.Sprintf(`"message": %s`, message))
+	if len(variables) > 0 {
+
+		strVariables := make([]string, len(variables))
+
+		// Loop through the variables and format them
+		for i, variable := range variables {
+			// TODO: We should create a JSON object rather than quoting it as a string
+			strVariables[i] = strconv.Quote(fmt.Sprintf("%v", variable))
+		}
+
+		fields = append(fields, fmt.Sprintf(`"message": [ %s ]`, strings.Join(strVariables, ", ")))
 	}
 
 	// Tags
-	if tags := log.tags.JSON(logger.colorLogging, logger.tagColorMap); tags != "" {
-		fields = append(fields, fmt.Sprintf(`"tags": %s`, tags))
+	if len(tags) > 0 {
+
+		// Loop through the tags and quote them
+		for _, tag := range tags {
+			tag = strconv.Quote(tag)
+		}
+
+		fields = append(fields, fmt.Sprintf(`"tags": [ %s ]`, strings.Join(tags, ", ")))
 	}
 
 	// Set the output

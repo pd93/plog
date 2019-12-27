@@ -6,14 +6,20 @@ import (
 )
 
 // TextFormatter will create a readable string using given log and logger configuration
-func TextFormatter(logger *Logger, log *Log) (string, error) {
+func TextFormatter(timestamp, logLevel string, variables []interface{}, tags []string) (string, error) {
 
-	// Render each component of the log
-	timestamp := log.timestamp.Format(logger.timestampFormat)
-	message := log.variables.Text()
-	logLevel := log.logLevel.Text(logger.colorLogging, logger.logLevelColorMap)
-	tags := log.tags.Text(logger.colorLogging, logger.tagColorMap)
+	strVariables := make([]string, len(variables))
 
-	// Set the output
-	return strings.TrimSpace(fmt.Sprintf("%s [%s] %s %s", timestamp, logLevel, message, tags)), nil
+	// Loop through the variables and format them
+	for i, variable := range variables {
+		strVariables[i] = fmt.Sprintf("%v", variable)
+	}
+
+	// Loop through the tags and format them
+	// TODO: Check for color and insert '#' inside color boundary
+	for _, tag := range tags {
+		tag = fmt.Sprintf("#%s", tag)
+	}
+
+	return strings.TrimSpace(fmt.Sprintf("%s [%s] %s %s", timestamp, logLevel, strings.Join(strVariables, " "), tags)), nil
 }

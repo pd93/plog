@@ -2,9 +2,27 @@
 
 ## v0.5.0
 
+**Added:**
+
+- [#2] Log File Rotation
+  - Automatically generate and rotate log files
+  - Specify custom conditions for when log files should be rotated
+  - Control how to name log files with sequencers
+- Examples:
+  - [`rotation_example`](./examples/rotation_example/main.go) - Set up a log rotator with custom naming and rotation conditions
+  - [`sequencer_example`](./examples/sequencer_example/main.go) - Set up a log rotator with a custom sequencer function
+  - [`writer_example`](./examples/writer_example/main.go) - Set up a custom writer behavior when logging
+
 **Fixed:**
 
 - A bug where a space was left at the end of a line when using `TextFormatter` if there were no tags
+
+**Breaking Changes:**
+
+- The `Formatter` function has a new, simpler signature
+  - Colored strings and the timestamp are now pre-formatted
+  - Old: `func(logger *Logger, log *Log) (string, error)`
+  - New: `func(timestamp, logLevel string, variables []interface{}, tags []string) (string, error)`
 
 ## v0.4.0
 

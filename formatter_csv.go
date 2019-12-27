@@ -2,17 +2,18 @@ package plog
 
 import (
 	"fmt"
+	"strings"
 )
 
 // CSVFormatter will create a CSV string using given log and logger configuration
-func CSVFormatter(logger *Logger, log *Log) (string, error) {
+func CSVFormatter(timestamp, logLevel string, variables []interface{}, tags []string) (string, error) {
 
-	// Render each component of the log
-	timestamp := log.timestamp.Format(logger.timestampFormat)
-	message := log.variables.CSV()
-	logLevel := log.logLevel.CSV(logger.colorLogging, logger.logLevelColorMap)
-	tags := log.tags.CSV(logger.colorLogging, logger.tagColorMap)
+	strVariables := make([]string, len(variables))
 
-	// Set the output
-	return fmt.Sprintf(`%s,%s,%s,%s`, timestamp, logLevel, message, tags), nil
+	// Loop through the variables and format them
+	for i, variable := range variables {
+		strVariables[i] = fmt.Sprintf("%v", variable)
+	}
+
+	return fmt.Sprintf(`%s,%s,%s,%s`, timestamp, logLevel, strings.Join(strVariables, " "), strings.Join(tags, ":")), nil
 }

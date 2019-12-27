@@ -314,8 +314,13 @@ func (logger *Logger) write(log *Log) {
 	// Check if we need to log this message or not
 	if logger.logLevel >= log.logLevel {
 
+		// Render each component of the log
+		timestamp := log.timestamp.Format(logger.timestampFormat)
+		logLevel := log.logLevel.String(logger.colorLogging, logger.logLevelColorMap)
+		tags := log.tags.String(logger.colorLogging, logger.tagColorMap)
+
 		// Fetch the output
-		output, err := logger.formatter(logger, log)
+		output, err := logger.formatter(timestamp, logLevel, log.variables, tags)
 		if err != nil {
 			panic(err)
 		}

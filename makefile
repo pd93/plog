@@ -24,7 +24,7 @@ version:
 #
 
 clean:
-	rm -f *.csv *.json *.log
+	rm -f ./logs/*
 
 #
 # Builders

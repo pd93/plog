@@ -16,31 +16,31 @@ func main() {
 func fileExample() (err error) {
 
 	// Open a text file
-	textWriter, err := log.NewTextFileWriter("log.txt")
+	textFile, err := log.NewTextFile("./logs/log.txt")
 	if err != nil {
 		return err
 	}
-	defer textWriter.Close()
+	defer textFile.Close()
 
 	// Open a JSON file
-	jsonWriter, err := log.NewJSONFileWriter("log.json")
+	jsonFile, err := log.NewJSONFile("./logs/log.json")
 	if err != nil {
 		return err
 	}
-	defer jsonWriter.Close()
+	defer jsonFile.Close()
 
 	// Open a CSV file
-	csvWriter, err := log.NewCSVFileWriter("log.csv")
+	csvFile, err := log.NewCSVFile("./logs/log.csv")
 	if err != nil {
 		return err
 	}
-	defer csvWriter.Close()
+	defer csvFile.Close()
 
 	// Create some loggers
 	log.AddLogger("std", log.NewLogger(os.Stdout))
-	log.AddLogger("text", log.NewTextFileLogger(textWriter))
-	log.AddLogger("json", log.NewJSONFileLogger(jsonWriter))
-	log.AddLogger("csv", log.NewCSVFileLogger(csvWriter))
+	log.AddLogger("text", log.NewTextFileLogger(textFile))
+	log.AddLogger("json", log.NewJSONFileLogger(jsonFile))
+	log.AddLogger("csv", log.NewCSVFileLogger(csvFile))
 
 	// Write to all loggers
 	log.Fatal(errors.New("Fatal log"))

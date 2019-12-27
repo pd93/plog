@@ -1,8 +1,6 @@
 # Ignore generated log files
-*.log
-log.txt
-log.json
-log.csv
+logs/*
+!logs/.gitkeep
 
 # Coverage report
 coverage.*
