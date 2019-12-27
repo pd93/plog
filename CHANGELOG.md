@@ -11,6 +11,7 @@
 - Examples:
   - [`rotation_example`](./examples/rotation_example/main.go) - Set up a log rotator with custom naming and rotation conditions
   - [`sequencer_example`](./examples/sequencer_example/main.go) - Set up a log rotator with a custom sequencer function
+  - [`writer_example`](./examples/writer_example/main.go) - Set up a custom writer behavior when logging
 
 **Fixed:**
 
