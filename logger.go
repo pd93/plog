@@ -3,6 +3,7 @@ package plog
 import (
 	"fmt"
 	"io"
+	"os"
 	"time"
 )
 
@@ -17,14 +18,19 @@ type Logger struct {
 	tagColorMap      TagColorMap
 }
 
+// A LoggerOption is a function that sets an option on a given logger
+type LoggerOption func(logger *Logger)
+
 //
 // Constructors
 //
 
 // NewLogger creates and returns an instance of Logger with the default variables
-func NewLogger(output io.Writer) *Logger {
-	return &Logger{
-		output:           output,
+func NewLogger(opts ...LoggerOption) (logger *Logger) {
+
+	// Create a default logger
+	logger = &Logger{
+		output:           os.Stdout,
 		logLevel:         InfoLevel,
 		formatter:        TextFormatter,
 		timestampFormat:  time.RFC3339,
@@ -32,50 +38,100 @@ func NewLogger(output io.Writer) *Logger {
 		logLevelColorMap: NewLogLevelColorMap(),
 		tagColorMap:      NewTagColorMap(),
 	}
+
+	// Loop through each option and call the functional option
+	for _, opt := range opts {
+		opt(logger)
+	}
+
+	return
 }
 
 // NewTextFileLogger creates and returns an instance of Logger which will write to the specified file
 // The log level is set to TraceLevel (log everything) and color logging is disabled
 // The logs will be written in text format, but the file does not need to end in '.txt'
 func NewTextFileLogger(output io.Writer) *Logger {
-	return &Logger{
-		output:           output,
-		logLevel:         TraceLevel,
-		formatter:        TextFormatter,
-		timestampFormat:  time.RFC3339,
-		colorLogging:     false,
-		logLevelColorMap: NewLogLevelColorMap(),
-		tagColorMap:      NewTagColorMap(),
-	}
+	return NewLogger(
+		WithOutput(output),
+		WithLogLevel(TraceLevel),
+		WithColorLogging(false),
+	)
 }
 
 // NewJSONFileLogger creates and returns an instance of Logger which will write to the specified file
 // The log level is set to TraceLevel (log everything) and color logging is disabled
 // The logs will be written in JSON format, but the file does not need to end in '.json'
 func NewJSONFileLogger(output io.Writer) *Logger {
-	return &Logger{
-		output:           output,
-		logLevel:         TraceLevel,
-		formatter:        JSONFormatter,
-		timestampFormat:  time.RFC3339,
-		colorLogging:     false,
-		logLevelColorMap: NewLogLevelColorMap(),
-		tagColorMap:      NewTagColorMap(),
-	}
+	return NewLogger(
+		WithOutput(output),
+		WithLogLevel(TraceLevel),
+		WithFormatter(JSONFormatter),
+		WithColorLogging(false),
+	)
 }
 
 // NewCSVFileLogger creates and returns an instance of Logger which will write to the specified file
 // The log level is set to TraceLevel (log everything) and color logging is disabled
 // The logs will be written in CSV format, but the file does not need to end in '.csv'
 func NewCSVFileLogger(output io.Writer) *Logger {
-	return &Logger{
-		output:           output,
-		logLevel:         TraceLevel,
-		formatter:        CSVFormatter,
-		timestampFormat:  time.RFC3339,
-		colorLogging:     false,
-		logLevelColorMap: NewLogLevelColorMap(),
-		tagColorMap:      NewTagColorMap(),
+	return NewLogger(
+		WithOutput(output),
+		WithLogLevel(TraceLevel),
+		WithFormatter(CSVFormatter),
+		WithColorLogging(false),
+	)
+}
+
+//
+// Functional Options
+//
+
+// WithOutput will return a function that sets the output of a logger
+func WithOutput(output io.Writer) LoggerOption {
+	return func(logger *Logger) {
+		logger.SetOutput(output)
+	}
+}
+
+// WithLogLevel will return a function that sets the log level of a logger
+func WithLogLevel(logLevel LogLevel) LoggerOption {
+	return func(logger *Logger) {
+		logger.SetLogLevel(logLevel)
+	}
+}
+
+// WithFormatter will return a function that sets the formatter of a logger
+func WithFormatter(formatter Formatter) LoggerOption {
+	return func(logger *Logger) {
+		logger.SetFormatter(formatter)
+	}
+}
+
+// WithTimestampFormat will return a function that sets the timestamp format of a logger
+func WithTimestampFormat(timestampFormat string) LoggerOption {
+	return func(logger *Logger) {
+		logger.SetTimestampFormat(timestampFormat)
+	}
+}
+
+// WithColorLogging will return a function that sets the color logging flag of a logger
+func WithColorLogging(colorLogging bool) LoggerOption {
+	return func(logger *Logger) {
+		logger.SetColorLogging(colorLogging)
+	}
+}
+
+// WithLogLevelColorMap will return a function that sets the log level color map of a logger
+func WithLogLevelColorMap(logLevelColorMap LogLevelColorMap) LoggerOption {
+	return func(logger *Logger) {
+		logger.SetLogLevelColorMap(logLevelColorMap)
+	}
+}
+
+// WithTagColorMap will return a function that sets the tag color map of a logger
+func WithTagColorMap(tagColorMap TagColorMap) LoggerOption {
+	return func(logger *Logger) {
+		logger.SetTagColorMap(tagColorMap)
 	}
 }
 
