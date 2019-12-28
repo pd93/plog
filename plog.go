@@ -2,7 +2,6 @@ package plog
 
 import (
 	"fmt"
-	"io"
 )
 
 //
@@ -44,6 +43,15 @@ func DeleteLogger(name string) {
 	}
 
 	delete(loggers, name)
+}
+
+// Options will apply the given options to all loggers
+// Any number of functional options can be passed to this method
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+func Options(opts ...LoggerOption) {
+	for _, logger := range loggers {
+		logger.Options(opts...)
+	}
 }
 
 //
@@ -188,60 +196,4 @@ func TTrace(tags Tags, variables ...interface{}) {
 // TTracef will print a formatted message at trace level and meta-tag the log
 func TTracef(tags Tags, format string, variables ...interface{}) {
 	loggers.write(newTLogf(TraceLevel, tags, format, variables...))
-}
-
-//
-// Convenience functions
-//
-
-// SetOutput will loop through all the loggers and set where the logs are being output to.
-// Examples include 'os.File', 'os.Stdout', 'bytes.Buffer' or any other writer.
-func SetOutput(output io.Writer) {
-	for _, logger := range loggers {
-		logger.SetOutput(output)
-	}
-}
-
-// SetLogLevel will loop through all the loggers and set the level of the log message
-func SetLogLevel(logLevel LogLevel) {
-	for _, logger := range loggers {
-		logger.SetLogLevel(logLevel)
-	}
-}
-
-// SetFormatter will loop through all the loggers and set the format of the log message
-func SetFormatter(formatter Formatter) {
-	for _, logger := range loggers {
-		logger.SetFormatter(formatter)
-	}
-}
-
-// SetTimestampFormat will loop through all the loggers and set the timestampFormat setting
-// The default format is 'time.RFC3339'.
-// You can find the documentation on time formatting in Golang here: https://golang.org/pkg/time/#Time.Format
-func SetTimestampFormat(timestampFormat string) {
-	for _, logger := range loggers {
-		logger.SetTimestampFormat(timestampFormat)
-	}
-}
-
-// SetColorLogging will loop through all the loggers and enable/disable colored logging.
-func SetColorLogging(colorLogging bool) {
-	for _, logger := range loggers {
-		logger.SetColorLogging(colorLogging)
-	}
-}
-
-// SetLogLevelColorMap will loop through all the loggers and set the colors for each log level.
-func SetLogLevelColorMap(logLevelColorMap LogLevelColorMap) {
-	for _, logger := range loggers {
-		logger.SetLogLevelColorMap(logLevelColorMap)
-	}
-}
-
-// SetTagColorMap will loop through all the loggers and set the colors for each tag.
-func SetTagColorMap(tagColorMap TagColorMap) {
-	for _, logger := range loggers {
-		logger.SetTagColorMap(tagColorMap)
-	}
 }
