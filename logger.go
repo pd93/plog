@@ -7,6 +7,10 @@ import (
 	"time"
 )
 
+//
+// Structures
+//
+
 // A Logger is a channel for writing logs
 type Logger struct {
 	output           io.Writer
@@ -26,6 +30,8 @@ type LoggerOption func(logger *Logger)
 //
 
 // NewLogger creates and returns an instance of Logger with the default variables
+// Any number of functional options can be passed to this method and they will be applied on creation
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
 func NewLogger(opts ...LoggerOption) (logger *Logger) {
 
 	// Create a default logger
@@ -49,37 +55,58 @@ func NewLogger(opts ...LoggerOption) (logger *Logger) {
 
 // NewTextFileLogger creates and returns an instance of Logger which will write to the specified file
 // The log level is set to TraceLevel (log everything) and color logging is disabled
-// The logs will be written in text format, but the file does not need to end in '.txt'
-func NewTextFileLogger(output io.Writer) *Logger {
-	return NewLogger(
-		WithOutput(output),
+// The logs will be written in text format, but the file name does not need to end in '.txt'
+// Any number of additional functional options can be passed to this method and they will be applied on creation
+// These additional options will override any of the settings mentioned above
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+func NewTextFileLogger(file *os.File, opts ...LoggerOption) *Logger {
+
+	// Append the given options to the default text file logger
+	opts = append([]LoggerOption{
+		WithOutput(file),
 		WithLogLevel(TraceLevel),
 		WithColorLogging(false),
-	)
+	}, opts...)
+
+	return NewLogger(opts...)
 }
 
 // NewJSONFileLogger creates and returns an instance of Logger which will write to the specified file
 // The log level is set to TraceLevel (log everything) and color logging is disabled
-// The logs will be written in JSON format, but the file does not need to end in '.json'
-func NewJSONFileLogger(output io.Writer) *Logger {
-	return NewLogger(
-		WithOutput(output),
+// The logs will be written in JSON format, but the file name does not need to end in '.json'
+// Any number of additional functional options can be passed to this method and they will be applied on creation
+// These additional options will override any of the settings mentioned above
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+func NewJSONFileLogger(file *os.File, opts ...LoggerOption) *Logger {
+
+	// Append the given options to the default JSON file logger
+	opts = append([]LoggerOption{
+		WithOutput(file),
 		WithLogLevel(TraceLevel),
 		WithFormatter(JSONFormatter),
 		WithColorLogging(false),
-	)
+	}, opts...)
+
+	return NewLogger(opts...)
 }
 
 // NewCSVFileLogger creates and returns an instance of Logger which will write to the specified file
 // The log level is set to TraceLevel (log everything) and color logging is disabled
-// The logs will be written in CSV format, but the file does not need to end in '.csv'
-func NewCSVFileLogger(output io.Writer) *Logger {
-	return NewLogger(
-		WithOutput(output),
+// The logs will be written in CSV format, but the file name does not need to end in '.csv'
+// Any number of additional functional options can be passed to this method and they will be applied on creation
+// These additional options will override any of the settings mentioned above
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+func NewCSVFileLogger(file *os.File, opts ...LoggerOption) *Logger {
+
+	// Append the given options to the default CSV file logger
+	opts = append([]LoggerOption{
+		WithOutput(file),
 		WithLogLevel(TraceLevel),
 		WithFormatter(CSVFormatter),
 		WithColorLogging(false),
-	)
+	}, opts...)
+
+	return NewLogger(opts...)
 }
 
 //
@@ -383,6 +410,7 @@ func (logger *Logger) write(log *Log) {
 
 		// Print the message to the output writer
 		if _, err := fmt.Fprintln(logger.output, output); err != nil {
+			// TODO: Handle this error better somehow
 			panic(err)
 		}
 	}
