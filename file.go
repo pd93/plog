@@ -2,93 +2,160 @@ package plog
 
 import "os"
 
+//
+// Structures
+//
+
 // File represents a log file or a sequence of log files
 type File struct {
 	*os.File              // The currently open file
 	format      string    // The file name format to use when creating new files
-	filePath    string    // Used to determine the format of the file name
 	writer      Writer    // The writer we should use to write the text to the output
 	sequencer   Sequencer // Used to determine how the filename should change when rotating
 	maxFileSize int64
 }
 
-// NewTextFile will create and open a new text file for writing
-func NewTextFile(filepath string) (file *File, err error) {
-	return NewFile(filepath, TextWriter)
-}
+// A FileOption is a function that sets an option on a given file
+type FileOption func(file *File)
 
-// NewJSONFile will create and open a new JSON file for writing
-// Square brackets will wrap the logs (an array of log objects)
-// Commaas are inserted as necessary and the file is validated
-func NewJSONFile(filepath string) (file *File, err error) {
-	return NewFile(filepath, JSONWriter)
-}
-
-// NewCSVFile will create and open a new CSV file for writing
-// CSV headers will be automatically configured and validated when writing
-func NewCSVFile(filepath string) (file *File, err error) {
-	return NewFile(filepath, CSVWriter)
-}
-
-// NewRotatingTextFile will create and open a new rotating text file for writing
-// A rotating file writer will automatically close the file when a given limit is reached and create a new one
-// The new file's name will be provided by the sequencer function
-func NewRotatingTextFile(filepath string, sequencer Sequencer) (file *File, err error) {
-	return NewRotatingFile(filepath, TextWriter, sequencer)
-}
-
-// NewRotatingJSONFile will create and open a new rotating JSON file for writing
-// A rotating file writer will automatically close the file when a given limit is reached and create a new one
-// The new file's name will be provided by the sequencer function
-// Square brackets will wrap the logs (an array of log objects)
-// Commaas are inserted as necessary and the file is validated
-func NewRotatingJSONFile(filepath string, sequencer Sequencer) (file *File, err error) {
-	return NewRotatingFile(filepath, JSONWriter, sequencer)
-}
-
-// NewRotatingCSVFile will create and open a new rotating CSV file for writing
-// A rotating file writer will automatically close the file when a given limit is reached and create a new one
-// The new file's name will be provided by the sequencer function
-// CSV headers will be automatically configured and validated when writing
-func NewRotatingCSVFile(filepath string, sequencer Sequencer) (file *File, err error) {
-	return NewRotatingFile(filepath, CSVWriter, sequencer)
-}
+//
+// Constructors
+//
 
 // NewFile will create and open a new file for writing
-func NewFile(filePath string, writer Writer) (file *File, err error) {
-	file = &File{writer: writer}
-	file.File, err = os.OpenFile(filePath, os.O_CREATE|os.O_RDWR, 0644)
+func NewFile(format string, opts ...FileOption) (file *File, err error) {
+
+	// Create a default file
+	file = &File{
+		File:        nil,
+		format:      format,
+		writer:      TextWriter,
+		sequencer:   nil,
+		maxFileSize: -1,
+	}
+
+	// Loop through each option and call the functional option
+	for _, opt := range opts {
+		opt(file)
+	}
+
 	return
 }
 
-// NewRotatingFile will create and open a new rotating file for writing
-// A rotating file writer will automatically close the file when a given limit is reached and create a new one
-// The new file's name will be provided by the sequencer function
-func NewRotatingFile(format string, writer Writer, sequencer Sequencer) (file *File, err error) {
+// NewTextFile will create and open a new file for writing text
+// Any number of additional functional options can be passed to this method and they will be applied on creation
+// These additional options will override any of the settings mentioned above
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+func NewTextFile(format string, opts ...FileOption) (file *File, err error) {
 
-	var filePath string
+	// Append the given options to the default text file
+	opts = append([]FileOption{
+		WithWriter(TextWriter),
+	}, opts...)
 
-	// Get the first file name from the sequencer
-	filePath, err = sequencer(format, "")
-	if err != nil {
-		return nil, err
-	}
-
-	// Open a new file
-	file, err = NewFile(filePath, writer)
-	if err != nil {
-		return
-	}
-
-	// Set the format and sequencer
-	file.SetFormat(format)
-	file.SetSequencer(sequencer)
-
-	// Defaults
-	file.SetMaxFileSize(1024 * 1024) // 1MB
-
-	return
+	return NewFile(format, opts...)
 }
+
+// NewJSONFile will create and open a new file for writing JSON
+// Square brackets will wrap the logs (an array of log objects)
+// Commas are inserted as necessary and the file is validated
+// Any number of additional functional options can be passed to this method and they will be applied on creation
+// These additional options will override any of the settings mentioned above
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+func NewJSONFile(format string, opts ...FileOption) (file *File, err error) {
+
+	// Append the given options to the default JSON file
+	opts = append([]FileOption{
+		WithWriter(JSONWriter),
+	}, opts...)
+
+	return NewFile(format, opts...)
+}
+
+// NewCSVFile will create and open a new file for writing CSV
+// CSV headers will be automatically configured and validated when writing
+// Any number of additional functional options can be passed to this method and they will be applied on creation
+// These additional options will override any of the settings mentioned above
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+func NewCSVFile(format string, opts ...FileOption) (file *File, err error) {
+
+	// Append the given options to the default CSV file
+	opts = append([]FileOption{
+		WithWriter(CSVWriter),
+	}, opts...)
+
+	return NewFile(format, opts...)
+}
+
+//
+// Functional Options
+//
+
+// WithFormat will return a function that sets the format of the filename
+// The format acts as a fixed filename when using a normal logger.
+// The filename is dynamic when using a format alongside a sequencer function.
+// Take a look at the example sequencers included with PLog for more information.
+func WithFormat(format string) FileOption {
+	return func(file *File) {
+		file.format = format
+	}
+}
+
+// WithWriter will return a function that sets the writer for a file
+// This writer will determine how the message should be written to the file
+// PLog includes several writers for convenience (See `writers` subpackage).
+// Users can also provide a their own function if they want custom writing behaviour.
+func WithWriter(writer Writer) FileOption {
+	return func(file *File) {
+		file.writer = writer
+	}
+}
+
+// WithSequencer will return a function that sets the sequencer for a file
+// This sequencer will determine the log file names during rotation based on the format and the previous file name
+// PLog includes several sequencers for convenience (See `sequencers` subpackage).
+// Users can also provide a their own function if they want a custom file name sequence.
+func WithSequencer(sequencer Sequencer) FileOption {
+	return func(file *File) {
+		file.sequencer = sequencer
+	}
+}
+
+// WithMaxFileSize will return a function that sets the maximum size of a file
+// If the maximum file size is set to -1, any size file is allowed
+func WithMaxFileSize(maxFileSize int64) FileOption {
+	return func(file *File) {
+		file.maxFileSize = maxFileSize
+	}
+}
+
+//
+// Getters
+//
+
+// Format returns the format of the file name
+func (file *File) Format() string {
+	return file.format
+}
+
+// Writer returns the writer used to log the messages
+func (file *File) Writer() Writer {
+	return file.writer
+}
+
+// Sequencer returns the sequencer function used to determine file names
+func (file *File) Sequencer() Sequencer {
+	return file.sequencer
+}
+
+// MaxFileSize returns the maximum file size allowed
+func (file *File) MaxFileSize() int64 {
+	return file.maxFileSize
+}
+
+//
+// Instance methods
+//
 
 // Write will write bytes to the file
 func (file *File) Write(p []byte) (n int, err error) {
@@ -151,24 +218,4 @@ func (file *File) ShouldRotate(p []byte) (shouldRotate bool, err error) {
 	}
 
 	return false, nil
-}
-
-// SetFormat will set the log file format
-func (file *File) SetFormat(format string) {
-	file.format = format
-}
-
-// SetWriter will set the function that determines how to write the log text to the file
-func (file *File) SetWriter(writer Writer) {
-	file.writer = writer
-}
-
-// SetSequencer will set the function that determines the sequence of the log file names during rotation
-func (file *File) SetSequencer(sequencer Sequencer) {
-	file.sequencer = sequencer
-}
-
-// SetMaxFileSize will set when a file should be rotated because of its size
-func (file *File) SetMaxFileSize(maxFileSize int64) {
-	file.maxFileSize = maxFileSize
 }
