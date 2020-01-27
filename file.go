@@ -130,6 +130,19 @@ func WithMaxFileSize(maxFileSize int64) FileOption {
 }
 
 //
+// Options Setter
+//
+
+// Options will apply the given options to the file
+// Any number of functional options can be passed to this method
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+func (file *File) Options(opts ...FileOption) {
+	for _, opt := range opts {
+		opt(file)
+	}
+}
+
+//
 // Getters
 //
 
