@@ -1,4 +1,4 @@
-package plog
+package sequencers
 
 import (
 	"fmt"

@@ -5,6 +5,7 @@ import (
 	"os"
 
 	log "gopkg.in/pd93/plog.v0"
+	"gopkg.in/pd93/plog.v0/writers"
 )
 
 func main() {
@@ -25,7 +26,7 @@ func fileExample() (err error) {
 
 	// Open a JSON file
 	jsonFile, err := log.NewFile("./logs/log.json",
-		log.WithWriter(log.JSONWriter),
+		log.WithWriter(writers.JSONWriter),
 	)
 	if err != nil {
 		return err
@@ -34,7 +35,7 @@ func fileExample() (err error) {
 
 	// Open a CSV file
 	csvFile, err := log.NewFile("./logs/log.csv",
-		log.WithWriter(log.CSVWriter),
+		log.WithWriter(writers.CSVWriter),
 	)
 	if err != nil {
 		return err

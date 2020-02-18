@@ -5,6 +5,8 @@ import (
 	"io"
 	"os"
 	"time"
+
+	"gopkg.in/pd93/plog.v0/formatters"
 )
 
 //
@@ -38,7 +40,7 @@ func NewLogger(opts ...LoggerOption) (logger *Logger) {
 	logger = &Logger{
 		output:           os.Stdout,
 		logLevel:         InfoLevel,
-		formatter:        TextFormatter,
+		formatter:        formatters.TextFormatter,
 		timestampFormat:  time.RFC3339,
 		colorLogging:     true,
 		logLevelColorMap: NewLogLevelColorMap(),
@@ -80,7 +82,7 @@ func NewJSONFileLogger(file *File, opts ...LoggerOption) *Logger {
 	opts = append([]LoggerOption{
 		WithOutput(file),
 		WithLogLevel(TraceLevel),
-		WithFormatter(JSONFormatter),
+		WithFormatter(formatters.JSONFormatter),
 		WithColorLogging(false),
 	}, opts...)
 
@@ -99,7 +101,7 @@ func NewCSVFileLogger(file *File, opts ...LoggerOption) *Logger {
 	opts = append([]LoggerOption{
 		WithOutput(file),
 		WithLogLevel(TraceLevel),
-		WithFormatter(CSVFormatter),
+		WithFormatter(formatters.CSVFormatter),
 		WithColorLogging(false),
 	}, opts...)
 

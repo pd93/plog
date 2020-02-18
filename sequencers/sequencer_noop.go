@@ -1,4 +1,4 @@
-package plog
+package sequencers
 
 // NoopSequencer (no operation) will return the same
 // NOTE: The noop sequencer will always return the same file name and will therefore overwrite your log files each time they are rotated

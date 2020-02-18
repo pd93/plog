@@ -1,4 +1,4 @@
-package plog
+package writers
 
 import "os"
 

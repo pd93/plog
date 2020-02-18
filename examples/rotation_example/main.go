@@ -4,6 +4,8 @@ import (
 	"os"
 
 	log "gopkg.in/pd93/plog.v0"
+	"gopkg.in/pd93/plog.v0/sequencers"
+	"gopkg.in/pd93/plog.v0/writers"
 )
 
 func main() {
@@ -17,7 +19,7 @@ func rotationExample() (err error) {
 
 	// Open a text file
 	rotatingTextFile, err := log.NewFile("./logs/log-%s.txt",
-		log.WithSequencer(log.DateTimeSequencer),
+		log.WithSequencer(sequencers.DateTimeSequencer),
 		log.WithMaxFileSize(1024*1024), // 1 MB
 	)
 	if err != nil {
@@ -27,8 +29,8 @@ func rotationExample() (err error) {
 
 	// Open a JSON file
 	rotatingJSONFile, err := log.NewFile("./logs/log-%03d.json",
-		log.WithWriter(log.JSONWriter),
-		log.WithSequencer(log.IncrementSequencer),
+		log.WithWriter(writers.JSONWriter),
+		log.WithSequencer(sequencers.IncrementSequencer),
 		log.WithMaxFileSize(1024*1024), // 1 MB
 	)
 	if err != nil {

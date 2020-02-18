@@ -27,6 +27,7 @@
   - Colored strings and the timestamp are now pre-formatted
   - Old: `func(logger *Logger, log *Log) (string, error)`
   - New: `func(timestamp, logLevel string, variables []interface{}, tags []string) (string, error)`
+- The writers, formatters and sequencers are now in sub-packages
 
 ## v0.4.0
 

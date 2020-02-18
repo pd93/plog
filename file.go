@@ -1,6 +1,10 @@
 package plog
 
-import "os"
+import (
+	"os"
+
+	"gopkg.in/pd93/plog.v0/writers"
+)
 
 //
 // Structures
@@ -29,7 +33,7 @@ func NewFile(format string, opts ...FileOption) (file *File, err error) {
 	file = &File{
 		File:        nil,
 		format:      format,
-		writer:      TextWriter,
+		writer:      writers.TextWriter,
 		sequencer:   nil,
 		maxFileSize: -1,
 	}
@@ -48,7 +52,7 @@ func NewTextFile(format string, opts ...FileOption) (file *File, err error) {
 
 	// Append the given options to the default text file
 	opts = append([]FileOption{
-		WithWriter(TextWriter),
+		WithWriter(writers.TextWriter),
 	}, opts...)
 
 	return NewFile(format, opts...)
@@ -64,7 +68,7 @@ func NewJSONFile(format string, opts ...FileOption) (file *File, err error) {
 
 	// Append the given options to the default JSON file
 	opts = append([]FileOption{
-		WithWriter(JSONWriter),
+		WithWriter(writers.JSONWriter),
 	}, opts...)
 
 	return NewFile(format, opts...)
@@ -79,7 +83,7 @@ func NewCSVFile(format string, opts ...FileOption) (file *File, err error) {
 
 	// Append the given options to the default CSV file
 	opts = append([]FileOption{
-		WithWriter(CSVWriter),
+		WithWriter(writers.CSVWriter),
 	}, opts...)
 
 	return NewFile(format, opts...)

@@ -1,4 +1,4 @@
-package plog
+package formatters
 
 import (
 	"encoding/json"
