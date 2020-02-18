@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-// CSVFormatter will create a CSV string using given log and logger configuration
-func CSVFormatter(timestamp, logLevel string, variables []interface{}, tags []string) (string, error) {
+// CSV will create a CSV string using given log and logger configuration
+func CSV(timestamp, logLevel string, variables []interface{}, tags []string) (string, error) {
 
 	strVariables := make([]string, len(variables))
 

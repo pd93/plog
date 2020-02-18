@@ -15,7 +15,7 @@
 
 **Fixed:**
 
-- A bug where a space was left at the end of a line when using `TextFormatter` if there were no tags
+- A bug where a space was left at the end of a line when using `formatters.Text` if there were no tags
 
 **Changes:**
 
@@ -28,6 +28,8 @@
   - Old: `func(logger *Logger, log *Log) (string, error)`
   - New: `func(timestamp, logLevel string, variables []interface{}, tags []string) (string, error)`
 - The writers, formatters and sequencers are now in sub-packages
+  - Additionally, now that they are namespaced, the functions in these package have dropped their suffixes.
+  - e.g. `TextFormatter` is now `formatters.Text`
 
 ## v0.4.0
 

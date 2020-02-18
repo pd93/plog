@@ -19,7 +19,7 @@ func rotationExample() (err error) {
 
 	// Open a text file
 	rotatingTextFile, err := log.NewFile("./logs/log-%s.txt",
-		log.WithSequencer(sequencers.DateTimeSequencer),
+		log.WithSequencer(sequencers.DateTime),
 		log.WithMaxFileSize(1024*1024), // 1 MB
 	)
 	if err != nil {
@@ -29,8 +29,8 @@ func rotationExample() (err error) {
 
 	// Open a JSON file
 	rotatingJSONFile, err := log.NewFile("./logs/log-%03d.json",
-		log.WithWriter(writers.JSONWriter),
-		log.WithSequencer(sequencers.IncrementSequencer),
+		log.WithWriter(writers.JSON),
+		log.WithSequencer(sequencers.Increment),
 		log.WithMaxFileSize(1024*1024), // 1 MB
 	)
 	if err != nil {

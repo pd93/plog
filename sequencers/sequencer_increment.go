@@ -4,8 +4,8 @@ import (
 	"fmt"
 )
 
-// IncrementSequencer will increase the number in the file name by 1
-func IncrementSequencer(format, prev string) (next string, err error) {
+// Increment will increase the number in the file name by 1
+func Increment(format, prev string) (next string, err error) {
 
 	var i int
 

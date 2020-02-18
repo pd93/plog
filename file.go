@@ -33,7 +33,7 @@ func NewFile(format string, opts ...FileOption) (file *File, err error) {
 	file = &File{
 		File:        nil,
 		format:      format,
-		writer:      writers.TextWriter,
+		writer:      writers.Text,
 		sequencer:   nil,
 		maxFileSize: -1,
 	}
@@ -52,7 +52,7 @@ func NewTextFile(format string, opts ...FileOption) (file *File, err error) {
 
 	// Append the given options to the default text file
 	opts = append([]FileOption{
-		WithWriter(writers.TextWriter),
+		WithWriter(writers.Text),
 	}, opts...)
 
 	return NewFile(format, opts...)
@@ -68,7 +68,7 @@ func NewJSONFile(format string, opts ...FileOption) (file *File, err error) {
 
 	// Append the given options to the default JSON file
 	opts = append([]FileOption{
-		WithWriter(writers.JSONWriter),
+		WithWriter(writers.JSON),
 	}, opts...)
 
 	return NewFile(format, opts...)
@@ -83,7 +83,7 @@ func NewCSVFile(format string, opts ...FileOption) (file *File, err error) {
 
 	// Append the given options to the default CSV file
 	opts = append([]FileOption{
-		WithWriter(writers.CSVWriter),
+		WithWriter(writers.CSV),
 	}, opts...)
 
 	return NewFile(format, opts...)

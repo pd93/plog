@@ -6,10 +6,10 @@ import (
 	"strings"
 )
 
-// TextFormatter will create a readable string using given log and logger configuration
+// Text will create a readable string using given log and logger configuration
 // TODO: There is probably a better way to put the tag inside the color formatting
 // TODO: Should the color formatting happen here?
-func TextFormatter(timestamp, logLevel string, variables []interface{}, tags []string) (string, error) {
+func Text(timestamp, logLevel string, variables []interface{}, tags []string) (string, error) {
 
 	strVariables := make([]string, len(variables))
 

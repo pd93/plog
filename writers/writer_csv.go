@@ -8,11 +8,11 @@ import (
 // String constants
 const csvHeader = "Timestamp,LogLevel,Message,Tags\n"
 
-// CSVWriter is a custom writer that will automatically manage and validate a CSV file when attempting to write to it
+// CSV is a custom writer that will automatically manage and validate a CSV file when attempting to write to it
 // This includes adding the CSV headers and making sure that new entries are written to the correct place
-// NOTE: CSVWriter is not responsible for formatting the CSV message (p) - This is the job of the CSVFormatter
+// NOTE: CSV is not responsible for formatting the CSV message (p) - This is the job of the CSV formatter
 // CSV data sent to this writer should be held in a comma-separated list e.g. a,b,c,...
-func CSVWriter(file *os.File, p []byte) (n int, err error) {
+func CSV(file *os.File, p []byte) (n int, err error) {
 
 	var m int
 

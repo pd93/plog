@@ -40,7 +40,7 @@ func NewLogger(opts ...LoggerOption) (logger *Logger) {
 	logger = &Logger{
 		output:           os.Stdout,
 		logLevel:         InfoLevel,
-		formatter:        formatters.TextFormatter,
+		formatter:        formatters.Text,
 		timestampFormat:  time.RFC3339,
 		colorLogging:     true,
 		logLevelColorMap: NewLogLevelColorMap(),
@@ -82,7 +82,7 @@ func NewJSONFileLogger(file *File, opts ...LoggerOption) *Logger {
 	opts = append([]LoggerOption{
 		WithOutput(file),
 		WithLogLevel(TraceLevel),
-		WithFormatter(formatters.JSONFormatter),
+		WithFormatter(formatters.JSON),
 		WithColorLogging(false),
 	}, opts...)
 
@@ -101,7 +101,7 @@ func NewCSVFileLogger(file *File, opts ...LoggerOption) *Logger {
 	opts = append([]LoggerOption{
 		WithOutput(file),
 		WithLogLevel(TraceLevel),
-		WithFormatter(formatters.CSVFormatter),
+		WithFormatter(formatters.CSV),
 		WithColorLogging(false),
 	}, opts...)
 

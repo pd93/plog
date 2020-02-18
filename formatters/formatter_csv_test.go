@@ -8,7 +8,7 @@ import (
 	"gopkg.in/pd93/plog.v0/formatters"
 )
 
-func TestCSVFormatter(t *testing.T) {
+func TestCSV(t *testing.T) {
 
 	// Expected output
 	const expected = `2006-01-02T15:04:05Z,INFO,Test string 123 4.5 true,tag1:tag2`
@@ -22,7 +22,7 @@ func TestCSVFormatter(t *testing.T) {
 	)
 
 	// Call the function
-	output, err := formatters.CSVFormatter(
+	output, err := formatters.CSV(
 		timestamp,
 		logLevel,
 		variables,

@@ -26,7 +26,7 @@ func fileExample() (err error) {
 
 	// Open a JSON file
 	jsonFile, err := log.NewFile("./logs/log.json",
-		log.WithWriter(writers.JSONWriter),
+		log.WithWriter(writers.JSON),
 	)
 	if err != nil {
 		return err
@@ -35,7 +35,7 @@ func fileExample() (err error) {
 
 	// Open a CSV file
 	csvFile, err := log.NewFile("./logs/log.csv",
-		log.WithWriter(writers.CSVWriter),
+		log.WithWriter(writers.CSV),
 	)
 	if err != nil {
 		return err

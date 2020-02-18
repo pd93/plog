@@ -2,9 +2,9 @@ package writers
 
 import "os"
 
-// TextWriter is a very simple wrapper around the file.Write() method
+// Text is a very simple wrapper around the file.Write() method
 // It does not perform any additional processing and simply writes the given bytes to the given file sequentially
-func TextWriter(file *os.File, p []byte) (n int, err error) {
+func Text(file *os.File, p []byte) (n int, err error) {
 
 	// Get the file size
 	fileInfo, err := file.Stat()

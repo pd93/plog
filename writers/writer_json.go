@@ -11,11 +11,11 @@ const jsonFooter = "]\n"
 const jsonLineStart = "\t"
 const jsonLineEnd = "\n"
 
-// JSONWriter is a custom writer that will automatically manage and validate a JSON file when attempting to write to it
+// JSON is a custom writer that will automatically manage and validate a JSON file when attempting to write to it
 // This includes adding the opening/closing square brackets and making sure that new entries are written to the correct place
-// NOTE: JSONWriter is not responsible for formatting the JSON message (p) - This is the job of the JSONFormatter
+// NOTE: JSON is not responsible for formatting the JSON message (p) - This is the job of the JSON formatter
 // JSON data sent to this writer should be held in a JSON object e.g. {"a":1, ...}
-func JSONWriter(file *os.File, p []byte) (n int, err error) {
+func JSON(file *os.File, p []byte) (n int, err error) {
 
 	var m int
 

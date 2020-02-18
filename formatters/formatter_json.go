@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 )
 
-// JSONFormatter will create a JSON string using given log and logger configuration
-func JSONFormatter(timestamp, logLevel string, variables []interface{}, tags []string) (string, error) {
+// JSON will create a JSON string using given log and logger configuration
+func JSON(timestamp, logLevel string, variables []interface{}, tags []string) (string, error) {
 
 	// Encode the log parameters as a JSON string
 	b, err := json.Marshal(struct {

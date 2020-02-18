@@ -8,7 +8,7 @@ import (
 	"gopkg.in/pd93/plog.v0/formatters"
 )
 
-func TestJSONFormatter(t *testing.T) {
+func TestJSON(t *testing.T) {
 
 	// Expected output
 	const expected = `{"timestamp":"2006-01-02T15:04:05Z","logLevel":"INFO","variables":["Test string",123,4.5,true],"tags":["tag1","tag2"]}`
@@ -22,7 +22,7 @@ func TestJSONFormatter(t *testing.T) {
 	)
 
 	// Call the function
-	output, err := formatters.JSONFormatter(
+	output, err := formatters.JSON(
 		timestamp,
 		logLevel,
 		variables,
