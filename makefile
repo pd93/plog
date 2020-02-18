@@ -44,10 +44,10 @@ install:
 #
 
 test:
+	go test -cover ./...
+
+test-v:
 	go test -v -cover ./...
 
 codecov:
 	go test -v -coverprofile=coverage.txt -covermode=atomic ./...
-
-coverhtml: codecov
-	go tool cover -html=coverage.txt -o coverage.html
