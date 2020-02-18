@@ -11,10 +11,10 @@ const jsonFooter = "]\n"
 const jsonLineStart = "\t"
 const jsonLineEnd = "\n"
 
-// JSON is a custom writer that will automatically manage and validate a JSON file when attempting to write to it
-// This includes adding the opening/closing square brackets and making sure that new entries are written to the correct place
-// NOTE: JSON is not responsible for formatting the JSON message (p) - This is the job of the JSON formatter
-// JSON data sent to this writer should be held in a JSON object e.g. {"a":1, ...}
+// JSON is a custom writer that will automatically manage and validate a JSON file when attempting to write to it.
+// This includes adding the opening/closing square brackets and making sure that new entries are written to the correct place.
+// NOTE: JSON is not responsible for formatting the JSON message (p) - This is the job of the JSON formatter.
+// JSON data sent to this writer should be held in a JSON object. e.g. {"a":1, ...}
 func JSON(file *os.File, p []byte) (n int, err error) {
 
 	var m int
@@ -81,7 +81,7 @@ func JSON(file *os.File, p []byte) (n int, err error) {
 	return
 }
 
-// initJSONFile will reset the contents of the file
+// initJSONFile will reset the contents of the file.
 func initJSONFile(file *os.File) (n int, err error) {
 
 	// Delete everything
@@ -98,7 +98,7 @@ func initJSONFile(file *os.File) (n int, err error) {
 	return file.Write([]byte(fmt.Sprintf("%s%s", jsonHeader, jsonFooter)))
 }
 
-// isJSONFileValid will return whether or not the JSON file is valid
+// isJSONFileValid will return whether or not the JSON file is valid.
 func isJSONFileValid(file *os.File, size int64) (bool, error) {
 
 	// Check if the size of the file is big enough for it to contain the header and footer

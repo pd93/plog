@@ -9,13 +9,21 @@ import (
 )
 
 func main() {
-	if err := fileExample(); err != nil {
+	if err := FileExample(); err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
 }
 
-func fileExample() (err error) {
+// FileExample prints log messages to stdout AND two files.
+// It does this by setting up multiple loggers, each with their own configuration.
+// To create a file logger, it is recommended that you use the `plog.File` wrapper.
+// This allows you to take advantage of PLogs file handling features.
+// PLog also provides pre-made constructors for creating file loggers in text, JSON and CSV formats.
+// These constructors disable colored logging and set up a custom writer for handling those specific file types.
+// If you need custom file formats, consider implementing your own formatter and/or writer.
+// Take a look at the `formatter_example` and the `writer_example`s respectively to see how this is done.
+func FileExample() (err error) {
 
 	// Open a text file
 	textFile, err := log.NewFile("./logs/log.txt")

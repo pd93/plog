@@ -8,13 +8,18 @@ import (
 )
 
 func main() {
-	if err := colorExample(); err != nil {
+	if err := ColorExample(); err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
 }
 
-func colorExample() (err error) {
+// ColorExample will print custom, colored log messages to stdout.
+// To do this, it creates a color map for log level and tags.
+// These maps are then applied to the logger during creation.
+// The example also shows how to adjust the color maps for an existing logger.
+// Finally, it shows you how to disable colored logging completely.
+func ColorExample() (err error) {
 
 	// Create a log level color map
 	logLevelColorMap := log.NewLogLevelColorMap(
@@ -87,6 +92,24 @@ func colorExample() (err error) {
 		log.Tags{"tag2", "tag3"},
 		"Warn log",
 	)
+
+	// We can also disable colored logging entirely...
+
+	// ... for a single logger...
+	stdLogger.Options(
+		log.WithColorLogging(false),
+	)
+
+	// ... or all of them
+	log.Options(
+		log.WithColorLogging(false),
+	)
+
+	// Write to all loggers
+	log.Fatal(errors.New("Fatal log"))
+	log.TError(log.Tags{"tag1"}, errors.New("Error log"))
+	log.TInfo(log.Tags{"tag1", "tag2"}, "Info log")
+	log.TWarn(log.Tags{"tag2", "tag3"}, "Warn log")
 
 	return
 }

@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// CSV will create a CSV string using given log and logger configuration
+// CSV will format a log into a comma-separated value (CSV) string.
 func CSV(timestamp, logLevel string, variables []interface{}, tags []string) (string, error) {
 
 	strVariables := make([]string, len(variables))

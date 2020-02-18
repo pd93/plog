@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-// Increment will increase the number in the file name by 1
+// Increment will increase the number in the file name by 1 on each file rotation.
 func Increment(format, prev string) (next string, err error) {
 
 	var i int

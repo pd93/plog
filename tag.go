@@ -1,9 +1,9 @@
 package plog
 
-// A Tag is a metadata string that can be assigned to any log message
+// A Tag is a metadata string that can be assigned to any log message.
 type Tag string
 
-// String will stringify the tag into a readable format and color it if necessary
+// String will stringify the tag into a readable format and color it if necessary.
 func (tag Tag) String(colorLogging bool, tagColorMap TagColorMap) string {
 
 	// Check if color logging is enabled and whether there is a color for this tag in the map

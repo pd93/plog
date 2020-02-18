@@ -8,13 +8,20 @@ import (
 )
 
 func main() {
-	if err := tagExample(); err != nil {
+	if err := TagExample(); err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
 }
 
-func tagExample() (err error) {
+// TagExample prints tagged logs to stdout.
+// A tag is a way of adding context to a log message.
+// For example, you might want to add a tag for the component that logged the message.
+// Tags make it easier to filter log messages when you're looking for that pesky error.
+// You can apply as many tags to a log message as you like.
+// Every logging function has an equivellent "tag logging function".
+// e.g. To use a `log.Info` with tags, you should call `log.TInfo`.
+func TagExample() (err error) {
 
 	// Create some loggers
 	log.AddLogger("std", log.NewLogger())

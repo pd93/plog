@@ -1,8 +1,9 @@
 package plog
 
-// LogLevel dictates when a logged message should be displayed or recorded
+// LogLevel dictates when a logged message should be displayed or recorded.
 type LogLevel int
 
+// Available log levels:
 const (
 	// None will stop all logs being printed
 	None LogLevel = iota
@@ -20,7 +21,7 @@ const (
 	TraceLevel
 )
 
-// String will stringify the log level into a readable format and color it if necessary
+// String will stringify the log level into a readable format and color it if necessary.
 func (logLevel LogLevel) String(colorLogging bool, logLevelColorMap LogLevelColorMap) (str string) {
 
 	// Get the log level text

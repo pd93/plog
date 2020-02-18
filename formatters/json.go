@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 )
 
-// JSON will create a JSON string using given log and logger configuration
+// JSON will format a log into a Javascript object notation (JSON) string.
 func JSON(timestamp, logLevel string, variables []interface{}, tags []string) (string, error) {
 
 	// Encode the log parameters as a JSON string

@@ -10,13 +10,21 @@ import (
 )
 
 func main() {
-	if err := writerExample(); err != nil {
+	if err := WriterExample(); err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
 }
 
-func writerExample() (err error) {
+// WriterExample prints log messages to stdout and a text file using a custom writer.
+// A writer allows the user to write log messages to a file in a custom way.
+// This could be to add a header row (e.g. for CSV files) or to surround the log
+// messages with curly braces and end logs with commas (e.g. for JSON files).
+// JSON and CSV writers are available out of the box, but if you want custom behaviour,
+// you can simply implement your own as shown below.
+// This custom writer will initialise a file with a 'created' timestamp if the file is empty.
+// Otherwise it will write the log to the end of the file as normal.
+func WriterExample() (err error) {
 
 	// Open a text file
 	textFile, err := log.NewTextFile("./logs/log.txt")

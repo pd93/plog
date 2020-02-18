@@ -8,13 +8,15 @@ import (
 )
 
 func main() {
-	if err := basicExample(); err != nil {
+	if err := BasicExample(); err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
 }
 
-func basicExample() (err error) {
+// BasicExample creates a stdout logger and prints some random logs.
+// It then changes a few basic settings and prints the same logs again.
+func BasicExample() (err error) {
 
 	// Create a logger that logs to stdout
 	log.AddLogger("std", log.NewLogger())

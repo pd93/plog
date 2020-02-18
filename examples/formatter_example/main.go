@@ -10,13 +10,19 @@ import (
 )
 
 func main() {
-	if err := formatterExample(); err != nil {
+	if err := FormatterExample(); err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
 }
 
-func formatterExample() (err error) {
+// FormatterExample will print to stdout using a custom log format.
+// If PLogs default formatters aren't quite right for your project, you can provide your own.
+// You can do this during logger creation (`log.NewLogger()`) or using the `logger.Options()` method.
+// Either way, you do this by providing the `plog.WithFormatter()` functional option as an argument.
+// All formatters must take a timestamp, log level, a list of variables and a list of tags as arguments.
+// It is up to you to decide how or if you display this data.
+func FormatterExample() (err error) {
 
 	// Create a logger
 	log.AddLogger("std", log.NewLogger())

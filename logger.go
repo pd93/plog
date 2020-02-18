@@ -13,7 +13,7 @@ import (
 // Structures
 //
 
-// A Logger is a channel for writing logs
+// A Logger is a channel for writing logs.
 type Logger struct {
 	output           io.Writer
 	logLevel         LogLevel
@@ -24,16 +24,16 @@ type Logger struct {
 	tagColorMap      TagColorMap
 }
 
-// A LoggerOption is a function that sets an option on a given logger
+// A LoggerOption is a function that sets an option on a given logger.
 type LoggerOption func(logger *Logger)
 
 //
 // Constructors
 //
 
-// NewLogger creates and returns an instance of Logger with the default variables
-// Any number of functional options can be passed to this method and they will be applied on creation
-// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+// NewLogger creates and returns an instance of Logger with the default variables.
+// Any number of functional options can be passed to this method and they will be applied on creation.
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options.
 func NewLogger(opts ...LoggerOption) (logger *Logger) {
 
 	// Create a default logger
@@ -52,12 +52,12 @@ func NewLogger(opts ...LoggerOption) (logger *Logger) {
 	return
 }
 
-// NewTextFileLogger creates and returns an instance of Logger which will write to the specified file
-// The log level is set to TraceLevel (log everything) and color logging is disabled
-// The logs will be written in text format, but the file name does not need to end in '.txt'
-// Any number of additional functional options can be passed to this method and they will be applied on creation
-// These additional options will override any of the settings mentioned above
-// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+// NewTextFileLogger creates and returns an instance of Logger which will write to the specified file.
+// The log level is set to TraceLevel (log everything) and color logging is disabled.
+// The logs will be written in text format, but the file name does not need to end in '.txt'.
+// Any number of additional functional options can be passed to this method and they will be applied on creation.
+// These additional options will override any of the settings mentioned above.
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options.
 func NewTextFileLogger(file *File, opts ...LoggerOption) *Logger {
 
 	// Append the given options to the default text file logger
@@ -70,12 +70,12 @@ func NewTextFileLogger(file *File, opts ...LoggerOption) *Logger {
 	return NewLogger(opts...)
 }
 
-// NewJSONFileLogger creates and returns an instance of Logger which will write to the specified file
-// The log level is set to TraceLevel (log everything) and color logging is disabled
-// The logs will be written in JSON format, but the file name does not need to end in '.json'
-// Any number of additional functional options can be passed to this method and they will be applied on creation
-// These additional options will override any of the settings mentioned above
-// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+// NewJSONFileLogger creates and returns an instance of Logger which will write to the specified file.
+// The log level is set to TraceLevel (log everything) and color logging is disabled.
+// The logs will be written in JSON format, but the file name does not need to end in '.json'.
+// Any number of additional functional options can be passed to this method and they will be applied on creation.
+// These additional options will override any of the settings mentioned above.
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options.
 func NewJSONFileLogger(file *File, opts ...LoggerOption) *Logger {
 
 	// Append the given options to the default JSON file logger
@@ -89,12 +89,12 @@ func NewJSONFileLogger(file *File, opts ...LoggerOption) *Logger {
 	return NewLogger(opts...)
 }
 
-// NewCSVFileLogger creates and returns an instance of Logger which will write to the specified file
-// The log level is set to TraceLevel (log everything) and color logging is disabled
-// The logs will be written in CSV format, but the file name does not need to end in '.csv'
-// Any number of additional functional options can be passed to this method and they will be applied on creation
-// These additional options will override any of the settings mentioned above
-// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+// NewCSVFileLogger creates and returns an instance of Logger which will write to the specified file.
+// The log level is set to TraceLevel (log everything) and color logging is disabled.
+// The logs will be written in CSV format, but the file name does not need to end in '.csv'.
+// Any number of additional functional options can be passed to this method and they will be applied on creation.
+// These additional options will override any of the settings mentioned above.
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options.
 func NewCSVFileLogger(file *File, opts ...LoggerOption) *Logger {
 
 	// Append the given options to the default CSV file logger
@@ -170,9 +170,9 @@ func WithTagColorMap(tagColorMap TagColorMap) LoggerOption {
 // Options Setter
 //
 
-// Options will apply the given options to the logger
-// Any number of functional options can be passed to this method
-// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+// Options will apply the given options to the logger.
+// Any number of functional options can be passed to this method.
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options.
 func (logger *Logger) Options(opts ...LoggerOption) {
 	for _, opt := range opts {
 		opt(logger)
@@ -183,37 +183,37 @@ func (logger *Logger) Options(opts ...LoggerOption) {
 // Getters
 //
 
-// Output will return the logger's current output
+// Output will return the logger's current output.
 func (logger *Logger) Output() io.Writer {
 	return logger.output
 }
 
-// LogLevel will return the logger's current log level
+// LogLevel will return the logger's current log level.
 func (logger *Logger) LogLevel() LogLevel {
 	return logger.logLevel
 }
 
-// Formatter will return the logger's current log format
+// Formatter will return the logger's current log format.
 func (logger *Logger) Formatter() Formatter {
 	return logger.formatter
 }
 
-// TimestampFormat will return the logger's current timestamp format
+// TimestampFormat will return the logger's current timestamp format.
 func (logger *Logger) TimestampFormat() string {
 	return logger.timestampFormat
 }
 
-// ColorLogging will return whether or not color logging is enabled
+// ColorLogging will return whether or not color logging is enabled.
 func (logger *Logger) ColorLogging() bool {
 	return logger.colorLogging
 }
 
-// LogLevelColorMap will return the logger's text attributes for each log level
+// LogLevelColorMap will return the logger's text attributes for each log level.
 func (logger *Logger) LogLevelColorMap() LogLevelColorMap {
 	return logger.logLevelColorMap
 }
 
-// TagColorMap will return the logger's text attributes for each tag
+// TagColorMap will return the logger's text attributes for each tag.
 func (logger *Logger) TagColorMap() TagColorMap {
 	return logger.tagColorMap
 }
@@ -222,22 +222,22 @@ func (logger *Logger) TagColorMap() TagColorMap {
 // Fatal logging (Level 1)
 //
 
-// Fatal will print a fatal error message
+// Fatal will print a fatal error message.
 func (logger *Logger) Fatal(err error) {
 	logger.write(newLogf(FatalLevel, "%v", err))
 }
 
-// Fatalf will print a formatted, non-fatal error message
+// Fatalf will print a formatted, non-fatal error message.
 func (logger *Logger) Fatalf(format string, err error) {
 	logger.write(newLogf(FatalLevel, format, err))
 }
 
-// TFatal will print a fatal error message and meta-tag the log
+// TFatal will print a fatal error message and meta-tag the log.
 func (logger *Logger) TFatal(tags Tags, err error) {
 	logger.write(newTLogf(FatalLevel, tags, "%v", err))
 }
 
-// TFatalf will print a formatted, fatal error message and meta-tag the log
+// TFatalf will print a formatted, fatal error message and meta-tag the log.
 func (logger *Logger) TFatalf(tags Tags, format string, err error) {
 	logger.write(newTLogf(FatalLevel, tags, format, err))
 }
@@ -246,22 +246,22 @@ func (logger *Logger) TFatalf(tags Tags, format string, err error) {
 // Error logging (Level 2)
 //
 
-// Error will print a non-fatal error message
+// Error will print a non-fatal error message.
 func (logger *Logger) Error(err error) {
 	logger.write(newLogf(ErrorLevel, "%v", err))
 }
 
-// Errorf will print a formatted, non-fatal error message
+// Errorf will print a formatted, non-fatal error message.
 func (logger *Logger) Errorf(format string, err error) {
 	logger.write(newLogf(ErrorLevel, format, err))
 }
 
-// TError will print a non-fatal error message and meta-tag the log
+// TError will print a non-fatal error message and meta-tag the log.
 func (logger *Logger) TError(tags Tags, err error) {
 	logger.write(newTLogf(ErrorLevel, tags, "%v", err))
 }
 
-// TErrorf will print a formatted, non-fatal error message and meta-tag the log
+// TErrorf will print a formatted, non-fatal error message and meta-tag the log.
 func (logger *Logger) TErrorf(tags Tags, format string, err error) {
 	logger.write(newTLogf(ErrorLevel, tags, format, err))
 }
@@ -270,22 +270,22 @@ func (logger *Logger) TErrorf(tags Tags, format string, err error) {
 // Warn logging (Level 3)
 //
 
-// Warn will print any number of variables at warn level
+// Warn will print any number of variables at warn level.
 func (logger *Logger) Warn(variables ...interface{}) {
 	logger.write(newLog(WarnLevel, variables...))
 }
 
-// Warnf will print a formatted message at warn level
+// Warnf will print a formatted message at warn level.
 func (logger *Logger) Warnf(format string, variables ...interface{}) {
 	logger.write(newLogf(WarnLevel, format, variables...))
 }
 
-// TWarn will print any number of variables at warn level and meta-tag the log
+// TWarn will print any number of variables at warn level and meta-tag the log.
 func (logger *Logger) TWarn(tags Tags, variables ...interface{}) {
 	logger.write(newTLog(WarnLevel, tags, variables...))
 }
 
-// TWarnf will print a formatted message at warn level and meta-tag the log
+// TWarnf will print a formatted message at warn level and meta-tag the log.
 func (logger *Logger) TWarnf(tags Tags, format string, variables ...interface{}) {
 	logger.write(newTLogf(WarnLevel, tags, format, variables...))
 }
@@ -294,22 +294,22 @@ func (logger *Logger) TWarnf(tags Tags, format string, variables ...interface{})
 // Info logging (Level 4)
 //
 
-// Info will print any number of variables at info level
+// Info will print any number of variables at info level.
 func (logger *Logger) Info(variables ...interface{}) {
 	logger.write(newLog(InfoLevel, variables...))
 }
 
-// Infof will print a formatted message at info level
+// Infof will print a formatted message at info level.
 func (logger *Logger) Infof(format string, variables ...interface{}) {
 	logger.write(newLogf(InfoLevel, format, variables...))
 }
 
-// TInfo will print any number of variables at info level and meta-tag the log
+// TInfo will print any number of variables at info level and meta-tag the log.
 func (logger *Logger) TInfo(tags Tags, variables ...interface{}) {
 	logger.write(newTLog(InfoLevel, tags, variables...))
 }
 
-// TInfof will print a formatted message at info level and meta-tag the log
+// TInfof will print a formatted message at info level and meta-tag the log.
 func (logger *Logger) TInfof(tags Tags, format string, variables ...interface{}) {
 	logger.write(newTLogf(InfoLevel, tags, format, variables...))
 }
@@ -318,22 +318,22 @@ func (logger *Logger) TInfof(tags Tags, format string, variables ...interface{})
 // Debug logging (Level 5)
 //
 
-// Debug will print any number of variables at debug level
+// Debug will print any number of variables at debug level.
 func (logger *Logger) Debug(variables ...interface{}) {
 	logger.write(newLog(DebugLevel, variables...))
 }
 
-// Debugf will print a formatted message at debug level
+// Debugf will print a formatted message at debug level.
 func (logger *Logger) Debugf(format string, variables ...interface{}) {
 	logger.write(newLogf(DebugLevel, format, variables...))
 }
 
-// TDebug will print any number of variables at debug level and meta-tag the log
+// TDebug will print any number of variables at debug level and meta-tag the log.
 func (logger *Logger) TDebug(tags Tags, variables ...interface{}) {
 	logger.write(newTLog(DebugLevel, tags, variables...))
 }
 
-// TDebugf will print a formatted message at debug level and meta-tag the log
+// TDebugf will print a formatted message at debug level and meta-tag the log.
 func (logger *Logger) TDebugf(tags Tags, format string, variables ...interface{}) {
 	logger.write(newTLogf(DebugLevel, tags, format, variables...))
 }
@@ -342,22 +342,22 @@ func (logger *Logger) TDebugf(tags Tags, format string, variables ...interface{}
 // Trace logging (Level 6)
 //
 
-// Trace will print any number of variables at debug level
+// Trace will print any number of variables at debug level.
 func (logger *Logger) Trace(variables ...interface{}) {
 	logger.write(newLog(TraceLevel, variables...))
 }
 
-// Tracef will print a formatted message at debug level
+// Tracef will print a formatted message at debug level.
 func (logger *Logger) Tracef(format string, variables ...interface{}) {
 	logger.write(newLogf(TraceLevel, format, variables...))
 }
 
-// TTrace will print any number of variables at trace level and meta-tag the log
+// TTrace will print any number of variables at trace level and meta-tag the log.
 func (logger *Logger) TTrace(tags Tags, variables ...interface{}) {
 	logger.write(newTLog(TraceLevel, tags, variables...))
 }
 
-// TTracef will print a formatted message at trace level and meta-tag the log
+// TTracef will print a formatted message at trace level and meta-tag the log.
 func (logger *Logger) TTracef(tags Tags, format string, variables ...interface{}) {
 	logger.write(newTLogf(TraceLevel, tags, format, variables...))
 }
@@ -366,7 +366,7 @@ func (logger *Logger) TTracef(tags Tags, format string, variables ...interface{}
 // Writer
 //
 
-// write will add a log message to the logger
+// write will add a log message to the logger.
 func (logger *Logger) write(log *Log) {
 
 	// Check if we need to log this message or not

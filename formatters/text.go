@@ -6,10 +6,10 @@ import (
 	"strings"
 )
 
-// Text will create a readable string using given log and logger configuration
-// TODO: There is probably a better way to put the tag inside the color formatting
-// TODO: Should the color formatting happen here?
+// Text will format a log into a human-readable string.
 func Text(timestamp, logLevel string, variables []interface{}, tags []string) (string, error) {
+
+	// TODO: Should the color formatting happen here?
 
 	strVariables := make([]string, len(variables))
 
@@ -20,6 +20,8 @@ func Text(timestamp, logLevel string, variables []interface{}, tags []string) (s
 
 	// Create a regular expression to check for color in the tags
 	re := regexp.MustCompile("^(\\x1b\\[\\d{1,2}(?:;\\d{1,2})*m)(.*)(\\x1b\\[0m)$")
+
+	// TODO: There is probably a better way to put the tag inside the color formatting
 
 	// Loop through the tags and format them
 	for i := range tags {
