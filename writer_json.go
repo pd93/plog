@@ -11,8 +11,10 @@ const jsonFooter = "]\n"
 const jsonLineStart = "\t"
 const jsonLineEnd = "\n"
 
-// Write will write bytes to the file
-// TODO: It might be nice to automatically remove extra whitespace from the file
+// JSONWriter is a custom writer that will automatically manage and validate a JSON file when attempting to write to it
+// This includes adding the opening/closing square brackets and making sure that new entries are written to the correct place
+// NOTE: JSONWriter is not responsible for formatting the JSON message (p) - This is the job of the JSONFormatter
+// JSON data sent to this writer should be held in a JSON object e.g. {"a":1, ...}
 func JSONWriter(file *os.File, p []byte) (n int, err error) {
 
 	var m int
@@ -22,24 +24,24 @@ func JSONWriter(file *os.File, p []byte) (n int, err error) {
 	if err != nil {
 		return
 	}
-	size := fileInfo.Size()
+	fileSize := fileInfo.Size()
 
 	// If the file is empty, initialise it
-	if size == 0 {
+	if fileSize == 0 {
 		n, err = initJSONFile(file)
 		if err != nil {
 			return
 		}
-		size = int64(n)
+		fileSize = int64(n)
 	}
 
 	// If the file is invalid
-	if ok, err := isJSONFileValid(file, size); !ok {
+	if ok, err := isJSONFileValid(file, fileSize); !ok {
 		return n, err
 	}
 
 	// Seek
-	pos := size - int64(len(jsonFooter)) - 1
+	pos := fileSize - int64(len(jsonFooter)) - 1
 	file.Seek(pos, 0)
 
 	// Check if we need to add a comma or not

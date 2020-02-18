@@ -8,8 +8,10 @@ import (
 // String constants
 const csvHeader = "Timestamp,LogLevel,Message,Tags\n"
 
-// Write will write bytes to the file
-// TODO: It might be nice to automatically remove extra whitespace from the file
+// CSVWriter is a custom writer that will automatically manage and validate a CSV file when attempting to write to it
+// This includes adding the CSV headers and making sure that new entries are written to the correct place
+// NOTE: CSVWriter is not responsible for formatting the CSV message (p) - This is the job of the CSVFormatter
+// CSV data sent to this writer should be held in a comma-separated list e.g. a,b,c,...
 func CSVWriter(file *os.File, p []byte) (n int, err error) {
 
 	var m int
@@ -19,10 +21,10 @@ func CSVWriter(file *os.File, p []byte) (n int, err error) {
 	if err != nil {
 		return
 	}
-	size := fileInfo.Size()
+	fileSize := fileInfo.Size()
 
 	// If the file is empty, initialise it
-	if size == 0 {
+	if fileSize == 0 {
 		n, err = initCSVFile(file)
 		if err != nil {
 			return
@@ -35,7 +37,7 @@ func CSVWriter(file *os.File, p []byte) (n int, err error) {
 	}
 
 	// Write the log message
-	m, err = file.Write(p)
+	m, err = file.WriteAt(p, fileSize)
 	if err != nil {
 		return
 	}
