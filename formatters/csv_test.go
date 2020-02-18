@@ -1,11 +1,8 @@
-package formatters_test
+package formatters
 
 import (
 	"testing"
 	"time"
-
-	log "gopkg.in/pd93/plog.v0"
-	"gopkg.in/pd93/plog.v0/formatters"
 )
 
 func TestCSV(t *testing.T) {
@@ -15,14 +12,14 @@ func TestCSV(t *testing.T) {
 
 	// Test log
 	var (
-		logLevel  = log.InfoLevel.String(false, log.NewLogLevelColorMap())
+		logLevel  = "INFO"
 		variables = []interface{}{"Test string", 123, 4.5, true}
 		timestamp = time.Date(2006, 01, 02, 15, 04, 05, 0, time.UTC).Format(time.RFC3339)
-		tags      = log.Tags{"tag1", "tag2"}.String(false, log.NewTagColorMap())
+		tags      = []string{"tag1", "tag2"}
 	)
 
 	// Call the function
-	output, err := formatters.CSV(
+	output, err := CSV(
 		timestamp,
 		logLevel,
 		variables,
