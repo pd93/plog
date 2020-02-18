@@ -192,21 +192,39 @@ func (file *File) Write(p []byte) (n int, err error) {
 // Rotate will close the old file and open a new one with the next name in the sequence
 func (file *File) Rotate() (err error) {
 
-	// Get the next file name from the sequencer
-	filename, err := file.sequencer(file.format, file.Name())
-	if err != nil {
-		return err
+	// Name of the file we're going to rotate to
+	var fileName string
+	var prevFileName string
+
+	// If a file is already open
+	if file.File != nil {
+
+		// Get the last file name
+		prevFileName = file.Name()
+
+		// Close the file
+		if err = file.Close(); err != nil {
+			return
+		}
 	}
 
-	// Close the current file
-	if err = file.Close(); err != nil {
+	// If no sequencer is set, use the file format as the file name
+	if file.sequencer == nil {
+		fileName = file.format
+
+	} else {
+
+		// Get the next file name from the sequencer
+		fileName, err = file.sequencer(file.format, prevFileName)
+		if err != nil {
+			return
+		}
+	}
+
+	// Open the new file for writing
+	file.File, err = os.OpenFile(fileName, os.O_CREATE|os.O_RDWR, 0644)
+	if err != nil {
 		return
-	}
-
-	// Open the new file for appending
-	file.File, err = os.OpenFile(filename, os.O_CREATE|os.O_RDWR, 0644)
-	if err != nil {
-		return err
 	}
 
 	return
@@ -215,6 +233,11 @@ func (file *File) Rotate() (err error) {
 // ShouldRotate will return true or false depending on whether the log file should be rotated
 // It uses the message being written and the current file size to do this
 func (file *File) ShouldRotate(p []byte) (shouldRotate bool, err error) {
+
+	// If no file is currently assigned, we need to rotate
+	if file.File == nil {
+		return true, nil
+	}
 
 	// Get the file size
 	fileInfo, err := file.Stat()
