@@ -1,8 +1,6 @@
 package main
 
 import (
-	"os"
-
 	log "gopkg.in/pd93/plog.v0"
 )
 
@@ -15,25 +13,32 @@ func main() {
 func rotationExample() (err error) {
 
 	// Open a text file
-	rotatingTextFile, err := log.NewRotatingFile("./logs/log-%s.txt", log.TextWriter, log.DateTimeSequencer)
+	rotatingTextFile, err := log.NewFile("./logs/log-%s.txt",
+		log.WithSequencer(log.DateTimeSequencer),
+		log.WithMaxFileSize(1024*1024), // 1 MB
+	)
 	if err != nil {
 		return err
 	}
 	defer rotatingTextFile.Close()
 
 	// Open a JSON file
-	rotatingJSONFile, err := log.NewRotatingFile("./logs/log-%03d.json", log.JSONWriter, log.IncrementSequencer)
+	rotatingJSONFile, err := log.NewFile("./logs/log-%03d.json",
+		log.WithWriter(log.JSONWriter),
+		log.WithSequencer(log.IncrementSequencer),
+		log.WithMaxFileSize(1024*1024), // 1 MB
+	)
 	if err != nil {
 		return err
 	}
 	defer rotatingJSONFile.Close()
 
-	// Set the maximum log file size
-	rotatingTextFile.SetMaxFileSize(256)
-	rotatingJSONFile.SetMaxFileSize(256)
+	// We can change the maximum log file size at any time
+	rotatingTextFile.Options(log.WithMaxFileSize(256))
+	rotatingJSONFile.Options(log.WithMaxFileSize(256))
 
 	// Create some loggers
-	log.AddLogger("std", log.NewLogger(os.Stdout))
+	log.AddLogger("std", log.NewLogger())
 	log.AddLogger("text", log.NewTextFileLogger(rotatingTextFile))
 	log.AddLogger("json", log.NewJSONFileLogger(rotatingJSONFile))
 

@@ -1,8 +1,6 @@
 package main
 
 import (
-	"os"
-
 	log "gopkg.in/pd93/plog.v0"
 )
 
@@ -15,19 +13,18 @@ func main() {
 func sequencerExample() (err error) {
 
 	// Open a text file
-	rotatingTextFile, err := log.NewRotatingFile("./logs/log-%s.txt", log.TextWriter, log.DateTimeSequencer)
+	rotatingTextFile, err := log.NewFile("./logs/log.txt",
+		log.WithSequencer(func(format, prev string) (next string, err error) {
+			return format, nil
+		}),
+	)
 	if err != nil {
 		return err
 	}
 	defer rotatingTextFile.Close()
 
-	// Set provide a custom sequencer function
-	rotatingTextFile.SetSequencer(func(format, prev string) (next string, err error) {
-		return prev, nil
-	})
-
 	// Create some loggers
-	log.AddLogger("std", log.NewLogger(os.Stdout))
+	log.AddLogger("std", log.NewLogger())
 	log.AddLogger("text", log.NewTextFileLogger(rotatingTextFile))
 
 	// Write to all loggers a few times

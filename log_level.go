@@ -5,7 +5,7 @@ type LogLevel int
 
 const (
 	// None will stop all logs being printed
-	None LogLevel = iota - 4 // Start at -4 so that InfoLevel is at 0 (default)
+	None LogLevel = iota
 	// FatalLevel should only be used to log errors that stop the program from continuing execution
 	FatalLevel
 	// ErrorLevel should be used to display non-fatal errors

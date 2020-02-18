@@ -3,8 +3,13 @@ package plog
 import (
 	"fmt"
 	"io"
+	"os"
 	"time"
 )
+
+//
+// Structures
+//
 
 // A Logger is a channel for writing logs
 type Logger struct {
@@ -17,14 +22,21 @@ type Logger struct {
 	tagColorMap      TagColorMap
 }
 
+// A LoggerOption is a function that sets an option on a given logger
+type LoggerOption func(logger *Logger)
+
 //
 // Constructors
 //
 
 // NewLogger creates and returns an instance of Logger with the default variables
-func NewLogger(output io.Writer) *Logger {
-	return &Logger{
-		output:           output,
+// Any number of functional options can be passed to this method and they will be applied on creation
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+func NewLogger(opts ...LoggerOption) (logger *Logger) {
+
+	// Create a default logger
+	logger = &Logger{
+		output:           os.Stdout,
 		logLevel:         InfoLevel,
 		formatter:        TextFormatter,
 		timestampFormat:  time.RFC3339,
@@ -32,50 +44,136 @@ func NewLogger(output io.Writer) *Logger {
 		logLevelColorMap: NewLogLevelColorMap(),
 		tagColorMap:      NewTagColorMap(),
 	}
+
+	logger.Options(opts...)
+
+	return
 }
 
 // NewTextFileLogger creates and returns an instance of Logger which will write to the specified file
 // The log level is set to TraceLevel (log everything) and color logging is disabled
-// The logs will be written in text format, but the file does not need to end in '.txt'
-func NewTextFileLogger(output io.Writer) *Logger {
-	return &Logger{
-		output:           output,
-		logLevel:         TraceLevel,
-		formatter:        TextFormatter,
-		timestampFormat:  time.RFC3339,
-		colorLogging:     false,
-		logLevelColorMap: NewLogLevelColorMap(),
-		tagColorMap:      NewTagColorMap(),
-	}
+// The logs will be written in text format, but the file name does not need to end in '.txt'
+// Any number of additional functional options can be passed to this method and they will be applied on creation
+// These additional options will override any of the settings mentioned above
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+func NewTextFileLogger(file *File, opts ...LoggerOption) *Logger {
+
+	// Append the given options to the default text file logger
+	opts = append([]LoggerOption{
+		WithOutput(file),
+		WithLogLevel(TraceLevel),
+		WithColorLogging(false),
+	}, opts...)
+
+	return NewLogger(opts...)
 }
 
 // NewJSONFileLogger creates and returns an instance of Logger which will write to the specified file
 // The log level is set to TraceLevel (log everything) and color logging is disabled
-// The logs will be written in JSON format, but the file does not need to end in '.json'
-func NewJSONFileLogger(output io.Writer) *Logger {
-	return &Logger{
-		output:           output,
-		logLevel:         TraceLevel,
-		formatter:        JSONFormatter,
-		timestampFormat:  time.RFC3339,
-		colorLogging:     false,
-		logLevelColorMap: NewLogLevelColorMap(),
-		tagColorMap:      NewTagColorMap(),
-	}
+// The logs will be written in JSON format, but the file name does not need to end in '.json'
+// Any number of additional functional options can be passed to this method and they will be applied on creation
+// These additional options will override any of the settings mentioned above
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+func NewJSONFileLogger(file *File, opts ...LoggerOption) *Logger {
+
+	// Append the given options to the default JSON file logger
+	opts = append([]LoggerOption{
+		WithOutput(file),
+		WithLogLevel(TraceLevel),
+		WithFormatter(JSONFormatter),
+		WithColorLogging(false),
+	}, opts...)
+
+	return NewLogger(opts...)
 }
 
 // NewCSVFileLogger creates and returns an instance of Logger which will write to the specified file
 // The log level is set to TraceLevel (log everything) and color logging is disabled
-// The logs will be written in CSV format, but the file does not need to end in '.csv'
-func NewCSVFileLogger(output io.Writer) *Logger {
-	return &Logger{
-		output:           output,
-		logLevel:         TraceLevel,
-		formatter:        CSVFormatter,
-		timestampFormat:  time.RFC3339,
-		colorLogging:     false,
-		logLevelColorMap: NewLogLevelColorMap(),
-		tagColorMap:      NewTagColorMap(),
+// The logs will be written in CSV format, but the file name does not need to end in '.csv'
+// Any number of additional functional options can be passed to this method and they will be applied on creation
+// These additional options will override any of the settings mentioned above
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+func NewCSVFileLogger(file *File, opts ...LoggerOption) *Logger {
+
+	// Append the given options to the default CSV file logger
+	opts = append([]LoggerOption{
+		WithOutput(file),
+		WithLogLevel(TraceLevel),
+		WithFormatter(CSVFormatter),
+		WithColorLogging(false),
+	}, opts...)
+
+	return NewLogger(opts...)
+}
+
+//
+// Functional Options
+//
+
+// WithOutput will return a function that sets the output of a logger to the provided io.Writer.
+// Examples include 'os.Stdout', 'os.File' and 'bytes.Buffer'.
+func WithOutput(output io.Writer) LoggerOption {
+	return func(logger *Logger) {
+		logger.output = output
+	}
+}
+
+// WithLogLevel will return a function that sets the log level of a logger.
+func WithLogLevel(logLevel LogLevel) LoggerOption {
+	return func(logger *Logger) {
+		logger.logLevel = logLevel
+	}
+}
+
+// WithFormatter will return a function that sets the formatter of a logger.
+// PLog includes several formatters for convenience (See `formatters` subpackage).
+// Users can also provide a their own function if they want a custom format.
+func WithFormatter(formatter Formatter) LoggerOption {
+	return func(logger *Logger) {
+		logger.formatter = formatter
+	}
+}
+
+// WithTimestampFormat will return a function that sets the timestamp format of a logger.
+// The default format is 'time.RFC3339'.
+// You can find the documentation on time formatting in Golang here: https://golang.org/pkg/time/#Time.Format.
+func WithTimestampFormat(timestampFormat string) LoggerOption {
+	return func(logger *Logger) {
+		logger.timestampFormat = timestampFormat
+	}
+}
+
+// WithColorLogging will return a function that sets the color logging flag of a logger.
+func WithColorLogging(colorLogging bool) LoggerOption {
+	return func(logger *Logger) {
+		logger.colorLogging = colorLogging
+	}
+}
+
+// WithLogLevelColorMap will return a function that sets the color of each log level for a logger.
+func WithLogLevelColorMap(logLevelColorMap LogLevelColorMap) LoggerOption {
+	return func(logger *Logger) {
+		logger.logLevelColorMap = logLevelColorMap
+	}
+}
+
+// WithTagColorMap will return a function that sets the color of each tag for a logger.
+func WithTagColorMap(tagColorMap TagColorMap) LoggerOption {
+	return func(logger *Logger) {
+		logger.tagColorMap = tagColorMap
+	}
+}
+
+//
+// Options Setter
+//
+
+// Options will apply the given options to the logger
+// Any number of functional options can be passed to this method
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+func (logger *Logger) Options(opts ...LoggerOption) {
+	for _, opt := range opts {
+		opt(logger)
 	}
 }
 
@@ -116,48 +214,6 @@ func (logger *Logger) LogLevelColorMap() LogLevelColorMap {
 // TagColorMap will return the logger's text attributes for each tag
 func (logger *Logger) TagColorMap() TagColorMap {
 	return logger.tagColorMap
-}
-
-//
-// Setters
-//
-
-// SetOutput allows you to change where the logs are being output to.
-// Examples include 'os.File', 'os.Stdout', 'bytes.Buffer' or any other writer.
-func (logger *Logger) SetOutput(output io.Writer) {
-	logger.output = output
-}
-
-// SetLogLevel will set the level of the log message
-func (logger *Logger) SetLogLevel(logLevel LogLevel) {
-	logger.logLevel = logLevel
-}
-
-// SetFormatter will set the format of the log message
-func (logger *Logger) SetFormatter(formatter Formatter) {
-	logger.formatter = formatter
-}
-
-// SetTimestampFormat allows the user to specify a custom timestamp format.
-// The default format is 'time.RFC3339'.
-// You can find the documentation on time formatting in Golang here: https://golang.org/pkg/time/#Time.Format
-func (logger *Logger) SetTimestampFormat(timestampFormat string) {
-	logger.timestampFormat = timestampFormat
-}
-
-// SetColorLogging will enable/disable colored logging.
-func (logger *Logger) SetColorLogging(colorLogging bool) {
-	logger.colorLogging = colorLogging
-}
-
-// SetLogLevelColorMap set the colors for each log level.
-func (logger *Logger) SetLogLevelColorMap(logLevelColorMap LogLevelColorMap) {
-	logger.logLevelColorMap = logLevelColorMap
-}
-
-// SetTagColorMap set the colors for each tag.
-func (logger *Logger) SetTagColorMap(tagColorMap TagColorMap) {
-	logger.tagColorMap = tagColorMap
 }
 
 //
@@ -327,6 +383,7 @@ func (logger *Logger) write(log *Log) {
 
 		// Print the message to the output writer
 		if _, err := fmt.Fprintln(logger.output, output); err != nil {
+			// TODO: Handle this error better somehow
 			panic(err)
 		}
 	}
