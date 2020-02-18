@@ -23,10 +23,8 @@ func NewLogLevelColorMap(opts ...LogLevelColorMapping) (logLevelColorMap LogLeve
 		TraceLevel: []Attribute{FgBlue},
 	}
 
-	// Loop through each option and call the functional option
-	for _, opt := range opts {
-		opt(logLevelColorMap)
-	}
+	// Apply the custom options
+	logLevelColorMap.Options(opts...)
 
 	return
 }
@@ -38,7 +36,20 @@ func NewLogLevelColorMap(opts ...LogLevelColorMapping) (logLevelColorMap LogLeve
 // WithLogLevelColorMapping will return a function that sets a color mapping in a log level color map
 func WithLogLevelColorMapping(logLevel LogLevel, attributes ...Attribute) LogLevelColorMapping {
 	return func(logLevelColorMap LogLevelColorMap) {
-		logLevelColorMap.Set(logLevel, attributes...)
+		logLevelColorMap[logLevel] = attributes
+	}
+}
+
+//
+// Options Setter
+//
+
+// Options will apply the given options to the log level color map
+// Any number of functional options can be passed to this method
+// You can read more information on functional options on the PLog wiki: https://github.com/pd93/plog/wiki/Functional-Options
+func (logLevelColorMap LogLevelColorMap) Options(opts ...LogLevelColorMapping) {
+	for _, opt := range opts {
+		opt(logLevelColorMap)
 	}
 }
 
@@ -47,15 +58,6 @@ func WithLogLevelColorMapping(logLevel LogLevel, attributes ...Attribute) LogLev
 //
 
 // Get will return the list of text atrributes for a log level
-func (LogLevelColorMap LogLevelColorMap) Get(logLevel LogLevel) []Attribute {
-	return LogLevelColorMap[logLevel]
-}
-
-//
-// Setters
-//
-
-// Set will assign a list of text attributes to a log level
-func (LogLevelColorMap LogLevelColorMap) Set(logLevel LogLevel, attributes ...Attribute) {
-	LogLevelColorMap[logLevel] = attributes
+func (logLevelColorMap LogLevelColorMap) Get(logLevel LogLevel) []Attribute {
+	return logLevelColorMap[logLevel]
 }

@@ -34,10 +34,8 @@ func NewFile(format string, opts ...FileOption) (file *File, err error) {
 		maxFileSize: -1,
 	}
 
-	// Loop through each option and call the functional option
-	for _, opt := range opts {
-		opt(file)
-	}
+	// Apply the custom options
+	file.Options(opts...)
 
 	return
 }
