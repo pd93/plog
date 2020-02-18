@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"os"
 	"time"
 
 	log "gopkg.in/pd93/plog.v0"
@@ -11,6 +12,7 @@ import (
 func main() {
 	if err := formatterExample(); err != nil {
 		log.Fatal(err)
+		os.Exit(1)
 	}
 }
 

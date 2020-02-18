@@ -12,6 +12,7 @@ import (
 func main() {
 	if err := writerExample(); err != nil {
 		log.Fatal(err)
+		os.Exit(1)
 	}
 }
 

@@ -1,12 +1,15 @@
 package main
 
 import (
+	"os"
+
 	log "gopkg.in/pd93/plog.v0"
 )
 
 func main() {
 	if err := rotationExample(); err != nil {
 		log.Fatal(err)
+		os.Exit(1)
 	}
 }
 

@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"os"
 
 	log "gopkg.in/pd93/plog.v0"
 )
@@ -9,6 +10,7 @@ import (
 func main() {
 	if err := tagExample(); err != nil {
 		log.Fatal(err)
+		os.Exit(1)
 	}
 }
 
