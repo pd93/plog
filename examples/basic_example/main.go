@@ -29,8 +29,10 @@ func basicExample() (err error) {
 	stdLogger := log.GetLogger("std")
 
 	// Change some settings
-	stdLogger.SetLogLevel(log.TraceLevel)
-	stdLogger.SetTimestampFormat("Mon Jan 2 15:04:05 -0700 UTC 2006")
+	stdLogger.Options(
+		log.WithLogLevel(log.TraceLevel),
+		log.WithTimestampFormat("Mon Jan 2 15:04:05 -0700 UTC 2006"),
+	)
 
 	// Write to all loggers again
 	log.Fatal(errors.New("Fatal log"))

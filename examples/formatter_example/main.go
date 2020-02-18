@@ -28,12 +28,12 @@ func formatterExample() (err error) {
 	log.Trace("Trace log", true, 42, 3.14159)
 
 	// Change the logger's formatter
-	log.GetLogger("std").SetTimestampFormat(time.RFC1123)
-	log.GetLogger("std").SetFormatter(func(timestamp, logLevel string, variables []interface{}, tags []string) (string, error) {
-
-		// Set the output
-		return fmt.Sprintf("%s - %s - {%s} %s", timestamp, logLevel, tags, fmt.Sprintf("%v", variables)), nil
-	})
+	log.GetLogger("std").Options(
+		log.WithTimestampFormat(time.RFC1123),
+		log.WithFormatter(func(timestamp, logLevel string, variables []interface{}, tags []string) (string, error) {
+			return fmt.Sprintf("%s - %s - {%s} %s", timestamp, logLevel, tags, fmt.Sprintf("%v", variables)), nil
+		}),
+	)
 
 	// Write to all loggers again
 	log.Fatal(errors.New("Fatal log"))

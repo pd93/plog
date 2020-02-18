@@ -15,21 +15,25 @@ func main() {
 func fileExample() (err error) {
 
 	// Open a text file
-	textFile, err := log.NewTextFile("./logs/log.txt")
+	textFile, err := log.NewFile("./logs/log.txt")
 	if err != nil {
 		return err
 	}
 	defer textFile.Close()
 
 	// Open a JSON file
-	jsonFile, err := log.NewJSONFile("./logs/log.json")
+	jsonFile, err := log.NewFile("./logs/log.json",
+		log.WithWriter(log.JSONWriter),
+	)
 	if err != nil {
 		return err
 	}
 	defer jsonFile.Close()
 
 	// Open a CSV file
-	csvFile, err := log.NewCSVFile("./logs/log.csv")
+	csvFile, err := log.NewFile("./logs/log.csv",
+		log.WithWriter(log.CSVWriter),
+	)
 	if err != nil {
 		return err
 	}
@@ -53,8 +57,10 @@ func fileExample() (err error) {
 	stdLogger := log.GetLogger("std")
 
 	// Change some settings
-	stdLogger.SetLogLevel(log.TraceLevel)
-	stdLogger.SetTimestampFormat("Mon Jan 2 15:04:05 -0700 UTC 2006")
+	stdLogger.Options(
+		log.WithLogLevel(log.TraceLevel),
+		log.WithTimestampFormat("Mon Jan 2 15:04:05 -0700 UTC 2006"),
+	)
 
 	// Write to a specific logger
 	stdLogger.Info("Special log that only prints to stdout")

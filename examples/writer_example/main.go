@@ -29,7 +29,7 @@ func writerExample() (err error) {
 	log.AddLogger("text", log.NewTextFileLogger(textFile))
 
 	// Set the writer
-	textFile.SetWriter(func(file *os.File, p []byte) (n int, err error) {
+	textFile.Options(log.WithWriter(func(file *os.File, p []byte) (n int, err error) {
 
 		// Get the file size
 		fileInfo, err := file.Stat()
@@ -52,7 +52,7 @@ func writerExample() (err error) {
 		}
 
 		return
-	})
+	}))
 
 	// Write to all loggers again
 	log.Fatal(errors.New("Fatal log"))

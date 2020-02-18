@@ -17,6 +17,10 @@
 
 - A bug where a space was left at the end of a line when using `TextFormatter` if there were no tags
 
+**Changes:**
+
+- Examples: All updated to make use of functional options
+
 **Breaking Changes:**
 
 - The `Formatter` function has a new, simpler signature
