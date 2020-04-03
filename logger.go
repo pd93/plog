@@ -224,7 +224,7 @@ func (logger *Logger) TagColorMap() TagColorMap {
 
 // Fatal will print a fatal error message.
 func (logger *Logger) Fatal(err error) {
-	logger.write(newLogf(FatalLevel, "%v", err))
+	logger.write(newLogf(FatalLevel, "%+v", err))
 }
 
 // Fatalf will print a formatted, non-fatal error message.
@@ -234,7 +234,7 @@ func (logger *Logger) Fatalf(format string, err error) {
 
 // TFatal will print a fatal error message and meta-tag the log.
 func (logger *Logger) TFatal(tags Tags, err error) {
-	logger.write(newTLogf(FatalLevel, tags, "%v", err))
+	logger.write(newTLogf(FatalLevel, tags, "%+v", err))
 }
 
 // TFatalf will print a formatted, fatal error message and meta-tag the log.
@@ -248,7 +248,7 @@ func (logger *Logger) TFatalf(tags Tags, format string, err error) {
 
 // Error will print a non-fatal error message.
 func (logger *Logger) Error(err error) {
-	logger.write(newLogf(ErrorLevel, "%v", err))
+	logger.write(newLogf(ErrorLevel, "%+v", err))
 }
 
 // Errorf will print a formatted, non-fatal error message.
@@ -258,7 +258,7 @@ func (logger *Logger) Errorf(format string, err error) {
 
 // TError will print a non-fatal error message and meta-tag the log.
 func (logger *Logger) TError(tags Tags, err error) {
-	logger.write(newTLogf(ErrorLevel, tags, "%v", err))
+	logger.write(newTLogf(ErrorLevel, tags, "%+v", err))
 }
 
 // TErrorf will print a formatted, non-fatal error message and meta-tag the log.

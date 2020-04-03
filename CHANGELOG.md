@@ -20,6 +20,7 @@
 **Changes:**
 
 - Examples: All updated to make use of functional options
+- `%+v` is now the default format for printing errors
 
 **Breaking Changes:**
 

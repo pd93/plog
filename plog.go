@@ -60,7 +60,7 @@ func Options(opts ...LoggerOption) {
 
 // Fatal will print a fatal error message to all loggers.
 func Fatal(err error) {
-	loggers.write(newLogf(FatalLevel, "%v", err))
+	loggers.write(newLogf(FatalLevel, "%+v", err))
 }
 
 // Fatalf will print a formatted, non-fatal error message.
@@ -70,7 +70,7 @@ func Fatalf(format string, err error) {
 
 // TFatal will print a fatal error message and meta-tag the log.
 func TFatal(tags Tags, err error) {
-	loggers.write(newTLogf(FatalLevel, tags, "%v", err))
+	loggers.write(newTLogf(FatalLevel, tags, "%+v", err))
 }
 
 // TFatalf will print a formatted, fatal error message and meta-tag the log.
@@ -84,7 +84,7 @@ func TFatalf(tags Tags, format string, err error) {
 
 // Error will print a non-fatal error message to all loggers.
 func Error(err error) {
-	loggers.write(newLogf(ErrorLevel, "%v", err))
+	loggers.write(newLogf(ErrorLevel, "%+v", err))
 }
 
 // Errorf will print a formatted, non-fatal error message.
@@ -94,7 +94,7 @@ func Errorf(format string, err error) {
 
 // TError will print a non-fatal error message and meta-tag the log.
 func TError(tags Tags, err error) {
-	loggers.write(newTLogf(ErrorLevel, tags, "%v", err))
+	loggers.write(newTLogf(ErrorLevel, tags, "%+v", err))
 }
 
 // TErrorf will print a formatted, non-fatal error message and meta-tag the log.
