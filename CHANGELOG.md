@@ -19,11 +19,14 @@
 
 **Changes:**
 
+- [#7] Functional options now used for most APIs
 - Examples: All updated to make use of functional options
 - `%+v` is now the default format for printing errors
+- The included `TextFormatter` now prints tags before variables so that the user can choose how to handle new lines
 
 **Breaking Changes:**
 
+- Formatting functions (e.g. `Infof()`) no longer automatically append a new line
 - The `Formatter` function has a new, simpler signature
   - Colored strings and the timestamp are now pre-formatted
   - Old: `func(logger *Logger, log *Log) (string, error)`
