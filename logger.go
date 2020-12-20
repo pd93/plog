@@ -372,6 +372,8 @@ func (logger *Logger) write(log *Log) {
 	// Check if we need to log this message or not
 	if logger.logLevel >= log.logLevel {
 
+		var err error
+
 		// Render each component of the log
 		timestamp := log.timestamp.Format(logger.timestampFormat)
 		logLevel := log.logLevel.String(logger.colorLogging, logger.logLevelColorMap)
@@ -383,8 +385,15 @@ func (logger *Logger) write(log *Log) {
 			panic(err)
 		}
 
+		// Should we print with a new line or not?
+		if log.newLine {
+			_, err = fmt.Fprintln(logger.output, output)
+		} else {
+			_, err = fmt.Fprint(logger.output, output)
+		}
+
 		// Print the message to the output writer
-		if _, err := fmt.Fprintln(logger.output, output); err != nil {
+		if err != nil {
 			// TODO: Handle this error better somehow
 			panic(err)
 		}

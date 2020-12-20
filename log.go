@@ -11,6 +11,7 @@ type Log struct {
 	variables []interface{}
 	timestamp time.Time
 	tags      Tags
+	newLine   bool
 }
 
 // newLog creates a new instance of log and populates it with a log level and a message.
@@ -20,6 +21,7 @@ func newLog(logLevel LogLevel, variables ...interface{}) *Log {
 		logLevel:  logLevel,
 		variables: variables,
 		timestamp: time.Now(),
+		newLine:   true,
 	}
 }
 
@@ -27,7 +29,9 @@ func newLog(logLevel LogLevel, variables ...interface{}) *Log {
 // You can send any number of variables to this function and they will be printed according to the format specified.
 // A timestamp is also generated and stored.
 func newLogf(level LogLevel, format string, variables ...interface{}) *Log {
-	return newLog(level, fmt.Sprintf(format, variables...))
+	log := newLog(level, fmt.Sprintf(format, variables...))
+	log.newLine = false
+	return log
 }
 
 // newTLog creates a new instance of log and populates it with a log level, a message and a series of meta-tags.

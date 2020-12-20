@@ -12,6 +12,7 @@ func Text(timestamp, logLevel string, variables []interface{}, tags []string) (s
 	// TODO: Should the color formatting happen here?
 
 	strVariables := make([]string, len(variables))
+	var tagsStr string
 
 	// Loop through the variables and format them
 	for i, variable := range variables {
@@ -38,5 +39,10 @@ func Text(timestamp, logLevel string, variables []interface{}, tags []string) (s
 		}
 	}
 
-	return strings.TrimSpace(fmt.Sprintf("%s [%s] %s %s", timestamp, logLevel, strings.Join(strVariables, " "), strings.Join(tags, " "))), nil
+	// If there are tags, add them to the output
+	if len(tags) > 0 {
+		tagsStr = fmt.Sprintf("[%s] ", strings.Join(tags, " "))
+	}
+
+	return fmt.Sprintf("%s [%s] %s%s", timestamp, logLevel, tagsStr, strings.Join(strVariables, " ")), nil
 }
