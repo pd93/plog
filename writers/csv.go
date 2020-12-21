@@ -2,6 +2,7 @@ package writers
 
 import (
 	"fmt"
+	"io"
 	"os"
 )
 
@@ -55,7 +56,7 @@ func initCSVFile(file *os.File) (n int, err error) {
 	}
 
 	// Move the cusor back to zero
-	if _, err = file.Seek(0, 0); err != nil {
+	if _, err = file.Seek(0, io.SeekStart); err != nil {
 		return
 	}
 

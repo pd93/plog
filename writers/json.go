@@ -2,6 +2,7 @@ package writers
 
 import (
 	"fmt"
+	"io"
 	"os"
 )
 
@@ -42,7 +43,7 @@ func JSON(file *os.File, p []byte) (n int, err error) {
 
 	// Seek
 	pos := fileSize - int64(len(jsonFooter)) - 1
-	file.Seek(pos, 0)
+	file.Seek(pos, io.SeekStart)
 
 	// Check if we need to add a comma or not
 	// TODO: This is an arbitrary number. We could definitely improve the way we test if we're writing the first line or not.
@@ -90,7 +91,7 @@ func initJSONFile(file *os.File) (n int, err error) {
 	}
 
 	// Move the cusor back to zero
-	if _, err = file.Seek(0, 0); err != nil {
+	if _, err = file.Seek(0, io.SeekStart); err != nil {
 		return
 	}
 
