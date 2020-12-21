@@ -6,7 +6,7 @@
     <br>
     <b><i>Note: PLog is in pre-release and should not be used in production systems until v1 is released.</i></b><br>
     <br>
-    <a href="https://travis-ci.org/pd93/plog">
+    <a href="https://travis-ci.com/pd93/plog">
         <img src="https://img.shields.io/travis/pd93/plog/master?style=for-the-badge" alt="Travis" />
     </a>
     <a href="https://codecov.io/gh/pd93/plog">
