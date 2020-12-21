@@ -13,9 +13,9 @@ type colorTest struct {
 func TestColor(t *testing.T) {
 
 	tests := []colorTest{
-		colorTest{"test", []Attribute{FgRed}, "\x1b[31mtest\x1b[0m"},
-		colorTest{"test", []Attribute{FgRed, Underline}, "\x1b[31;4mtest\x1b[0m"},
-		colorTest{"test", []Attribute{FgRed, FgBlue}, "\x1b[31;34mtest\x1b[0m"},
+		{"test", []Attribute{FgRed}, "\x1b[31mtest\x1b[0m"},
+		{"test", []Attribute{FgRed, Underline}, "\x1b[31;4mtest\x1b[0m"},
+		{"test", []Attribute{FgRed, FgBlue}, "\x1b[31;34mtest\x1b[0m"},
 	}
 
 	// Loop through the tests
