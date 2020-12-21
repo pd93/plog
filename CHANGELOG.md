@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.5.1
+
+- Switched from gopkg.in -> github.com
 ## v0.5.0
 
 **Added:**
