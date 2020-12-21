@@ -8,6 +8,7 @@
   - Automatically generate and rotate log files
   - Specify custom conditions for when log files should be rotated
   - Control how to name log files with sequencers
+- Added `WithGlobalLogging(globalLogging bool)` to set whether or not a logger is written to by the global logger (default: true)
 - Examples:
   - [`rotation_example`](./examples/rotation_example/main.go) - Set up a log rotator with custom naming and rotation conditions
   - [`sequencer_example`](./examples/sequencer_example/main.go) - Set up a log rotator with a custom sequencer function
