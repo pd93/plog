@@ -8,7 +8,7 @@ import (
 func TestText(t *testing.T) {
 
 	// Expected output
-	const expected = `2006-01-02T15:04:05Z [INFO] Test string 123 4.5 true #tag1 #tag2`
+	const expected = `2006-01-02T15:04:05Z [INFO] [#tag1 #tag2] Test string 123 4.5 true`
 
 	// Test log
 	var (
