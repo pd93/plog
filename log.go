@@ -42,6 +42,7 @@ func newTLog(logLevel LogLevel, tags Tags, variables ...interface{}) *Log {
 		variables: variables,
 		timestamp: time.Now(),
 		tags:      tags,
+		newLine:   true,
 	}
 }
 
@@ -49,7 +50,9 @@ func newTLog(logLevel LogLevel, tags Tags, variables ...interface{}) *Log {
 // You can send any number of variables to this function and they will be printed according to the format specified.
 // A timestamp is also generated and stored.
 func newTLogf(level LogLevel, tags Tags, format string, variables ...interface{}) *Log {
-	return newTLog(level, tags, fmt.Sprintf(format, variables...))
+	log := newTLog(level, tags, fmt.Sprintf(format, variables...))
+	log.newLine = false
+	return log
 }
 
 //
