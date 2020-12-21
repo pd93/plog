@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"gopkg.in/pd93/plog.v0/formatters"
+	"github.com/pd93/plog/formatters"
 )
 
 //

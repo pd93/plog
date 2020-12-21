@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	log "gopkg.in/pd93/plog.v0"
+	log "github.com/pd93/plog"
 )
 
 func main() {

@@ -3,9 +3,9 @@ package main
 import (
 	"os"
 
-	log "gopkg.in/pd93/plog.v0"
-	"gopkg.in/pd93/plog.v0/sequencers"
-	"gopkg.in/pd93/plog.v0/writers"
+	log "github.com/pd93/plog"
+	"github.com/pd93/plog/sequencers"
+	"github.com/pd93/plog/writers"
 )
 
 func main() {

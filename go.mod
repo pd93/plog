@@ -1,3 +1,3 @@
-module gopkg.in/pd93/plog.v0
+module github.com/pd93/plog
 
 go 1.12

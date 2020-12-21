@@ -4,10 +4,6 @@ go:
   - tip
 
 script:
-  # Move from github.com to gopkg.in directory
-  - mkdir -p "$GOPATH/src/gopkg.in/pd93"
-  - mv "$TRAVIS_BUILD_DIR" "$GOPATH/src/gopkg.in/pd93"
-  - cd "$GOPATH/src/gopkg.in/pd93/plog"
   - make codecov
 
 after_success:

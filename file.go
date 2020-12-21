@@ -3,7 +3,7 @@ package plog
 import (
 	"os"
 
-	"gopkg.in/pd93/plog.v0/writers"
+	"github.com/pd93/plog/writers"
 )
 
 //

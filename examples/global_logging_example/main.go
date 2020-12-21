@@ -3,8 +3,8 @@ package main
 import (
 	"os"
 
-	log "gopkg.in/pd93/plog.v0"
-	"gopkg.in/pd93/plog.v0/formatters"
+	log "github.com/pd93/plog"
+	"github.com/pd93/plog/formatters"
 )
 
 func main() {

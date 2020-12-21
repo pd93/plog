@@ -15,7 +15,7 @@
     <a href="https://github.com/pd93/plog/releases">
         <img src="https://img.shields.io/github/v/release/pd93/plog?include_prereleases&style=for-the-badge" alt="Release" />
     </a>
-    <a href="https://pkg.go.dev/gopkg.in/pd93/plog.v0">
+    <a href="https://pkg.go.dev/github.com/pd93/plog">
         <img src="https://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge" alt="GoDoc" />
     </a>
     <a href="https://github.com/pd93/plog/blob/master/LICENSE">
@@ -39,7 +39,7 @@
 
 ## Documentation
 
-- **[GoDoc](https://pkg.go.dev/gopkg.in/pd93/plog.v0)**
+- **[GoDoc](https://pkg.go.dev/github.com/pd93/plog)**
 - **[Wiki](https://github.com/pd93/plog/wiki)**
 - **[Releases/Changelog](https://github.com/pd93/plog/releases)**
 

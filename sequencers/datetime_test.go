@@ -3,7 +3,7 @@ package sequencers
 import (
 	"testing"
 
-	"gopkg.in/pd93/plog.v0/mocks"
+	"github.com/pd93/plog/mocks"
 )
 
 func TestDateTime(t *testing.T) {
