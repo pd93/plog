@@ -8,7 +8,7 @@ import (
 
 func main() {
 	if err := SequencerExample(); err != nil {
-		log.Fatal(err)
+		log.Fatalf("%+v", err)
 		os.Exit(1)
 	}
 }

@@ -11,7 +11,7 @@ import (
 
 func main() {
 	if err := WriterExample(); err != nil {
-		log.Fatal(err)
+		log.Fatalf("%+v", err)
 		os.Exit(1)
 	}
 }

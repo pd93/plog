@@ -9,7 +9,7 @@ import (
 
 func main() {
 	if err := TagExample(); err != nil {
-		log.Fatal(err)
+		log.Fatalf("%+v", err)
 		os.Exit(1)
 	}
 }
