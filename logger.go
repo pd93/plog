@@ -22,6 +22,7 @@ type Logger struct {
 	colorLogging     bool
 	logLevelColorMap LogLevelColorMap
 	tagColorMap      TagColorMap
+	globalLogging    bool
 }
 
 // A LoggerOption is a function that sets an option on a given logger.
@@ -45,6 +46,7 @@ func NewLogger(opts ...LoggerOption) (logger *Logger) {
 		colorLogging:     true,
 		logLevelColorMap: NewLogLevelColorMap(),
 		tagColorMap:      NewTagColorMap(),
+		globalLogging:    true,
 	}
 
 	logger.Options(opts...)
@@ -163,6 +165,14 @@ func WithLogLevelColorMap(logLevelColorMap LogLevelColorMap) LoggerOption {
 func WithTagColorMap(tagColorMap TagColorMap) LoggerOption {
 	return func(logger *Logger) {
 		logger.tagColorMap = tagColorMap
+	}
+}
+
+// WithGlobalLogging controls whether or not to include this logger when printing via the global logger map.
+// If set to false, this logger will only be written to when manually called on the logger itself.
+func WithGlobalLogging(globalLogging bool) LoggerOption {
+	return func(logger *Logger) {
+		logger.globalLogging = globalLogging
 	}
 }
 
