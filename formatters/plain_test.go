@@ -5,10 +5,10 @@ import (
 	"time"
 )
 
-func TestText(t *testing.T) {
+func TestPlain(t *testing.T) {
 
 	// Expected output
-	const expected = `2006-01-02T15:04:05Z [INFO] [#tag1 #tag2] Test string 123 4.5 true`
+	const expected = `Test string 123 4.5 true`
 
 	// Test log
 	var (
@@ -19,7 +19,7 @@ func TestText(t *testing.T) {
 	)
 
 	// Call the function
-	output, err := Text(
+	output, err := Plain(
 		timestamp,
 		logLevel,
 		variables,
