@@ -18,6 +18,7 @@
 **Fixed:**
 
 - A bug where a space was left at the end of a line when using `formatters.Text` if there were no tags
+- A bug with the CSV writer where it thought the header hadn't been written
 
 **Changes:**
 

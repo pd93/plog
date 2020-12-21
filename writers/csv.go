@@ -24,12 +24,17 @@ func CSV(file *os.File, p []byte) (n int, err error) {
 	}
 	fileSize := fileInfo.Size()
 
-	// If the file is empty, initialise it
+	// If the file is empty...
 	if fileSize == 0 {
+
+		// Initialise it
 		n, err = initCSVFile(file)
 		if err != nil {
 			return
 		}
+
+		// Add the written bytes to the file size
+		fileSize += int64(n)
 	}
 
 	// If the file is invalid
