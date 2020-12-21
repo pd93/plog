@@ -59,23 +59,23 @@ func Options(opts ...LoggerOption) {
 //
 
 // Fatal will print a fatal error message to all loggers.
-func Fatal(err error) {
-	loggers.write(newLogf(FatalLevel, "%+v", err))
+func Fatal(variables ...interface{}) {
+	loggers.write(newLog(FatalLevel, variables...))
 }
 
 // Fatalf will print a formatted, non-fatal error message.
-func Fatalf(format string, err error) {
-	loggers.write(newLogf(FatalLevel, format, err))
+func Fatalf(format string, variables ...interface{}) {
+	loggers.write(newLogf(FatalLevel, format, variables...))
 }
 
 // TFatal will print a fatal error message and meta-tag the log.
-func TFatal(tags Tags, err error) {
-	loggers.write(newTLogf(FatalLevel, tags, "%+v", err))
+func TFatal(tags Tags, variables ...interface{}) {
+	loggers.write(newTLog(FatalLevel, tags, variables...))
 }
 
 // TFatalf will print a formatted, fatal error message and meta-tag the log.
-func TFatalf(tags Tags, format string, err error) {
-	loggers.write(newTLogf(FatalLevel, tags, format, err))
+func TFatalf(tags Tags, format string, variables ...interface{}) {
+	loggers.write(newTLogf(FatalLevel, tags, format, variables...))
 }
 
 //
@@ -83,23 +83,23 @@ func TFatalf(tags Tags, format string, err error) {
 //
 
 // Error will print a non-fatal error message to all loggers.
-func Error(err error) {
-	loggers.write(newLogf(ErrorLevel, "%+v", err))
+func Error(variables ...interface{}) {
+	loggers.write(newLog(ErrorLevel, variables...))
 }
 
 // Errorf will print a formatted, non-fatal error message.
-func Errorf(format string, err error) {
-	loggers.write(newLogf(ErrorLevel, format, err))
+func Errorf(format string, variables ...interface{}) {
+	loggers.write(newLogf(ErrorLevel, format, variables...))
 }
 
 // TError will print a non-fatal error message and meta-tag the log.
-func TError(tags Tags, err error) {
-	loggers.write(newTLogf(ErrorLevel, tags, "%+v", err))
+func TError(tags Tags, variables ...interface{}) {
+	loggers.write(newTLog(ErrorLevel, tags, variables...))
 }
 
 // TErrorf will print a formatted, non-fatal error message and meta-tag the log.
-func TErrorf(tags Tags, format string, err error) {
-	loggers.write(newTLogf(ErrorLevel, tags, format, err))
+func TErrorf(tags Tags, format string, variables ...interface{}) {
+	loggers.write(newTLogf(ErrorLevel, tags, format, variables...))
 }
 
 //

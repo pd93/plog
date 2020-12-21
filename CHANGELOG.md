@@ -28,6 +28,7 @@
 
 **Breaking Changes:**
 
+- `Error` and `Fatal` level logging functions now take formatting/variables like any other logging function instead of `err error`
 - Formatting functions (e.g. `Infof()`) no longer automatically append a new line
 - The `Formatter` function has a new, simpler signature
   - Colored strings and the timestamp are now pre-formatted
