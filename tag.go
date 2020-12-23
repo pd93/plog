@@ -8,12 +8,12 @@ func (tag Tag) String(colorLogging bool, tagColorMap TagColorMap) string {
 
 	// Check if color logging is enabled and whether there is a color for this tag in the map
 	if attributes, ok := tagColorMap[tag]; colorLogging && ok {
-		return color(string(tag), attributes...)
+		return Color(string(tag), attributes...)
 	}
 
 	// If there is no entry in the map, but color logging is still enabled
 	if colorLogging {
-		return color(string(tag), FgWhite, Faint)
+		return Color(string(tag), FgWhite, Faint)
 	}
 
 	return string(tag)

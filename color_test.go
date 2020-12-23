@@ -22,7 +22,7 @@ func TestColor(t *testing.T) {
 	for i, test := range tests {
 
 		// Call the function
-		output := color(test.message, test.attributes...)
+		output := Color(test.message, test.attributes...)
 
 		// Check if the output is correct
 		if output != test.expected {

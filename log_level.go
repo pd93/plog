@@ -46,7 +46,7 @@ func (logLevel LogLevel) String(colorLogging bool, logLevelColorMap LogLevelColo
 
 	// Check if color logging is enabled and whether there is a color for this log level in the map
 	if attributes, ok := logLevelColorMap[logLevel]; colorLogging && ok {
-		return color(str, attributes...)
+		return Color(str, attributes...)
 	}
 
 	return

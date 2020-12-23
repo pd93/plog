@@ -2,6 +2,7 @@
 
 ## v0.6.0
 
+- Exposed the `Color()` function for general usage
 - Switched from [travis-ci.org](https://travis-ci.org/pd93/plog) -> [travis-ci.com](https://travis-ci.com/pd93/plog)
 
 ## v0.5.1

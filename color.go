@@ -2,6 +2,7 @@ package plog
 
 import (
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -9,10 +10,17 @@ import (
 // Attribute defines a single SGR Code
 type Attribute int
 
+// Special values
+const (
+	// Reset will remove any attributes
+	Reset Attribute = 0
+	// NoReset will stop the Color() function from adding a trailing Reset attribute
+	NoReset Attribute = -1
+)
+
 // Font decorations:
 const (
-	Reset Attribute = iota
-	Bold
+	Bold Attribute = iota + 1
 	Faint
 	Italic
 	Underline
@@ -71,14 +79,42 @@ const (
 	BgHiWhite
 )
 
-func color(message string, attributes ...Attribute) string {
+var colorRegex = regexp.MustCompile(`\x1b\[(?:\d+;?)+m`)
 
-	format := make([]string, len(attributes))
-	for i, attr := range attributes {
-		format[i] = strconv.Itoa(int(attr))
+// Color allows you to log something with the given attributes.
+// If you pass the Reset attribute, all color will be stripped from the string.
+func Color(message string, attributes ...Attribute) string {
+
+	var resetDisabled bool
+	var reset string
+	strAttributes := make([]string, len(attributes))
+
+	// Loop over the attributes
+	for i, attribute := range attributes {
+
+		switch attribute {
+
+		// Strip all color strings
+		case Reset:
+			return colorRegex.ReplaceAllString(message, "")
+
+		// Do not add the reset attribute
+		case NoReset:
+			resetDisabled = true
+
+		// Add the attribute to the format as a string
+		default:
+			strAttributes[i] = strconv.Itoa(int(attribute))
+		}
 	}
 
-	sequence := strings.Join(format, ";")
+	// Join all the attribute strings together with semi-colon separators
+	format := strings.Join(strAttributes, ";")
 
-	return fmt.Sprintf("\x1b[%sm%s\x1b[%dm", sequence, message, 0)
+	// If the reset isn't disabled
+	if !resetDisabled {
+		reset = fmt.Sprintf("\x1b[%dm", Reset)
+	}
+
+	return fmt.Sprintf("\x1b[%sm%s%s", format, message, reset)
 }
